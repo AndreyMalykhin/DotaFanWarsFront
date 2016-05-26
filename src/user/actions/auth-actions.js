@@ -1,3 +1,6 @@
+import {addGenericError} from 'app/actions/notification-actions';
+import {ERROR} from 'app/utils/notification-type';
+
 export function loginViaProvider(provider) {
     return (dispatch, getState, diContainer) => {
         dispatch({type: 'LOGIN_REQUEST'});
@@ -14,13 +17,14 @@ export function loginViaProvider(provider) {
                     payload: error,
                     error: true
                 });
+                dispatch(addGenericError());
             });
     };
 }
 
 export function openLoginDlg(onPostLogin, onAlreadyLoggedIn) {
     return (dispatch, getState, diContainer) => {
-        if (getState().auth.get('isAuthed')) {
+        if (getState().auth.get('isLoggedIn')) {
             onAlreadyLoggedIn();
             return;
         }

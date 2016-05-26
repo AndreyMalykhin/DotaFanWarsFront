@@ -4,7 +4,6 @@ import 'intl/locale-data/jsonp/en';
 import React from 'react';
 import {render} from 'react-dom';
 import {Provider} from 'react-redux';
-import {hashHistory} from 'react-router';
 import {syncHistoryWithStore} from 'react-router-redux';
 import {addLocaleData} from 'react-intl';
 import localeData from 'react-intl/locale-data/en';
@@ -20,12 +19,17 @@ hello.init({
 addLocaleData(localeData);
 const di = new Bottle();
 setupDI(di);
-const store = di.container.store;
-const history = syncHistoryWithStore(hashHistory, store);
+const diContainer = di.container;
+diContainer.fetcher.on(
+    'response', diContainer.errorController.onFetcherResponse);
+diContainer.fetcher.on(
+    'error', diContainer.errorController.onFetcherError);
+const store = diContainer.store;
+const history = syncHistoryWithStore(diContainer.history, store);
 
 render(
     <Provider store={store}>
-        <AppRouter history={hashHistory}/>
+        <AppRouter history={history}/>
     </Provider>,
     document.getElementById("app")
 );

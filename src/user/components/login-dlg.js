@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Modal, Button} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import Loader from 'react-loader';
 import Immutable from 'immutable';
 import {PENDING} from 'common/utils/request-status';
 import {closeLoginDlg, loginViaProvider} from 'user/actions/auth-actions';
@@ -15,6 +16,8 @@ const LoginDlg = React.createClass({
             onClose,
             onProviderBtnClick
         } = this.props;
+        const isRequestPending = loginRequestStatus == PENDING;
+        const isDisabled = isRequestPending;
 
         return (
             <Modal show={isOpen} onHide={onClose}>
@@ -24,25 +27,26 @@ const LoginDlg = React.createClass({
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                {providers.map((provider) =>
-                    <Button
-                        disabled={loginRequestStatus == PENDING}
-                        onClick={onProviderBtnClick.bind(this, provider)}
-                        key={provider}>
-                        <FormattedMessage id={`loginDlg.${provider}`}/>
-                    </Button>
-                )}
+                    <Loader loaded={!isRequestPending}/>
+                    {providers.map((provider) =>
+                        <Button
+                            disabled={isDisabled}
+                            onClick={onProviderBtnClick.bind(this, provider)}
+                            key={provider}>
+                            <FormattedMessage id={`loginDlg.${provider}`}/>
+                        </Button>
+                    )}
                 </Modal.Body>
             </Modal>
         );
     },
 
     propTypes: {
-        isOpen: React.PropTypes.bool.isRequired,
-        loginRequestStatus: React.PropTypes.string.isRequired,
-        providers: React.PropTypes.instanceOf(Immutable.List),
         onClose: React.PropTypes.func.isRequired,
-        onProviderBtnClick: React.PropTypes.func.isRequired
+        onProviderBtnClick: React.PropTypes.func.isRequired,
+        isOpen: React.PropTypes.bool.isRequired,
+        loginRequestStatus: React.PropTypes.string,
+        providers: React.PropTypes.instanceOf(Immutable.List)
     }
 });
 

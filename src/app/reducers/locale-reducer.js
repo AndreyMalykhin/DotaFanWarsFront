@@ -9,9 +9,9 @@ export default function localeReducer(locale = null, action) {
             return locale.set('requestStatus', FAIL);
         }
 
-        const {localeId, translations} = action.payload.data;
+        const {id, translations} = action.payload.data;
         return locale.mergeDeep({
-            id: localeId,
+            id: id,
             translations: translations,
             requestStatus: SUCCESS
         });

@@ -8,8 +8,9 @@ export default function authReducer(auth = null, action) {
     case 'LOGIN_RESPONSE':
         const isSuccess = !action.error;
         return auth.merge({
-            isAuthed: action.payload.status == 200,
-            loginRequestStatus: isSuccess ? SUCCESS : FAIL
+            isLoggedIn: isSuccess && action.payload.status == 200,
+            loginRequestStatus: isSuccess ? SUCCESS : FAIL,
+            isLoginDlgOpened: false
         });
     case 'OPEN_LOGIN_DLG':
         return auth.set('isLoginDlgOpened', true);

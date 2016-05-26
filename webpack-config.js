@@ -57,7 +57,7 @@ module.exports = {
             template: path.resolve(__dirname, 'src/app/templates/app.html'),
             inject: true
         }),
-        new ExtractTextPlugin("styles-[contenthash].css", {allChunks: true})
+        new ExtractTextPlugin("bundle-[contenthash].css", {allChunks: true})
     ],
     postcss: function(webpack) {
         return [

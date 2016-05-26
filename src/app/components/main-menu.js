@@ -6,9 +6,10 @@ import Immutable from 'immutable';
 
 const MainMenu = React.createClass({
     render() {
+        const {isLoggedIn, onItemSelect} = this.props;
         let profile;
 
-        if (this.props.isAuthed) {
+        if (isLoggedIn) {
             profile =
                 <LinkContainer to='/profile'>
                     <NavItem><FormattedMessage id='mainMenu.profile'/></NavItem>
@@ -16,7 +17,7 @@ const MainMenu = React.createClass({
         }
 
         return (
-            <Nav>
+            <Nav onSelect={onItemSelect}>
                 <IndexLinkContainer to='/'>
                     <NavItem>
                         <FormattedMessage id='mainMenu.matchSchedule'/>
@@ -38,7 +39,7 @@ const MainMenu = React.createClass({
     },
 
     propTypes: {
-        isAuthed: React.PropTypes.bool.isRequired
+        isLoggedIn: React.PropTypes.bool.isRequired
     }
 });
 

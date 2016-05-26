@@ -1,3 +1,5 @@
 export function joinMatch(matchId, teamId) {
-    console.assert(false);
+    return (dispatch, getState, diContainer) => {
+        dispatch({type: 'JOIN_MATCH_REQUEST'});
+    };
 }

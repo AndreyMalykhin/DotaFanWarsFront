@@ -8,22 +8,26 @@ import Immutable from 'immutable';
 import MainMenu from 'app/components/main-menu';
 import {PENDING} from 'common/utils/request-status';
 import {setLocale} from 'app/actions/locale-actions';
+import {toggleToolbar} from 'app/actions/toolbar-actions';
 
 const Toolbar = React.createClass({
     render() {
         const {
             locale,
             intl,
-            isAuthed,
+            isLoggedIn,
+            isExpanded,
             localeRequestStatus,
             supportedLocales,
-            onLocaleSelect
+            onLocaleSelect,
+            onMainMenuItemSelect,
+            onToggle
         } = this.props;
         const currentLocaleName = intl.formatMessage(
-            {id: `localeSelector.${locale}`});
+            {id: `locale.${locale}`});
 
         return (
-            <Navbar>
+            <Navbar expanded={isExpanded} onToggle={onToggle}>
                 <Navbar.Header>
                     <Navbar.Brand>
                     <Link to='/'>
@@ -33,7 +37,9 @@ const Toolbar = React.createClass({
                     <Navbar.Toggle/>
                 </Navbar.Header>
                 <Navbar.Collapse>
-                    <MainMenu isAuthed={isAuthed}/>
+                    <MainMenu
+                        isLoggedIn={isLoggedIn}
+                        onItemSelect={onMainMenuItemSelect}/>
                     <Nav pullRight>
                         <NavDropdown
                             disabled={localeRequestStatus == PENDING}
@@ -45,7 +51,7 @@ const Toolbar = React.createClass({
                                     key={supportedLocale}
                                     eventKey={supportedLocale}
                                     active={supportedLocale == locale}>
-                                    <FormattedMessage id={`localeSelector.${supportedLocale}`}/>
+                                    <FormattedMessage id={`locale.${supportedLocale}`}/>
                                 </MenuItem>
                             )}
                         </NavDropdown>
@@ -60,17 +66,21 @@ const Toolbar = React.createClass({
         supportedLocales:
             React.PropTypes.instanceOf(Immutable.List).isRequired,
         onLocaleSelect: React.PropTypes.func.isRequired,
-        localeRequestStatus: React.PropTypes.string.isRequired,
-        isAuthed: React.PropTypes.bool.isRequired
+        onMainMenuItemSelect: React.PropTypes.func.isRequired,
+        onToggle: React.PropTypes.func.isRequired,
+        isLoggedIn: React.PropTypes.bool.isRequired,
+        isExpanded: React.PropTypes.bool.isRequired,
+        localeRequestStatus: React.PropTypes.string
     }
 });
 
 function mapStateToProps(state, ownProps) {
     return {
-        isAuthed: state.auth.get('isAuthed'),
-        locale: state.locale.get('id'),
+        isLoggedIn: state.auth.get('isLoggedIn'),
         supportedLocales: state.supportedLocales,
-        localeRequestStatus: state.locale.get('requestStatus')
+        locale: state.locale.get('id'),
+        localeRequestStatus: state.locale.get('requestStatus'),
+        isExpanded: state.toolbar.get('isExpanded')
     };
 }
 
@@ -78,6 +88,12 @@ function mapDispatchToProps(dispatch, ownProps) {
     return {
         onLocaleSelect(locale) {
             dispatch(setLocale(locale));
+        },
+        onMainMenuItemSelect() {
+            dispatch(toggleToolbar(false));
+        },
+        onToggle(isExpanded) {
+            dispatch(toggleToolbar(isExpanded));
         }
     };
 }

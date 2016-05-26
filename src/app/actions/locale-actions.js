@@ -8,6 +8,7 @@ export function setLocale(id) {
                 require(`bundle?lazy!react-intl/locale-data/${id}.js`)((localeData) => {
                     require(`bundle?lazy!app/translations/${id}.js`)((translations) => {
                         addLocaleData(localeData);
+                        diContainer.fetcher.options.headers['Accept-Language'] = id;
                         dispatch({
                             type: 'SET_LOCALE_RESPONSE',
                             payload: {

@@ -7,10 +7,11 @@ import Immutable from 'immutable';
 import LoginDlg from 'user/components/login-dlg';
 import Toolbar from 'app/components/toolbar';
 import Footer from 'app/components/footer';
+import NotificationBar from 'app/components/notification-bar';
 
 const App = React.createClass({
     render() {
-        const {translations, locale, isAuthed} = this.props;
+        const {translations, locale, isLoggedIn, children} = this.props;
 
         // see https://github.com/yahoo/react-intl/issues/243
         // for <IntlProvider> 'key' prop
@@ -23,8 +24,9 @@ const App = React.createClass({
                 <div>
                     <Toolbar/>
                     <Grid fluid>
-                        {isAuthed ? null : <LoginDlg/>}
-                        {this.props.children}
+                        <NotificationBar/>
+                        <LoginDlg/>
+                        {children}
                         <Footer/>
                     </Grid>
                 </div>
@@ -35,7 +37,7 @@ const App = React.createClass({
     propTypes: {
         locale: React.PropTypes.string.isRequired,
         translations: React.PropTypes.instanceOf(Immutable.Map).isRequired,
-        isAuthed: React.PropTypes.bool.isRequired
+        isLoggedIn: React.PropTypes.bool.isRequired
     }
 });
 
@@ -43,7 +45,7 @@ function mapStateToProps(state, ownProps) {
     return {
         locale: state.locale.get('id'),
         translations: state.locale.get('translations'),
-        isAuthed: state.auth.get('isAuthed')
+        isLoggedIn: state.auth.get('isLoggedIn')
     };
 }
 

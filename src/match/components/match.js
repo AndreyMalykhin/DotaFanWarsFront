@@ -6,7 +6,7 @@ import {PENDING} from 'common/utils/request-status';
 
 const Match = React.createClass({
     render() {
-        const {match, joinRequestStatus} = this.props;
+        const {match, isDisabled} = this.props;
         const startDate = new Date(match.get('startDate'));
         const isLive = Date.now() > startDate.getTime();
         let title;
@@ -24,9 +24,8 @@ const Match = React.createClass({
                 <p>{team.get('name')}</p>
                 <Image src={team.get('logoUrl')} rounded responsive/>
                 <Button
-                    disabled={!isLive || joinRequestStatus == PENDING}
-                    onClick={this._onJoinBtnClick.bind(this, match.get('id'), team.get('id'))}
-                    bsSize='large'>
+                    disabled={!isLive || isDisabled}
+                    onClick={this._onJoin.bind(this, match.get('id'), team.get('id'))}>
                     <FormattedMessage id='match.join'/>
                 </Button>
             </Col>
@@ -47,13 +46,13 @@ const Match = React.createClass({
     },
 
     propTypes: {
-        onJoinBtnClick: React.PropTypes.func.isRequired,
+        onJoin: React.PropTypes.func.isRequired,
         match: React.PropTypes.instanceOf(Immutable.Map).isRequired,
-        joinRequestStatus: React.PropTypes.string.isRequired
+        isDisabled: React.PropTypes.bool.isRequired
     },
 
-    _onJoinBtnClick(matchId, teamId) {
-        this.props.onJoinBtnClick(matchId, teamId);
+    _onJoin(matchId, teamId) {
+        this.props.onJoin(matchId, teamId);
     }
 });
 

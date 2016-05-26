@@ -1,5 +1,6 @@
 import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
+import {routerMiddleware} from 'react-router-redux';
 import Immutable from 'immutable';
 import reducer from 'app/reducers/app-reducer';
 import postLoginMiddleware from 'app/utils/post-login-middleware.js';
@@ -9,34 +10,56 @@ import translations from 'app/translations/en';
 
 export default function storeFactory(container) {
     const initialState = {
-        user: null,
+        user: Immutable.Map({
+            rating: null,
+            nickname: null,
+            countryId: null,
+            photoUrl: null,
+            saveRequestStatus: null,
+            getRequestStatus: null,
+            setPhotoRequestStatus: null
+        }),
+        userForm: Immutable.Map({
+            countryId: '',
+            nickname: '',
+            errors: Immutable.Map()
+        }),
         auth: Immutable.Map({
             providers: Immutable.List([FACEBOOK, GOOGLE]),
-            isAuthed: container.authService.isLoggedIn(),
+            isLoggedIn: container.authService.isLoggedIn(),
             isLoginDlgOpened: false,
-            loginRequestStatus: SUCCESS
+            loginRequestStatus: null
         }),
         match: Immutable.Map({
-            joinRequestStatus: SUCCESS
+            joinRequestStatus: null
         }),
-        supportedLocales: Immutable.List(['en', 'ru']),
         matchSchedule: Immutable.Map({
             items: null,
             page: 1,
             pageCount: null,
-            requestStatus: SUCCESS,
+            getRequestStatus: null,
             lastUpdateTime: null
         }),
+        notifications: Immutable.List(),
+        supportedLocales: Immutable.List(['en', 'ru']),
         locale: Immutable.Map({
             id: 'en',
             translations: Immutable.Map(translations),
             requestStatus: SUCCESS
+        }),
+        countries: Immutable.Map({
+            items: null,
+            getRequestStatus: null
+        }),
+        toolbar: Immutable.Map({
+            isExpanded: false
         })
     };
     const middlewares = compose(
         applyMiddleware(
             thunk.withExtraArgument(container),
-            postLoginMiddleware
+            postLoginMiddleware,
+            routerMiddleware(container.history)
         ),
         window.devToolsExtension ? window.devToolsExtension() : (f) => f
     );

@@ -13,16 +13,15 @@ import {openLoginDlg} from 'user/actions/auth-actions';
 const MatchSchedule = React.createClass({
     render() {
         const {
-            loadRequestStatus,
+            getRequestStatus,
             matches,
             page,
             pageCount,
-            joinMatchRequestStatus,
-            onLoad,
-            onJoinMatchBtnClick
+            onJoinMatch
         } = this.props;
         let matchList;
         let loader;
+        const isDisabled = this._isDisabled();
 
         if (matches) {
             if (matches.size != 0) {
@@ -32,16 +31,14 @@ const MatchSchedule = React.createClass({
                             <Match
                                match={match}
                                key={match.get('id')}
-                               joinRequestStatus={joinMatchRequestStatus}
-                               onJoinBtnClick={onJoinMatchBtnClick}/>
+                               isDisabled={isDisabled}
+                               onJoin={onJoinMatch}/>
                         )}
                     </ListGroup>;
             } else {
                 matchList =
                     <p><FormattedMessage id='matchSchedule.empty'/></p>;
             }
-        } else {
-            loader = <Loader loaded={loadRequestStatus != PENDING}></Loader>;
         }
 
         let paginator;
@@ -49,16 +46,16 @@ const MatchSchedule = React.createClass({
         if (pageCount) {
             paginator =
                 <Pagination
+                    className={isDisabled && 'disabled'}
                     items={pageCount}
                     activePage={page}
-                    onSelect={onLoad}
-                    bsSize='large'/>;
+                    onSelect={this._onPageSelect}/>;
         }
 
         return (
             <Row>
                 <Col xs={12}>
-                    {loader}
+                    <Loader loaded={getRequestStatus != PENDING}></Loader>
                     {matchList}
                     {paginator}
                 </Col>
@@ -67,10 +64,11 @@ const MatchSchedule = React.createClass({
     },
 
     componentDidMount() {
-        this.props.onLoad(this.props.page);
+        const {onLoad, page} = this.props;
+        onLoad(page);
         this._updaterId = setInterval(() => {
-            this.props.onLoad(this.props.page);
-        }, 10000);
+            onLoad(this.props.page);
+        }, 60000);
     },
 
     componentWillUnmount() {
@@ -79,20 +77,34 @@ const MatchSchedule = React.createClass({
 
     propTypes: {
         onLoad: React.PropTypes.func.isRequired,
-        onJoinMatchBtnClick: React.PropTypes.func.isRequired,
+        onJoinMatch: React.PropTypes.func.isRequired,
         page: React.PropTypes.number.isRequired,
-        loadRequestStatus: React.PropTypes.string.isRequired,
-        joinMatchRequestStatus: React.PropTypes.string.isRequired,
+        joinMatchRequestStatus: React.PropTypes.string,
+        getRequestStatus: React.PropTypes.string,
         matches: React.PropTypes.instanceOf(Immutable.List),
         pageCount: React.PropTypes.number,
         lastUpdateTime: React.PropTypes.number
+    },
+
+    _onPageSelect(page) {
+        if (this._isDisabled()) {
+            return;
+        }
+
+        this.props.onLoad(page);
+    },
+
+    _isDisabled() {
+        const {joinMatchRequestStatus, getRequestStatus} = this.props;
+        return joinMatchRequestStatus == PENDING
+            || getRequestStatus == PENDING;
     }
 });
 
 function mapStateToProps(state, ownProps) {
     return {
         matches: state.matchSchedule.get('items'),
-        loadRequestStatus: state.matchSchedule.get('requestStatus'),
+        getRequestStatus: state.matchSchedule.get('getRequestStatus'),
         joinMatchRequestStatus: state.match.get('joinRequestStatus'),
         page: state.matchSchedule.get('page'),
         pageCount: state.matchSchedule.get('pageCount'),
@@ -105,7 +117,7 @@ function mapDispatchToProps(dispatch, ownProps) {
         onLoad(page) {
             dispatch(getMatchSchedule(page));
         },
-        onJoinMatchBtnClick(matchId, teamId) {
+        onJoinMatch(matchId, teamId) {
             const onPostLogin = () => {
                 dispatch(joinMatch(matchId, teamId));
             };

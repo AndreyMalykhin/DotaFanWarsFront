@@ -1,16 +1,24 @@
 export default {
+    'common.genericError': 'Oops, something went wrong.',
+    'common.select': 'Select',
+    'common.save': 'Save',
+    'common.cancel': 'Cancel',
     'toolbar.appTitle': 'Dota Fan Wars',
+    'locale.en': 'EN',
+    'locale.ru': 'РУ',
     'mainMenu.profile': 'Profile',
     'mainMenu.userLeaderboard': 'Player leaderboard',
     'mainMenu.teamLeaderboard': 'Team leaderboard',
     'mainMenu.matchSchedule': 'Matches',
-    'localeSelector.en': 'EN',
-    'localeSelector.ru': 'РУ',
     'matchSchedule.empty': 'No matches for today :(',
     'match.live': 'Live',
     'match.vs': 'vs',
     'match.join': 'Join',
     'loginDlg.title': 'Login',
     'loginDlg.google': 'Google',
-    'loginDlg.facebook': 'Facebook'
+    'loginDlg.facebook': 'Facebook',
+    'userForm.rating': 'Rating',
+    'userForm.nickname': 'Nickname',
+    'userForm.country': 'Country',
+    'userForm.changePhoto': 'Change'
 };
