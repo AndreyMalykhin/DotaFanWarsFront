@@ -14,6 +14,8 @@ export default {
     'match.live': 'Live',
     'match.vs': 'vs',
     'match.join': 'Join',
+    'match.noFreeSlots': 'No free slots',
+    'match.forbidden': 'Forbidden',
     'loginDlg.title': 'Login',
     'loginDlg.google': 'Google',
     'loginDlg.facebook': 'Facebook',

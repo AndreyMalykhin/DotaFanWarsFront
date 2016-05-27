@@ -31,6 +31,7 @@ export default function storeFactory(container) {
             loginRequestStatus: null
         }),
         match: Immutable.Map({
+            serverUrl: null,
             joinRequestStatus: null
         }),
         matchSchedule: Immutable.Map({

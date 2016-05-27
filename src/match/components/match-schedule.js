@@ -22,6 +22,7 @@ const MatchSchedule = React.createClass({
         let matchList;
         let loader;
         const isDisabled = this._isDisabled();
+        const isRequestPending = isDisabled;
 
         if (matches) {
             if (matches.size != 0) {
@@ -55,7 +56,7 @@ const MatchSchedule = React.createClass({
         return (
             <Row>
                 <Col xs={12}>
-                    <Loader loaded={getRequestStatus != PENDING}></Loader>
+                    <Loader loaded={!isRequestPending}></Loader>
                     {matchList}
                     {paginator}
                 </Col>

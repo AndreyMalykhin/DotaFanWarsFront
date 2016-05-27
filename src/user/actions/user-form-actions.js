@@ -26,5 +26,6 @@ export function fillUserForm() {
                 nickname: user.get('nickname')
             }
         });
+        return Promise.resolve();
     };
 }

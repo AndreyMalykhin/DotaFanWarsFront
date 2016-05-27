@@ -14,6 +14,8 @@ export default {
     'match.live': 'В процессе',
     'match.vs': 'против',
     'match.join': 'Присоединиться',
+    'match.noFreeSlots': 'Нет свободных мест',
+    'match.forbidden': 'Запрещено',
     'loginDlg.title': 'Вход',
     'loginDlg.google': 'Google',
     'loginDlg.facebook': 'Facebook',
