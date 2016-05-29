@@ -9,13 +9,7 @@ export default function matchReducer(match = null, action) {
             return match.set('joinRequestStatus', FAIL);
         }
 
-        match = match.set('joinRequestStatus', SUCCESS);
-
-        if (action.payload.status != 200) {
-            return match;
-        }
-
-        return match.set('serverUrl', action.payload.data.serverUrl);
+        return match.set('joinRequestStatus', SUCCESS);
     }
 
     return match;

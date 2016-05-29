@@ -11,16 +11,17 @@ export default {
     'mainMenu.teamLeaderboard': 'Рейтинг команд',
     'mainMenu.matchSchedule': 'Матчи',
     'matchSchedule.empty': 'Никаких матчей на сегодня :(',
-    'match.live': 'В процессе',
-    'match.vs': 'против',
-    'match.join': 'Присоединиться',
-    'match.noFreeSlots': 'Нет свободных мест',
-    'match.forbidden': 'Запрещено',
+    'matchScheduleItem.live': 'В процессе',
+    'matchScheduleItem.vs': 'против',
+    'matchScheduleItem.join': 'Присоединиться',
+    'match.noFreeSlotsError': 'Нет свободных мест',
+    'match.leaverError': 'Запрещено',
     'loginDlg.title': 'Вход',
     'loginDlg.google': 'Google',
     'loginDlg.facebook': 'Facebook',
     'userForm.rating': 'Рейтинг',
     'userForm.nickname': 'Ник',
     'userForm.country': 'Страна',
-    'userForm.changePhoto': 'Изменить'
+    'userForm.changePhoto': 'Изменить',
+    'roomPicker.title': 'Выбор комнаты'
 };

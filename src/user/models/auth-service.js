@@ -6,12 +6,16 @@ export default class AuthService {
         this._fetcher = fetcher;
         this._localStorage = localStorage;
         this._accessTokenKey = 'authService.accessToken';
-        this._isLoggedIn = null;
-        const accessToken = this._localStorage.get(this._accessTokenKey);
+        this._isLoggedIn = true;
+        const accessToken = this.getAccessToken();
 
         if (accessToken) {
             this._setFetcherAuthHeader(accessToken);
         }
+    }
+
+    getAccessToken() {
+        return this._localStorage.get(this._accessTokenKey);
     }
 
     isLoggedIn() {
@@ -19,7 +23,7 @@ export default class AuthService {
             return this._isLoggedIn;
         }
 
-        const accessToken = this._localStorage.get(this._accessTokenKey);
+        const accessToken = this.getAccessToken();
 
         if (accessToken == null) {
             this._isLoggedIn = false;

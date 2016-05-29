@@ -13,21 +13,28 @@ export default class Fetcher {
         this._eventBus = new EventEmitter2();
     }
 
-    fetch(path, options) {
+    fetch(path, options = {}) {
         return f(
             `${this._hostUrl}/${path}`,
             Object.assign(options, this._options)
-        ).then((response) => {
-            response = response.json();
-            this._eventBus.emit('response', response);
-            return response;
-        }, (error) => {
-            this._eventBus.emit('error', error);
-            throw error;
-        });
+        )
+            .then((response) => response.json())
+            .then((response) => {
+                this._eventBus.emit(Event.RESPONSE, response);
+                return response;
+            })
+            .catch((error) => {
+                this._eventBus.emit(Event.ERROR, error);
+                throw error;
+            });
     }
 
     on(event, listener) {
         this._eventBus.on(event, listener);
     }
 }
+
+export const Event = {
+    ERROR: 'error',
+    RESPONSE: 'response'
+};

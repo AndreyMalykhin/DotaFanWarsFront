@@ -1,9 +1,6 @@
 export function getMatchSchedule(page) {
     return (dispatch, getState, diContainer) => {
-        dispatch({
-            type: 'GET_MATCH_SCHEDULE_REQUEST',
-            payload: {page: page}
-        });
+        dispatch({type: 'GET_MATCH_SCHEDULE_REQUEST'});
         return diContainer.matchService.getSchedule(page)
             .then((response) => {
                 dispatch({

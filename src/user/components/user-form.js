@@ -42,6 +42,7 @@ const UserForm = React.createClass({
         } = this.props;
         const nicknameError = errors.get('nickname');
         const countryError = errors.get('countryId');
+        const photoError = errors.get('photoFile');
         const isRequestPending = saveUserRequestStatus == PENDING
             || setUserPhotoRequestStatus == PENDING
             || getUserRequestStatus == PENDING
@@ -50,7 +51,7 @@ const UserForm = React.createClass({
         let form;
 
         if (getUserRequestStatus != PENDING) {
-            form =
+            form = (
                 <form onSubmit={onSave}>
                     <FormGroup>
                         <FormControl.Static>
@@ -58,7 +59,7 @@ const UserForm = React.createClass({
                             {rating}
                         </FormControl.Static>
                     </FormGroup>
-                    <FormGroup>
+                    <FormGroup validationState={photoError && 'error'}>
                         <Image src={photoUrl} rounded/>
                         <div>
                             <Button
@@ -66,7 +67,7 @@ const UserForm = React.createClass({
                                 onClick={this._onPhotoClick}>
                                 <FormattedMessage id='userForm.changePhoto'/>
                             </Button>
-                            {this._renderError(errors.get('photoFile'))}
+                            {this._renderError(photoError)}
                             <input
                                 className='hidden'
                                 type='file'
@@ -98,13 +99,13 @@ const UserForm = React.createClass({
                             <option value=''>
                                 {intl.formatMessage({id: 'common.select'})}
                             </option>
-                            {countries && countries.map((country) =>
+                            {countries && countries.map((country) => (
                                 <option
                                     value={country.get('id')}
                                     key={country.get('id')}>
                                     {country.get('name')}
                                 </option>
-                            )}
+                            ))}
                         </FormControl>
                         {this._renderError(countryError)}
                     </FormGroup>
@@ -120,7 +121,8 @@ const UserForm = React.createClass({
                             <FormattedMessage id='common.cancel'/>
                         </Button>
                     </FormGroup>
-                </form>;
+                </form>
+            );
         }
 
         return (

@@ -26,12 +26,11 @@ export default function storeFactory(container) {
         }),
         auth: Immutable.Map({
             providers: Immutable.List([FACEBOOK, GOOGLE]),
-            isLoggedIn: container.authService.isLoggedIn(),
+            isLoggedIn: false,
             isLoginDlgOpened: false,
             loginRequestStatus: null
         }),
         match: Immutable.Map({
-            serverUrl: null,
             joinRequestStatus: null
         }),
         matchSchedule: Immutable.Map({
@@ -54,6 +53,16 @@ export default function storeFactory(container) {
         }),
         toolbar: Immutable.Map({
             isExpanded: false
+        }),
+        roomPicker: Immutable.Map({
+            isOpen: false,
+            rooms: null,
+            teamId: null,
+            matchId: null,
+            getRoomsRequestStatus: null
+        }),
+        chat: Immutable.Map({
+            joinRequestStatus: null
         })
     };
     const middlewares = compose(

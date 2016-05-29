@@ -11,16 +11,17 @@ export default {
     'mainMenu.teamLeaderboard': 'Team leaderboard',
     'mainMenu.matchSchedule': 'Matches',
     'matchSchedule.empty': 'No matches for today :(',
-    'match.live': 'Live',
-    'match.vs': 'vs',
-    'match.join': 'Join',
-    'match.noFreeSlots': 'No free slots',
-    'match.forbidden': 'Forbidden',
+    'matchScheduleItem.live': 'Live',
+    'matchScheduleItem.vs': 'vs',
+    'matchScheduleItem.join': 'Join',
+    'match.noFreeSlotsError': 'No free slots',
+    'match.leaverError': 'Forbidden',
     'loginDlg.title': 'Login',
     'loginDlg.google': 'Google',
     'loginDlg.facebook': 'Facebook',
     'userForm.rating': 'Rating',
     'userForm.nickname': 'Nickname',
     'userForm.country': 'Country',
-    'userForm.changePhoto': 'Change'
+    'userForm.changePhoto': 'Change',
+    'roomPicker.title': 'Room selection'
 };

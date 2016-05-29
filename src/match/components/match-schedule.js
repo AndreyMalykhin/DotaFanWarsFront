@@ -5,59 +5,59 @@ import {FormattedMessage} from 'react-intl';
 import Immutable from 'immutable';
 import Loader from 'react-loader';
 import {SUCCESS, PENDING} from 'common/utils/request-status';
-import Match from 'match/components/match';
+import MatchScheduleItem from 'match/components/match-schedule-item';
 import {getMatchSchedule} from 'match/actions/match-schedule-actions';
-import {joinMatch} from 'match/actions/match-actions';
+import {openRoomPicker} from 'match/actions/match-actions';
 import {openLoginDlg} from 'user/actions/auth-actions';
 
 const MatchSchedule = React.createClass({
     render() {
         const {
             getRequestStatus,
-            matches,
+            items,
             page,
             pageCount,
             onJoinMatch
         } = this.props;
-        let matchList;
-        let loader;
+        let list;
         const isDisabled = this._isDisabled();
         const isRequestPending = isDisabled;
 
-        if (matches) {
-            if (matches.size != 0) {
-                matchList =
+        if (items) {
+            if (items.size != 0) {
+                list = (
                     <ListGroup componentClass='ul'>
-                        {matches.map((match) =>
-                            <Match
-                               match={match}
-                               key={match.get('id')}
-                               isDisabled={isDisabled}
-                               onJoin={onJoinMatch}/>
-                        )}
-                    </ListGroup>;
+                        {items.map((item) => (
+                            <MatchScheduleItem
+                                match={item}
+                                key={item.get('id')}
+                                isDisabled={isDisabled}
+                                onJoin={onJoinMatch}/>
+                        ))}
+                    </ListGroup>
+                );
             } else {
-                matchList =
-                    <p><FormattedMessage id='matchSchedule.empty'/></p>;
+                list = <p><FormattedMessage id='matchSchedule.empty'/></p>;
             }
         }
 
         let paginator;
 
         if (pageCount) {
-            paginator =
+            paginator = (
                 <Pagination
                     className={isDisabled && 'disabled'}
                     items={pageCount}
                     activePage={page}
-                    onSelect={this._onPageSelect}/>;
+                    onSelect={this._onPageSelect}/>
+            );
         }
 
         return (
             <Row>
                 <Col xs={12}>
                     <Loader loaded={!isRequestPending}></Loader>
-                    {matchList}
+                    {list}
                     {paginator}
                 </Col>
             </Row>
@@ -80,9 +80,8 @@ const MatchSchedule = React.createClass({
         onLoad: React.PropTypes.func.isRequired,
         onJoinMatch: React.PropTypes.func.isRequired,
         page: React.PropTypes.number.isRequired,
-        joinMatchRequestStatus: React.PropTypes.string,
         getRequestStatus: React.PropTypes.string,
-        matches: React.PropTypes.instanceOf(Immutable.List),
+        items: React.PropTypes.instanceOf(Immutable.List),
         pageCount: React.PropTypes.number,
         lastUpdateTime: React.PropTypes.number
     },
@@ -96,17 +95,14 @@ const MatchSchedule = React.createClass({
     },
 
     _isDisabled() {
-        const {joinMatchRequestStatus, getRequestStatus} = this.props;
-        return joinMatchRequestStatus == PENDING
-            || getRequestStatus == PENDING;
+        return this.props.getRequestStatus == PENDING;
     }
 });
 
 function mapStateToProps(state, ownProps) {
     return {
-        matches: state.matchSchedule.get('items'),
+        items: state.matchSchedule.get('items'),
         getRequestStatus: state.matchSchedule.get('getRequestStatus'),
-        joinMatchRequestStatus: state.match.get('joinRequestStatus'),
         page: state.matchSchedule.get('page'),
         pageCount: state.matchSchedule.get('pageCount'),
         lastUpdateTime: state.matchSchedule.get('lastUpdateTime')
@@ -120,9 +116,10 @@ function mapDispatchToProps(dispatch, ownProps) {
         },
         onJoinMatch(matchId, teamId) {
             const onPostLogin = () => {
-                dispatch(joinMatch(matchId, teamId));
+                dispatch(openRoomPicker(matchId, teamId));
             };
-            dispatch(openLoginDlg(onPostLogin, onPostLogin));
+            const onAlreadyLoggedIn = onPostLogin;
+            dispatch(openLoginDlg(onPostLogin, onAlreadyLoggedIn));
         }
     };
 }

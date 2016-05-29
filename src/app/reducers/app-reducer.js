@@ -7,9 +7,11 @@ import localeReducer from 'app/reducers/locale-reducer';
 import matchScheduleReducer from 'match/reducers/match-schedule-reducer';
 import authReducer from 'user/reducers/auth-reducer';
 import matchReducer from 'match/reducers/match-reducer';
+import roomPickerReducer from 'match/reducers/room-picker-reducer';
 import notificationReducer from 'app/reducers/notification-reducer';
 import countryReducer from 'app/reducers/country-reducer';
 import toolbarReducer from 'app/reducers/toolbar-reducer';
+import chatReducer from 'chat/reducers/chat-reducer';
 
 export default combineReducers({
     user: userReducer,
@@ -22,5 +24,7 @@ export default combineReducers({
     supportedLocales: dummyReducer,
     countries: countryReducer,
     toolbar: toolbarReducer,
+    roomPicker: roomPickerReducer,
+    chat: chatReducer,
     routing: routerReducer
 });

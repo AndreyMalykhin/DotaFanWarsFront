@@ -3,6 +3,8 @@ import {PENDING, FAIL, SUCCESS} from 'common/utils/request-status';
 
 export default function authReducer(auth = null, action) {
     switch (action.type) {
+    case 'SET_LOGGED_IN':
+        return auth.set('isLoggedIn', action.payload.isLoggedIn);
     case 'LOGIN_REQUEST':
         return auth.set('loginRequestStatus', PENDING);
     case 'LOGIN_RESPONSE':

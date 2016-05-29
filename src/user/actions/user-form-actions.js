@@ -26,6 +26,11 @@ export function fillUserForm() {
                 nickname: user.get('nickname')
             }
         });
+        dispatch(setUserFormErrors([]));
         return Promise.resolve();
     };
+}
+
+export function setUserFormErrors(errors) {
+    return {type: 'SET_USER_FORM_ERRORS', payload: errors};
 }

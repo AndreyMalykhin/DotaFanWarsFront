@@ -33,6 +33,10 @@ export default class UserService {
                     status: 200,
                     data: Object.assign({rating: 7777}, user)
                 });
+                // resolve({
+                //     status: 400,
+                //     data: {nickname: 'azaza nick'}
+                // });
             }, 2000);
         });
     }
@@ -52,6 +56,10 @@ export default class UserService {
                         url: 'https://placekitten.com/200/300'
                     }
                 });
+                // resolve({
+                //     status: 400,
+                //     data: {file: 'azaza photo'}
+                // });
             }, 2000);
         });
     }

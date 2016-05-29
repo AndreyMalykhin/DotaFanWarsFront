@@ -1,3 +1,5 @@
+import {setUserFormErrors} from 'user/actions/user-form-actions';
+
 export function getUser() {
     return (dispatch, getState, diContainer) => {
         dispatch({type: 'GET_USER_REQUEST'});
@@ -20,6 +22,7 @@ export function getUser() {
 
 export function saveUser() {
     return (dispatch, getState, diContainer) => {
+        dispatch(setUserFormErrors([]));
         dispatch({type: 'SAVE_USER_REQUEST'});
         const form = getState().userForm;
         const user = {
@@ -32,6 +35,10 @@ export function saveUser() {
                     type: 'SAVE_USER_RESPONSE',
                     payload: response
                 });
+
+                if (response.status == 400) {
+                    dispatch(setUserFormErrors(response.data));
+                }
             })
             .catch((error) => {
                 dispatch({
@@ -45,6 +52,7 @@ export function saveUser() {
 
 export function setUserPhoto(file) {
     return (dispatch, getState, diContainer) => {
+        dispatch(setUserFormErrors([]));
         dispatch({type: 'SET_USER_PHOTO_REQUEST'});
         return diContainer.userService.setPhoto(file)
             .then((response) => {
@@ -52,6 +60,11 @@ export function setUserPhoto(file) {
                     type: 'SET_USER_PHOTO_RESPONSE',
                     payload: response
                 });
+
+                if (response.status == 400) {
+                    dispatch(
+                        setUserFormErrors({photoFile: response.data.file}));
+                }
             })
             .catch((error) => {
                 dispatch({
