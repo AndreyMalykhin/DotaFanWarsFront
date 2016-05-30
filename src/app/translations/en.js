@@ -23,5 +23,6 @@ export default {
     'userForm.nickname': 'Nickname',
     'userForm.country': 'Country',
     'userForm.changePhoto': 'Change',
-    'roomPicker.title': 'Room selection'
+    'roomPicker.title': 'Room selection',
+    'targetInfo.rating': 'Rating'
 };

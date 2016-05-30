@@ -23,5 +23,6 @@ export default {
     'userForm.nickname': 'Ник',
     'userForm.country': 'Страна',
     'userForm.changePhoto': 'Изменить',
-    'roomPicker.title': 'Выбор комнаты'
+    'roomPicker.title': 'Выбор комнаты',
+    'targetInfo.rating': 'Рейтинг'
 };

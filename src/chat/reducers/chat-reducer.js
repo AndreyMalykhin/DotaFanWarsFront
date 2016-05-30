@@ -9,9 +9,7 @@ export default function chatReducer(chat = null, action) {
             return chat.set('joinRequestStatus', FAIL);
         }
 
-        return chat.mergeDeep({
-            joinRequestStatus: SUCCESS
-        });
+        return chat.set('joinRequestStatus', SUCCESS);
     }
 
     return chat;

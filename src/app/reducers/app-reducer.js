@@ -11,7 +11,6 @@ import roomPickerReducer from 'match/reducers/room-picker-reducer';
 import notificationReducer from 'app/reducers/notification-reducer';
 import countryReducer from 'app/reducers/country-reducer';
 import toolbarReducer from 'app/reducers/toolbar-reducer';
-import chatReducer from 'chat/reducers/chat-reducer';
 
 export default combineReducers({
     user: userReducer,
@@ -25,6 +24,5 @@ export default combineReducers({
     countries: countryReducer,
     toolbar: toolbarReducer,
     roomPicker: roomPickerReducer,
-    chat: chatReducer,
     routing: routerReducer
 });

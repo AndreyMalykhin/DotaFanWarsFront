@@ -31,6 +31,13 @@ export default function storeFactory(container) {
             loginRequestStatus: null
         }),
         match: Immutable.Map({
+            chat: Immutable.Map({
+                joinRequestStatus: null
+            }),
+            characters: Immutable.Map(),
+            teams: Immutable.Map(),
+            seats: Immutable.Map(),
+            myCharacterId: null,
             joinRequestStatus: null
         }),
         matchSchedule: Immutable.Map({
@@ -60,9 +67,6 @@ export default function storeFactory(container) {
             teamId: null,
             matchId: null,
             getRoomsRequestStatus: null
-        }),
-        chat: Immutable.Map({
-            joinRequestStatus: null
         })
     };
     const middlewares = compose(

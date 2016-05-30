@@ -10,6 +10,8 @@ export default function matchReducer(match = null, action) {
         }
 
         return match.set('joinRequestStatus', SUCCESS);
+    case 'LEAVE_MATCH':
+        return match.clear();
     }
 
     return match;

@@ -9,8 +9,21 @@ import MatchScheduleItem from 'match/components/match-schedule-item';
 import {getMatchSchedule} from 'match/actions/match-schedule-actions';
 import {openRoomPicker} from 'match/actions/match-actions';
 import {openLoginDlg} from 'user/actions/auth-actions';
+import RoomPicker from 'match/components/room-picker';
 
 const MatchSchedule = React.createClass({
+    propTypes: {
+        onLoad: React.PropTypes.func.isRequired,
+        onJoinMatch: React.PropTypes.func.isRequired,
+        page: React.PropTypes.number.isRequired,
+        getRequestStatus: React.PropTypes.string,
+        items: React.PropTypes.instanceOf(Immutable.List),
+        pageCount: React.PropTypes.number,
+        lastUpdateTime: React.PropTypes.number
+    },
+
+    _updaterId: null,
+
     render() {
         const {
             getRequestStatus,
@@ -59,6 +72,7 @@ const MatchSchedule = React.createClass({
                     <Loader loaded={!isRequestPending}></Loader>
                     {list}
                     {paginator}
+                    <RoomPicker/>
                 </Col>
             </Row>
         );
@@ -74,16 +88,6 @@ const MatchSchedule = React.createClass({
 
     componentWillUnmount() {
         clearInterval(this._updaterId);
-    },
-
-    propTypes: {
-        onLoad: React.PropTypes.func.isRequired,
-        onJoinMatch: React.PropTypes.func.isRequired,
-        page: React.PropTypes.number.isRequired,
-        getRequestStatus: React.PropTypes.string,
-        items: React.PropTypes.instanceOf(Immutable.List),
-        pageCount: React.PropTypes.number,
-        lastUpdateTime: React.PropTypes.number
     },
 
     _onPageSelect(page) {

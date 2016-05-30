@@ -5,10 +5,8 @@ export default class Fetcher {
     constructor(hostUrl) {
         this._hostUrl = hostUrl;
         this.options = {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
+            mode: 'cors',
+            headers: {'Accept': 'application/json'}
         };
         this._eventBus = new EventEmitter2();
     }
@@ -16,7 +14,7 @@ export default class Fetcher {
     fetch(path, options = {}) {
         return f(
             `${this._hostUrl}/${path}`,
-            Object.assign(options, this._options)
+            Object.assign({}, this.options, options)
         )
             .then((response) => response.json())
             .then((response) => {
@@ -37,4 +35,22 @@ export default class Fetcher {
 export const Event = {
     ERROR: 'error',
     RESPONSE: 'response'
+};
+
+export const Headers = {
+    withMultipart(headers) {
+        return Object.assign(
+            {},
+            headers,
+            {'Content-Type': 'multipart/form-data'}
+        );
+    },
+
+    withJson(headers) {
+        return Object.assign(
+            {},
+            headers,
+            {'Content-Type': 'application/json'}
+        );
+    }
 };

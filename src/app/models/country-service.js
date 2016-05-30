@@ -4,17 +4,6 @@ export default class CountryService {
     }
 
     getAll() {
-        // return this._fetcher.fetch('countries');
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve({
-                    status: 200,
-                    data: [
-                        {id: '1', name: 'Ukraine'},
-                        {id: '2', name: 'USA'},
-                    ]
-                });
-            }, 2000);
-        });
+        return this._fetcher.fetch('countries');
     }
 }

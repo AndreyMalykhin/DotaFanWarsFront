@@ -21,6 +21,25 @@ import {setUserCountry, setUserNickname, fillUserForm} from
     'user/actions/user-form-actions';
 
 const UserForm = React.createClass({
+    propTypes: {
+        onSave: React.PropTypes.func.isRequired,
+        onCancel: React.PropTypes.func.isRequired,
+        onPhotoChange: React.PropTypes.func.isRequired,
+        onNicknameChange: React.PropTypes.func.isRequired,
+        onCountryChange: React.PropTypes.func.isRequired,
+        onLoad: React.PropTypes.func.isRequired,
+        errors: React.PropTypes.instanceOf(Immutable.Map).isRequired,
+        rating: React.PropTypes.number,
+        nickname: React.PropTypes.string,
+        countries: React.PropTypes.instanceOf(Immutable.List),
+        saveUserRequestStatus: React.PropTypes.string,
+        getUserRequestStatus: React.PropTypes.string,
+        getCountriesRequestStatus: React.PropTypes.string,
+        setUserPhotoRequestStatus: React.PropTypes.string,
+        countryId: React.PropTypes.string,
+        photoUrl: React.PropTypes.string
+    },
+
     render() {
         const {
             intl,
@@ -137,25 +156,6 @@ const UserForm = React.createClass({
 
     componentDidMount() {
         this.props.onLoad();
-    },
-
-    propTypes: {
-        onSave: React.PropTypes.func.isRequired,
-        onCancel: React.PropTypes.func.isRequired,
-        onPhotoChange: React.PropTypes.func.isRequired,
-        onNicknameChange: React.PropTypes.func.isRequired,
-        onCountryChange: React.PropTypes.func.isRequired,
-        onLoad: React.PropTypes.func.isRequired,
-        errors: React.PropTypes.instanceOf(Immutable.Map).isRequired,
-        rating: React.PropTypes.number,
-        nickname: React.PropTypes.string,
-        countries: React.PropTypes.instanceOf(Immutable.List),
-        saveUserRequestStatus: React.PropTypes.string,
-        getUserRequestStatus: React.PropTypes.string,
-        getCountriesRequestStatus: React.PropTypes.string,
-        setUserPhotoRequestStatus: React.PropTypes.string,
-        countryId: React.PropTypes.string,
-        photoUrl: React.PropTypes.string
     },
 
     _renderError(error) {

@@ -57,9 +57,14 @@ const RoomPicker = React.createClass({
         );
     },
 
-    componentDidMount() {
+    componentWillReceiveProps(newProps) {
         const {matchId, onLoad} = this.props;
-        onLoad(matchId);
+
+        if (newProps.matchId == matchId) {
+            return;
+        }
+
+        onLoad(newProps.matchId);
     }
 });
 
