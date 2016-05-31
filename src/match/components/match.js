@@ -5,6 +5,9 @@ import {Grid, Row, Col} from 'react-bootstrap';
 import {leaveMatch} from 'match/actions/match-actions';
 import Scoreboard from 'match/components/scoreboard';
 import Seats from 'match/components/seats';
+import MatchResultDlg from 'match/components/match-result-dlg';
+import Items from 'item/components/items';
+import Projectiles from 'item/components/projectiles';
 import CharacterStats from 'character/components/character-stats';
 import CharacterInventory from 'character/components/character-inventory';
 import TargetInfo from 'character/components/target-info';
@@ -19,19 +22,17 @@ const Match = React.createClass({
     render() {
         return (
             <Grid fluid>
-                <Scoreboard/>
-                <ChatOutput/>
-                <TargetInfo onGetNode={this._onGetTargetNode}/>
-                <Seats ref='seats'/>
+                <TargetInfo onGetTargetNode={this._onGetTargetNode}/>
+                <Projectiles onGetTargetNode={this._onGetTargetNode}/>
+                <MatchResultDlg/>
+                <Row><Col xs={12}><Scoreboard/></Col></Row>
+                <Row><Col xs={12}><ChatOutput/></Col></Row>
+                <Row><Col xs={12}><Seats ref='seats'/></Col></Row>
                 <Row>
-                    <Col xs={6}>
-                        <CharacterStats/>
-                    </Col>
-                    <Col xs={6}>
-                        <CharacterInventory/>
-                    </Col>
+                    <Col xs={6}><CharacterStats/></Col>
+                    <Col xs={6}><Items/></Col>
                 </Row>
-                <ChatInput/>
+                <Row><Col xs={12}><ChatInput/></Col></Row>
             </Grid>
         );
     },
@@ -40,8 +41,8 @@ const Match = React.createClass({
         this.props.onLeave();
     },
 
-    _onGetTargetNode() {
-        return ReactDOM.findDOMNode(this.refs.seats);
+    _onGetTargetNode(targetId) {
+        return ReactDOM.findDOMNode(this.refs.seats.getCharacter(targetId));
     }
 });
 

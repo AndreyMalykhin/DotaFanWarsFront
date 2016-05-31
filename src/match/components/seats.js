@@ -1,13 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Table, Row, Col} from 'react-bootstrap';
+import {Table} from 'react-bootstrap';
 import Immutable from 'immutable';
 import {touchCharacter} from 'character/actions/character-actions';
 import {takeSeat} from 'match/actions/seat-actions';
 import Character from 'character/components/character';
-
-const rowCount = 4;
-const columnCount = 8;
 
 const Seats = React.createClass({
     propTypes: {
@@ -30,10 +27,10 @@ const Seats = React.createClass({
         } = this.props;
         const rows = [];
 
-        for (let row = 0, seatId = 1; row < rowCount; ++row) {
+        for (let row = 0, seatId = 1; row < 4; ++row) {
             const columns = [];
 
-            for (let column = 0; column < columnCount; ++column, ++seatId) {
+            for (let column = 0; column < 8; ++column, ++seatId) {
                 const characterId =
                     seats.get(String(seatId)).get('characterId');
                 const characterModel = characters.get(characterId);
@@ -42,7 +39,8 @@ const Seats = React.createClass({
                 if (characterModel) {
                     character = (
                         <Character
-                            id={characterModel.get('id')}
+                            ref={`character_${characterId}`}
+                            id={characterId}
                             health={characterModel.get('health')}
                             photoUrl={characterModel.get('photoUrl')}
                             isSelected={characterId == myTargetId}
@@ -61,13 +59,11 @@ const Seats = React.createClass({
             rows.push(<tr>{columns}</tr>);
         }
 
-        return (
-            <Row>
-                <Col xs={12}>
-                    <Table bordered><tbody>{rows}</tbody></Table>
-                </Col>
-            </Row>
-        );
+        return <Table bordered><tbody>{rows}</tbody></Table>;
+    },
+
+    getCharacter(id) {
+        return this.refs[`character_${id}`];
     }
 });
 
