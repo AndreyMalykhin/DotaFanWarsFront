@@ -3,6 +3,7 @@ import {INFO, ERROR} from 'app/utils/notification-type';
 import {addNotification} from 'app/actions/notification-actions';
 import {joinChat} from 'chat/actions/chat-actions';
 import {NO_FREE_SLOTS, LEAVER} from 'match/utils/game-server-error-code';
+import {ensureTutorial} from 'common/actions/tutorial-actions';
 
 export function openRoomPicker(matchId, teamId) {
     return {
@@ -43,6 +44,7 @@ export function joinMatch(room, teamId) {
             dispatch({type: 'JOIN_MATCH_RESPONSE', payload: response});
             dispatch(joinChat(room.get('chatServerUrl'), accessToken, roomId));
             dispatch(push('/match'));
+            dispatch(ensureTutorial());
         }).catch((error) => {
             dispatch({
                 type: 'JOIN_MATCH_RESPONSE',

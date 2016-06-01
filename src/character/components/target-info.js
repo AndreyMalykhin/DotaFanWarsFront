@@ -1,5 +1,5 @@
 import React from 'react';
-import {Overlay, Image} from 'react-bootstrap';
+import {Overlay, Popover, Image} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
 import {clearTarget} from 'character/actions/character-actions';
@@ -30,15 +30,18 @@ const TargetInfo = React.createClass({
             <Overlay
                 show={isOpen}
                 onHide={onClose}
+                target={this._onGetTargetNode}
                 placement='top'
-                target={this._onGetTargetNode}>
-                <p>
-                    <FormattedMessage id='targetInfo.rating'/>&nbsp;
-                    {rating}
-                </p>
-                <Image src={photoUrl} rounded/>
-                <p>{nickname}</p>
-                {countryName && <p>{countryName}</p>}
+                rootClose>
+                <Popover>
+                    <p>
+                        <FormattedMessage id='targetInfo.rating'/>&nbsp;
+                        {rating}
+                    </p>
+                    <Image src={photoUrl} rounded/>
+                    <p>{nickname}</p>
+                    {countryName && <p>{countryName}</p>}
+                </Popover>
             </Overlay>
         );
     },
@@ -69,9 +72,6 @@ function mapDispatchToProps(dispatch, ownProps) {
     return {
         onClose() {
             dispatch(clearTarget());
-        },
-        onGetTargetNode(targetId) {
-            return ownProps.onGetTargetNode(targetId);
         }
     };
 }

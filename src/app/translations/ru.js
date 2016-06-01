@@ -24,5 +24,13 @@ export default {
     'userForm.country': 'Страна',
     'userForm.changePhoto': 'Изменить',
     'roomPicker.title': 'Выбор комнаты',
-    'targetInfo.rating': 'Рейтинг'
+    'targetInfo.rating': 'Рейтинг',
+    'item.buy': 'Купить',
+    'matchResultDlg.title': 'Результат матча',
+    'matchResultDlg.winner': 'Победитель: {name}',
+    'matchResultDlg.draw': 'Ничья',
+    'chatInput.placeholder': 'Сообщение',
+    'chatInput.send': 'Отправить',
+    'matchTutorial.charactersStep': 'Это игроки',
+    'matchTutorial.itemsStep': 'Это вещи'
 };

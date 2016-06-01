@@ -69,13 +69,14 @@ const RoomPicker = React.createClass({
 });
 
 function mapStateToProps(state, ownProps) {
+    const {roomPicker, match} = state;
     return {
-        isOpen: state.roomPicker.get('isOpen'),
-        rooms: state.roomPicker.get('rooms'),
-        teamId: state.roomPicker.get('teamId'),
-        matchId: state.roomPicker.get('matchId'),
-        getRoomsRequestStatus: state.roomPicker.get('getRoomsRequestStatus'),
-        joinMatchRequestStatus: state.match.get('joinRequestStatus')
+        isOpen: roomPicker.get('isOpen'),
+        rooms: roomPicker.get('rooms'),
+        teamId: roomPicker.get('teamId'),
+        matchId: roomPicker.get('matchId'),
+        getRoomsRequestStatus: roomPicker.get('getRoomsRequestStatus'),
+        joinMatchRequestStatus: match && match.get('joinRequestStatus')
     };
 }
 

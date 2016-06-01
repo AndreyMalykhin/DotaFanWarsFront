@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import Immutable from 'immutable';
 import {Projectile} from 'item/components/projectile';
-import {hitCharacter} from 'character/actions/character-actions';
+import {hitProjectile} from 'item/actions/projectile-actions';
 
 const Projectiles = React.createClass({
     propTypes: {
@@ -17,10 +17,11 @@ const Projectiles = React.createClass({
             <div>
                 {projectiles.map((projectile) => (
                     <Projectile
-                         key={projectile.get('id')}
-                         targetId={projectile.get('targetId')}
-                         onHit={onProjectileHit}
-                         onGetTargetNode={onGetTargetNode}/>
+                        id={projectile.get('id')}
+                        key={projectile.get('id')}
+                        targetId={projectile.get('targetId')}
+                        onHit={onProjectileHit}
+                        onGetTargetNode={onGetTargetNode}/>
                 ))}
             </div>
         );
@@ -35,11 +36,8 @@ export default function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
     return {
-        onGetTargetNode(targetId) {
-            return ownProps.onGetTargetNode(targetId);
-        },
-        onProjectileHit(targetId) {
-            dispatch(hitCharacter(targetId));
+        onProjectileHit(projectileId, targetId) {
+            dispatch(hitProjectile(projectileId, targetId));
         }
     };
 }

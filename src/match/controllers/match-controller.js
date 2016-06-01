@@ -7,13 +7,9 @@ export default class MatchController {
     }
 
     bind() {
-        this._matchService.on(Event.START, this.onStart.bind(this));
-        this._matchService.on(Event.UPDATE, this.onUpdate.bind(this));
+        this._matchService.on(Event.MESSAGES, this.onMessages.bind(this));
     }
 
-    onStart(event) {
-    }
-
-    onUpdate(event) {
+    onMessages(messages) {
     }
 }

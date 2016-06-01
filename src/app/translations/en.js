@@ -3,6 +3,7 @@ export default {
     'common.select': 'Select',
     'common.save': 'Save',
     'common.cancel': 'Cancel',
+    'common.close': 'Close',
     'toolbar.appTitle': 'Dota Fan Wars',
     'locale.en': 'EN',
     'locale.ru': 'РУ',
@@ -24,5 +25,13 @@ export default {
     'userForm.country': 'Country',
     'userForm.changePhoto': 'Change',
     'roomPicker.title': 'Room selection',
-    'targetInfo.rating': 'Rating'
+    'targetInfo.rating': 'Rating',
+    'item.buy': 'Buy',
+    'matchResultDlg.title': 'Match result',
+    'matchResultDlg.winner': 'Winner: {name}',
+    'matchResultDlg.draw': 'Draw',
+    'chatInput.placeholder': 'Message',
+    'chatInput.send': 'Send',
+    'matchTutorial.charactersStep': 'This is the players',
+    'matchTutorial.itemsStep': 'This is the items'
 };

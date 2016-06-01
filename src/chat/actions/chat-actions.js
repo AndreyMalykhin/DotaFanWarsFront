@@ -14,3 +14,9 @@ export function joinChat(serverUrl, roomId) {
         });
     };
 }
+
+export function sendMsg() {
+}
+
+export function setChatInputMsg(msg) {
+}

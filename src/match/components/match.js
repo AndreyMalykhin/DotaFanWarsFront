@@ -30,7 +30,7 @@ const Match = React.createClass({
                 <Row><Col xs={12}><Seats ref='seats'/></Col></Row>
                 <Row>
                     <Col xs={6}><CharacterStats/></Col>
-                    <Col xs={6}><Items/></Col>
+                    <Col xs={6}><Items ref='items'/></Col>
                 </Row>
                 <Row><Col xs={12}><ChatInput/></Col></Row>
             </Grid>

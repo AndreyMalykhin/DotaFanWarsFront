@@ -15,12 +15,12 @@ export default function matchScheduleReducer(schedule = null, action) {
             return schedule;
         }
 
-        const {items, page, pageCount} = action.payload.data;
+        const {items, page, pageCount, lastUpdateTime} = action.payload.data;
         return schedule.mergeDeep({
             items: items,
             page: page,
             pageCount: pageCount,
-            lastUpdateTime: Date.now()
+            lastUpdateTime: lastUpdateTime
         });
     }
 

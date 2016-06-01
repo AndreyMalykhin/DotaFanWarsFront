@@ -16,7 +16,7 @@ export default class MatchService {
             const onConnect = () => {
                 this._listenGameServer();
                 this._socket.removeListener('error', onError);
-                this._socket.once('start', (event) => {resolve();});
+                this._socket.once('messages', () => {resolve();});
             };
             const onError = (code) => {
                 this._socket.removeListener('connect', onConnect);
@@ -49,16 +49,12 @@ export default class MatchService {
     }
 
     _listenGameServer() {
-        this._socket.on(Event.UPDATE, (event) => {
-            this._eventBus.emit(Event.UPDATE, event);
-        });
-        this._socket.on(Event.START, (event) => {
-            this._eventBus.emit(Event.START, event);
+        this._socket.on(Event.MESSAGES, (messages) => {
+            this._eventBus.emit(Event.MESSAGES, messages);
         });
     }
 }
 
 export const Event = {
-    UPDATE: 'update',
-    START: 'start'
+    MESSAGES: 'messages'
 };

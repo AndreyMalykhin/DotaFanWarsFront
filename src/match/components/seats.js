@@ -1,17 +1,23 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import {Table} from 'react-bootstrap';
 import Immutable from 'immutable';
 import {touchCharacter} from 'character/actions/character-actions';
 import {takeSeat} from 'match/actions/seat-actions';
 import Character from 'character/components/character';
+import {CHARACTERS} from 'match/utils/tutorial-step-index';
+import TutorialStep from 'common/components/tutorial-step';
+import {nextTutorialStep} from 'common/actions/tutorial-actions';
 
 const Seats = React.createClass({
     propTypes: {
         onCharacterClick: React.PropTypes.func.isRequired,
         onSeatClick: React.PropTypes.func.isRequired,
+        onTutorialComplete: React.PropTypes.func.isRequired,
         seats: React.PropTypes.instanceOf(Immutable.Map).isRequired,
         characters: React.PropTypes.instanceOf(Immutable.Map).isRequired,
+        showTutorial: React.PropTypes.bool.isRequired,
         myTargetId: React.PropTypes.string,
         myTeamId: React.PropTypes.string
     },
@@ -22,8 +28,10 @@ const Seats = React.createClass({
             characters,
             myTargetId,
             myTeamId,
+            showTutorial,
             onCharacterClick,
-            onSeatClick
+            onSeatClick,
+            onTutorialComplete
         } = this.props;
         const rows = [];
 
@@ -59,11 +67,34 @@ const Seats = React.createClass({
             rows.push(<tr>{columns}</tr>);
         }
 
-        return <Table bordered><tbody>{rows}</tbody></Table>;
+        let tutorialStep;
+
+        if (showTutorial) {
+            tutorialStep = (
+                <TutorialStep
+                    onGetTargetNode={this._onGetTutorialTargetNode}
+                    onComplete={onTutorialComplete}
+                    placement='top'
+                    isCompleted={false}>
+                    <FormattedMessage id='matchTutorial.charactersStep'/>
+                </TutorialStep>
+            );
+        }
+
+        return (
+            <div>
+                {tutorialStep}
+                <Table ref='seats' bordered><tbody>{rows}</tbody></Table>
+            </div>
+        );
     },
 
     getCharacter(id) {
         return this.refs[`character_${id}`];
+    },
+
+    _onGetTutorialTargetNode() {
+        return ReactDOM.findDOMNode(this.refs.seats);
     }
 });
 
@@ -75,7 +106,8 @@ function mapStateToProps(state, ownProps) {
         seats: match.get('seats'),
         characters: match.get('characters'),
         myTargetId: myCharacter.get('targetId'),
-        myTeamId: myCharacter.get('teamId')
+        myTeamId: myCharacter.get('teamId'),
+        showTutorial: match.get('tutorialStep') === CHARACTERS
     };
 }
 
@@ -86,6 +118,9 @@ function mapDispatchToProps(dispatch, ownProps) {
         },
         onSeatClick(seatId) {
             dispatch(takeSeat(seatId));
+        },
+        onTutorialComplete() {
+            dispatch(nextTutorialStep());
         }
     };
 }

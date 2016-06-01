@@ -30,16 +30,7 @@ export default function storeFactory(container) {
             isLoginDlgOpened: false,
             loginRequestStatus: null
         }),
-        match: Immutable.Map({
-            chat: Immutable.Map({
-                joinRequestStatus: null
-            }),
-            characters: Immutable.Map(),
-            teams: Immutable.Map(),
-            seats: Immutable.Map(),
-            myCharacterId: null,
-            joinRequestStatus: null
-        }),
+        match: null,
         matchSchedule: Immutable.Map({
             items: null,
             page: 1,

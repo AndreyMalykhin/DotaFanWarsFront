@@ -5,7 +5,8 @@ const Projectile = React.createClass({
     propTypes: {
         onGetTargetNode: React.PropTypes.func.isRequired,
         onHit: React.PropTypes.func.isRequired,
-        targetId: React.PropTypes.string.isRequired
+        targetId: React.PropTypes.string.isRequired,
+        id: React.PropTypes.string.isRequired
     },
 
     _hitTimeoutId: null,
@@ -20,7 +21,8 @@ const Projectile = React.createClass({
 
     componentDidMount() {
         this._hitTimeoutId = setTimeout(() => {
-            this.props.onHit(this.props.targetId);
+            const {id, targetId, onHit} = this.props;
+            onHit(id, targetId);
         }, 1000);
     },
 
