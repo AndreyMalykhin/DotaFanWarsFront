@@ -46,6 +46,7 @@ export function joinMatch(room, teamId) {
             dispatch(push('/match'));
             dispatch(ensureTutorial());
         }).catch((error) => {
+            console.log(error);
             dispatch({
                 type: 'JOIN_MATCH_RESPONSE',
                 payload: error,
@@ -79,4 +80,8 @@ export function leaveMatch() {
         diContainer.matchService.leave();
         dispatch({type: 'LEAVE_MATCH'});
     };
+}
+
+export function initMatch(myCharacterId) {
+    return {type: 'INIT_MATCH', payload: {myCharacterId: myCharacterId}};
 }

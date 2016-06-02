@@ -2,16 +2,16 @@ import React from 'react';
 import {Overlay, Popover, Image} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
-import {clearTarget} from 'character/actions/character-actions';
+import {clearTarget} from 'match/actions/character-actions';
 
 const TargetInfo = React.createClass({
     propTypes: {
         onClose: React.PropTypes.func.isRequired,
         onGetTargetNode: React.PropTypes.func.isRequired,
         isOpen: React.PropTypes.bool.isRequired,
-        rating: React.PropTypes.number.isRequired,
-        nickname: React.PropTypes.string.isRequired,
-        id: React.PropTypes.string.isRequired,
+        rating: React.PropTypes.number,
+        nickname: React.PropTypes.string,
+        id: React.PropTypes.string,
         photoUrl: React.PropTypes.string,
         countryName: React.PropTypes.string
     },
@@ -33,7 +33,7 @@ const TargetInfo = React.createClass({
                 target={this._onGetTargetNode}
                 placement='top'
                 rootClose>
-                <Popover>
+                <Popover id=''>
                     <p>
                         <FormattedMessage id='targetInfo.rating'/>&nbsp;
                         {rating}
@@ -56,14 +56,16 @@ export default function mapStateToProps(state, ownProps) {
     const characters = match.get('characters');
     const id =
         characters.get(match.get('myCharacterId')).get('targetId');
-    const user = characters.get(id).get('user');
-    const country = user.get('country');
+    const user = id && characters.get(id).get('user');
+    const countryId = user && user.get('countryId');
+    const countryName =
+        countryId && match.get('countries').get(countryId).get('name');
     return {
         isOpen: id != null,
-        rating: user.get('rating'),
-        nickname: user.get('nickname'),
-        photoUrl: user.get('photoUrl'),
-        countryName: country && country.get('name'),
+        rating: user && user.get('rating'),
+        nickname: user && user.get('nickname'),
+        photoUrl: user && user.get('photoUrl'),
+        countryName: countryName,
         id: id
     };
 }

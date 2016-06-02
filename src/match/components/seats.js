@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import {Table} from 'react-bootstrap';
 import Immutable from 'immutable';
-import {touchCharacter} from 'character/actions/character-actions';
+import {touchCharacter} from 'match/actions/character-actions';
 import {takeSeat} from 'match/actions/seat-actions';
-import Character from 'character/components/character';
+import Character from 'match/components/character';
 import {CHARACTERS} from 'match/utils/tutorial-step-index';
 import TutorialStep from 'common/components/tutorial-step';
 import {nextTutorialStep} from 'common/actions/tutorial-actions';
@@ -18,6 +18,7 @@ const Seats = React.createClass({
         seats: React.PropTypes.instanceOf(Immutable.Map).isRequired,
         characters: React.PropTypes.instanceOf(Immutable.Map).isRequired,
         showTutorial: React.PropTypes.bool.isRequired,
+        iSit: React.PropTypes.bool.isRequired,
         myTargetId: React.PropTypes.string,
         myTeamId: React.PropTypes.string
     },
@@ -29,6 +30,7 @@ const Seats = React.createClass({
             myTargetId,
             myTeamId,
             showTutorial,
+            iSit,
             onCharacterClick,
             onSeatClick,
             onTutorialComplete
@@ -39,32 +41,43 @@ const Seats = React.createClass({
             const columns = [];
 
             for (let column = 0; column < 8; ++column, ++seatId) {
-                const characterId =
-                    seats.get(String(seatId)).get('characterId');
-                const characterModel = characters.get(characterId);
+                const seat = seats.get(String(seatId));
                 let character;
 
-                if (characterModel) {
-                    character = (
-                        <Character
-                            ref={`character_${characterId}`}
-                            id={characterId}
-                            health={characterModel.get('health')}
-                            photoUrl={characterModel.get('photoUrl')}
-                            isSelected={characterId == myTargetId}
-                            isEnemy={characterModel.get('teamId') != myTeamId}
-                            onClick={onCharacterClick}/>
-                    );
+                if (seat) {
+                    const characterId = seat.get('characterId');
+                    const characterModel = characters.get(characterId);
+
+                    if (characterModel) {
+                        const isEnemy =
+                            characterModel.get('teamId') != myTeamId;
+                        const photoUrl =
+                            characterModel.get('user').get('photoUrl');
+                        character = (
+                            <Character
+                                ref={`character_${characterId}`}
+                                id={characterId}
+                                health={characterModel.get('health')}
+                                photoUrl={photoUrl}
+                                isSelected={characterId == myTargetId}
+                                isEnemy={isEnemy}
+                                onClick={onCharacterClick}/>
+                        );
+                    }
                 }
 
+                const iCanTake = !iSit && !character;
                 columns.push(
-                    <td key={seatId} onClick={onSeatClick.bind(this, seatId)}>
+                    <td
+                        key={seatId}
+                        onClick={iCanTake && onSeatClick.bind(this, seatId)}
+                        style={{width: 32}}>
                         {character}
                     </td>
                 );
             }
 
-            rows.push(<tr>{columns}</tr>);
+            rows.push(<tr key={row}>{columns}</tr>);
         }
 
         let tutorialStep;
@@ -107,6 +120,7 @@ function mapStateToProps(state, ownProps) {
         characters: match.get('characters'),
         myTargetId: myCharacter.get('targetId'),
         myTeamId: myCharacter.get('teamId'),
+        iSit: myCharacter.get('seatId') != null,
         showTutorial: match.get('tutorialStep') === CHARACTERS
     };
 }

@@ -23,7 +23,7 @@ const TutorialStep = React.createClass({
                 show={!isCompleted}
                 onHide={onComplete}
                 placement={placement}>
-                <Popover>{children}</Popover>
+                <Popover id=''>{children}</Popover>
             </Overlay>
         );
     }

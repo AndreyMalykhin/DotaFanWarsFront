@@ -6,11 +6,10 @@ import {leaveMatch} from 'match/actions/match-actions';
 import Scoreboard from 'match/components/scoreboard';
 import Seats from 'match/components/seats';
 import MatchResultDlg from 'match/components/match-result-dlg';
-import Items from 'item/components/items';
-import Projectiles from 'item/components/projectiles';
-import CharacterStats from 'character/components/character-stats';
-import CharacterInventory from 'character/components/character-inventory';
-import TargetInfo from 'character/components/target-info';
+import Items from 'match/components/items';
+import Projectiles from 'match/components/projectiles';
+import CharacterStats from 'match/components/character-stats';
+import TargetInfo from 'match/components/target-info';
 import ChatInput from 'chat/components/chat-input';
 import ChatOutput from 'chat/components/chat-output';
 
@@ -25,7 +24,7 @@ const Match = React.createClass({
                 <TargetInfo onGetTargetNode={this._onGetTargetNode}/>
                 <Projectiles onGetTargetNode={this._onGetTargetNode}/>
                 <MatchResultDlg/>
-                <Row><Col xs={12}><Scoreboard/></Col></Row>
+                <Scoreboard/>
                 <Row><Col xs={12}><ChatOutput/></Col></Row>
                 <Row><Col xs={12}><Seats ref='seats'/></Col></Row>
                 <Row>

@@ -7,12 +7,12 @@ import {leaveMatch} from 'match/actions/match-actions';
 const MatchResultDlg = React.createClass({
     propTypes: {
         onClose: React.PropTypes.func.isRequired,
-        isOpened: React.PropTypes.bool.isRequired,
+        isOpen: React.PropTypes.bool.isRequired,
         winnerName: React.PropTypes.string
     },
 
     render() {
-        const {winnerName, isOpened, onClose} = this.props;
+        const {winnerName, isOpen, onClose} = this.props;
         let verdict;
 
         if (winnerName) {
@@ -26,7 +26,7 @@ const MatchResultDlg = React.createClass({
         }
 
         return (
-            <Modal.Dialog show={isOpened} onHide={onClose}>
+            <Modal show={isOpen} onHide={onClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>
                         <FormattedMessage id='matchResultDlg.title'/>
@@ -38,18 +38,18 @@ const MatchResultDlg = React.createClass({
                         <FormattedMessage id='common.close'/>
                     </Button>
                 </Modal.Footer>
-            </Modal.Dialog>
+            </Modal>
         );
     }
 });
 
-export default function mapStateToProps(state, ownProps) {
+function mapStateToProps(state, ownProps) {
     const match = state.match;
     const result = match.get('result');
-    const winnerId = result.winnerId;
+    const winnerId = result && result.winnerId;
     return {
-        winnerName: result && winnerId && match.get('teams').get(winnerId),
-        isOpened: result != null
+        winnerName: winnerId && match.get('teams').get(winnerId),
+        isOpen: result != null
     };
 }
 

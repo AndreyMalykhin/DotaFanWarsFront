@@ -8,9 +8,9 @@ const Item = React.createClass({
         onBuy: React.PropTypes.func.isRequired,
         isActive: React.PropTypes.bool.isRequired,
         isUseDisabled: React.PropTypes.bool.isRequired,
-        isAffordable: React.PropTypes.bool.isRequired,
+        isBuyDisabled: React.PropTypes.bool.isRequired,
         name: React.PropTypes.string.isRequired,
-        id: React.PropTypes.number.isRequired,
+        id: React.PropTypes.string.isRequired,
         countInBag: React.PropTypes.number.isRequired,
         photoUrl: React.PropTypes.string.isRequired
     },
@@ -22,17 +22,17 @@ const Item = React.createClass({
             name,
             countInBag,
             photoUrl,
-            isAffordable
+            isBuyDisabled
         } = this.props;
         return (
-            <div className={isActive && 'active'}>
+            <div className={isActive ? 'active' : null}>
                 <p>{name} <Badge>{countInBag}</Badge></p>
                 <Image
-                    className={isUseDisabled && 'disabled'}
+                    className={isUseDisabled ? 'disabled' : null}
                     src={photoUrl}
                     onClick={this._onClick}
-                    rounded/>
-                <Button disabled={!isAffordable} onClick={this._onBuy}>
+                    responsive/>
+                <Button disabled={isBuyDisabled} onClick={this._onBuy}>
                     <FormattedMessage id='item.buy'/>
                 </Button>
             </div>

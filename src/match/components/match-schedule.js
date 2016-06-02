@@ -59,7 +59,7 @@ const MatchSchedule = React.createClass({
         if (pageCount) {
             paginator = (
                 <Pagination
-                    className={isDisabled && 'disabled'}
+                    className={isDisabled ? 'disabled' : null}
                     items={pageCount}
                     activePage={page}
                     onSelect={this._onPageSelect}/>

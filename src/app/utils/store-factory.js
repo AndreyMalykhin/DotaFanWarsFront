@@ -1,5 +1,6 @@
 import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
+import createLogger from 'redux-logger';
 import {routerMiddleware} from 'react-router-redux';
 import Immutable from 'immutable';
 import reducer from 'app/reducers/app-reducer';
@@ -60,12 +61,18 @@ export default function storeFactory(container) {
             getRoomsRequestStatus: null
         })
     };
-    const middlewares = compose(
-        applyMiddleware(
-            thunk.withExtraArgument(container),
-            postLoginMiddleware,
-            routerMiddleware(container.history)
-        ),
+    let middlewares = [
+        thunk.withExtraArgument(container),
+        postLoginMiddleware,
+        routerMiddleware(container.history),
+    ];
+
+    // if (process.env.DFWF_DEV) {
+    //     middlewares.push(createLogger());
+    // }
+
+    middlewares = compose(
+        applyMiddleware(...middlewares),
         window.devToolsExtension ? window.devToolsExtension() : (f) => f
     );
     return createStore(reducer, initialState, middlewares);

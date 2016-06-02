@@ -8,6 +8,14 @@ export default class MatchService {
         this._eventBus = new EventEmitter2();
     }
 
+    getRooms(matchId) {
+        return this._fetcher.fetch(`matches/${matchId}/rooms`);
+    }
+
+    getSchedule(page) {
+        return this._fetcher.fetch(`match-schedule?page=${page}`);
+    }
+
     join(gameServerUrl, accessToken, roomId, teamId) {
         return new Promise((resolve, reject) => {
             const query = `accessToken=${encodeURIComponent(accessToken)}&roomId=${encodeURIComponent(roomId)}&teamId=${encodeURIComponent(teamId)}`;
@@ -36,12 +44,13 @@ export default class MatchService {
         this._socket = null;
     }
 
-    getRooms(matchId) {
-        return this._fetcher.fetch(`matches/${matchId}/rooms`);
+    takeSeat(id) {
+        this._socket.emit('takeSeat', {id: id});
     }
 
-    getSchedule(page) {
-        return this._fetcher.fetch(`match-schedule?page=${page}`);
+    attackCharacter(characterId, itemId) {
+        this._socket.emit(
+            'attackCharacter', {characterId: characterId, itemId: itemId});
     }
 
     on(event, listener) {
@@ -57,4 +66,13 @@ export default class MatchService {
 
 export const Event = {
     MESSAGES: 'messages'
+};
+
+export const Msg = {
+    START: 'start',
+    UPDATE_SEATS: 'updateSeats',
+    UPDATE_CHARACTERS: 'updateCharacters',
+    UPDATE_TEAMS: 'updateTeams',
+    UPDATE_ITEMS: 'updateItems',
+    UPDATE_COUNTRIES: 'updateCountries'
 };

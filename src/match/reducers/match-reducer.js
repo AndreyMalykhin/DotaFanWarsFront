@@ -1,10 +1,12 @@
 import Immutable from 'immutable';
 import {PENDING, FAIL, SUCCESS} from 'common/utils/request-status';
 import chatReducer from 'chat/reducers/chat-reducer';
-import projectileReducer from 'item/reducers/projectile-reducer';
-import characterReducer from 'character/reducers/character-reducer';
-import teamReducer from 'team/reducers/team-reducer';
+import projectileReducer from 'match/reducers/projectile-reducer';
+import characterReducer from 'match/reducers/character-reducer';
+import teamReducer from 'match/reducers/team-reducer';
 import seatReducer from 'match/reducers/seat-reducer';
+import itemReducer from 'match/reducers/item-reducer';
+import countryReducer from 'match/reducers/country-reducer';
 import tutorialReducer from 'common/reducers/tutorial-reducer';
 
 export default function matchReducer(match = null, action) {
@@ -20,6 +22,8 @@ export default function matchReducer(match = null, action) {
             characters: Immutable.Map(),
             teams: Immutable.Map(),
             seats: Immutable.Map(),
+            items: Immutable.List(),
+            countries: Immutable.Map(),
             tutorialStep: null,
             myCharacterId: null,
             result: null,
@@ -33,6 +37,8 @@ export default function matchReducer(match = null, action) {
         return match.set('joinRequestStatus', SUCCESS);
     case 'LEAVE_MATCH':
         return null;
+    case 'INIT_MATCH':
+        return match.set('myCharacterId', action.payload.myCharacterId);
     }
 
     return match && match.merge({
@@ -41,6 +47,8 @@ export default function matchReducer(match = null, action) {
         characters: characterReducer(match.get('characters'), action),
         teams: teamReducer(match.get('teams'), action),
         seats: seatReducer(match.get('seats'), action),
+        items: itemReducer(match.get('items'), action),
+        countries: countryReducer(match.get('countries'), action),
         tutorialStep: tutorialReducer(match.get('tutorialStep'), action)
     });
 }

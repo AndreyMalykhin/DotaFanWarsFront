@@ -18,14 +18,12 @@ const Character = React.createClass({
         const imgClass = classNames({selected: isSelected, enemy: isEnemy});
         return (
             <div>
-                <ProgressBar now={health}/>
+                <ProgressBar now={health} style={{height: 8, margin: 0}}/>
                 <Image
                     className={imgClass}
                     src={photoUrl}
                     onClick={this._onClick}
-                    width={64}
-                    height={64}
-                    thumbnail/>
+                    style={{width: 32, height: 32}}/>
             </div>
         );
     },

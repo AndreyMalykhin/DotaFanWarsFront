@@ -4,12 +4,8 @@ import {Overlay} from 'react-bootstrap';
 const Projectile = React.createClass({
     propTypes: {
         onGetTargetNode: React.PropTypes.func.isRequired,
-        onHit: React.PropTypes.func.isRequired,
-        targetId: React.PropTypes.string.isRequired,
-        id: React.PropTypes.string.isRequired
+        targetId: React.PropTypes.string.isRequired
     },
-
-    _hitTimeoutId: null,
 
     render() {
         return (
@@ -17,17 +13,6 @@ const Projectile = React.createClass({
                 <img src='https://placekitten.com/32/32'/>
             </Overlay>
         );
-    },
-
-    componentDidMount() {
-        this._hitTimeoutId = setTimeout(() => {
-            const {id, targetId, onHit} = this.props;
-            onHit(id, targetId);
-        }, 1000);
-    },
-
-    componentWillUnmount() {
-        clearTimeout(this._hitTimeoutId);
     },
 
     _onGetTargetNode() {

@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import {Row, Col} from 'react-bootstrap';
 import Immutable from 'immutable';
-import Item from 'item/components/item';
-import {useItem, buyItem} from 'item/actions/item-actions';
+import Item from 'match/components/item';
+import {useItem, buyItem} from 'match/actions/item-actions';
 import {ITEMS} from 'match/utils/tutorial-step-index';
 import {nextTutorialStep} from 'common/actions/tutorial-actions';
 import TutorialStep from 'common/components/tutorial-step';
@@ -14,17 +14,21 @@ const Items = React.createClass({
         onTutorialComplete: React.PropTypes.func.isRequired,
         onItemUse: React.PropTypes.func.isRequired,
         onItemBuy: React.PropTypes.func.isRequired,
-        items: React.PropTypes.instanceOf(Immutable.Map).isRequired,
+        items: React.PropTypes.instanceOf(Immutable.List).isRequired,
+        myItems: React.PropTypes.instanceOf(Immutable.Map).isRequired,
         myMoney: React.PropTypes.number.isRequired,
-        isMeDead: React.PropTypes.bool.isRequired,
+        iDead: React.PropTypes.bool.isRequired,
+        iSit: React.PropTypes.bool.isRequired,
         showTutorial: React.PropTypes.bool.isRequired
     },
 
     render() {
         const {
             items,
+            myItems,
             myMoney,
-            isMeDead,
+            iSit,
+            iDead,
             showTutorial,
             onItemUse,
             onItemBuy,
@@ -44,25 +48,32 @@ const Items = React.createClass({
             );
         }
 
-        return (
-            <Row ref='items'>
-                {tutorialStep}
-                {items.map((item) => (
-                    <Col key={item.get('id')} xs={6}>
-                        <Item
-                            id={item.get('id')}
-                            name={item.get('name')}
-                            countInBag={item.get('countInBag')}
-                            photoUrl={item.get('photoUrl')}
-                            isActive={item.get('isActive')}
-                            isUseDisabled={!item.get('countInBag')}
-                            isAffordable={item.get('price') <= myMoney}
-                            onUse={onItemUse}
-                            onBuy={onItemBuy}/>
-                    </Col>
-                ))}
-            </Row>
-        );
+        const itemViews = [];
+
+        for (let item of items.values()) {
+            const itemId = item.get('id');
+            const myItem = myItems.get(itemId);
+            const countInBag = myItem ? myItem.get('count') : 0;
+            const isActive =
+                Boolean(!iDead && myItem && myItem.get('isActive'));
+            const isBuyDisabled = iDead || !iSit || item.get('price') > myMoney;
+            itemViews.push(
+                <Col key={itemId} xs={6}>
+                    <Item
+                        id={itemId}
+                        name={item.get('name')}
+                        countInBag={countInBag}
+                        photoUrl={item.get('photoUrl')}
+                        isActive={isActive}
+                        isUseDisabled={iDead || !iSit || !countInBag}
+                        isBuyDisabled={isBuyDisabled}
+                        onUse={onItemUse}
+                        onBuy={onItemBuy}/>
+                </Col>
+            );
+        }
+
+        return <Row ref='items'>{tutorialStep}{itemViews}</Row>;
     },
 
     _onGetTutorialTargetNode() {
@@ -75,8 +86,10 @@ export default function mapStateToProps(state, ownProps) {
     const myCharacter = match.get('characters').get(match.get('myCharacterId'));
     return {
         myMoney: myCharacter.get('money'),
-        isMeDead: myCharacter.get('health') <= 0,
-        items: myCharacter.get('items'),
+        iSit: myCharacter.get('seatId') != null,
+        iDead: myCharacter.get('health') <= 0,
+        items: match.get('items'),
+        myItems: myCharacter.get('items'),
         showTutorial: match.get('tutorialStep') === ITEMS
     };
 }

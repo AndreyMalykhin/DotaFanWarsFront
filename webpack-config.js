@@ -49,6 +49,7 @@ module.exports = {
             /\/(locale-data|locale-data\/jsonp)$/, /\/(en|ru)\.js$/),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.EnvironmentPlugin([
+            'DFWF_DEV',
             'DFWF_BACKEND_URL',
             'DFWF_FACEBOOK_APP_ID',
             'DFWF_GOOGLE_APP_ID'
