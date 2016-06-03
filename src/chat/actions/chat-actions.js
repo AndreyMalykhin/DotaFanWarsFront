@@ -1,16 +1,16 @@
+import {setRequestStatus} from 'common/actions/request-status-actions';
+import {PENDING, SUCCESS, FAIL} from 'common/utils/request-status';
+
 export function joinChat(serverUrl, roomId) {
     return (dispatch, getState, diContainer) => {
-        dispatch({type: 'JOIN_CHAT_REQUEST'});
+        dispatch(setRequestStatus('match.joinChat', PENDING));
         return diContainer.chatService.join(
             serverUrl, diContainer.authService.getAccessToken(), roomId
         ).then((response) => {
-            dispatch({type: 'JOIN_CHAT_RESPONSE', payload: response});
+            dispatch(setRequestStatus('match.joinChat', SUCCESS));
         }).catch((error) => {
-            dispatch({
-                type: 'JOIN_CHAT_RESPONSE',
-                payload: error,
-                error: true
-            });
+            console.log(error);
+            dispatch(setRequestStatus('match.joinChat', FAIL));
         });
     };
 }

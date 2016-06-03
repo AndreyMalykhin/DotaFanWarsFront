@@ -12,6 +12,7 @@ export function getMatchSchedule(page) {
                 });
             })
             .catch((error) => {
+                console.log(error);
                 dispatch({
                     type: 'GET_MATCH_SCHEDULE_RESPONSE',
                     payload: error,

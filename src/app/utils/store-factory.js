@@ -59,6 +59,14 @@ export default function storeFactory(container) {
             teamId: null,
             matchId: null,
             getRoomsRequestStatus: null
+        }),
+        requestStatuses: Immutable.Map({
+            'match.joinMatch': null,
+            'match.joinChat': null,
+            'match.takeSeat': null,
+            'match.useOffensiveItem': null,
+            'match.useDefensiveItem': null,
+            'match.buyItem': null
         })
     };
     let middlewares = [

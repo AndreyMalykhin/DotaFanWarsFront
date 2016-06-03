@@ -31,8 +31,7 @@ const TargetInfo = React.createClass({
                 show={isOpen}
                 onHide={onClose}
                 target={this._onGetTargetNode}
-                placement='top'
-                rootClose>
+                placement='top'>
                 <Popover id=''>
                     <p>
                         <FormattedMessage id='targetInfo.rating'/>&nbsp;

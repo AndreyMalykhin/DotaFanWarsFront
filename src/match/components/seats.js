@@ -6,9 +6,11 @@ import Immutable from 'immutable';
 import {touchCharacter} from 'match/actions/character-actions';
 import {takeSeat} from 'match/actions/seat-actions';
 import Character from 'match/components/character';
+import Seat from 'match/components/seat';
 import {CHARACTERS} from 'match/utils/tutorial-step-index';
 import TutorialStep from 'common/components/tutorial-step';
 import {nextTutorialStep} from 'common/actions/tutorial-actions';
+import {PENDING} from 'common/utils/request-status';
 
 const Seats = React.createClass({
     propTypes: {
@@ -19,8 +21,11 @@ const Seats = React.createClass({
         characters: React.PropTypes.instanceOf(Immutable.Map).isRequired,
         showTutorial: React.PropTypes.bool.isRequired,
         iSit: React.PropTypes.bool.isRequired,
+        myTeamId: React.PropTypes.string.isRequired,
+        myCharacterId: React.PropTypes.string.isRequired,
         myTargetId: React.PropTypes.string,
-        myTeamId: React.PropTypes.string
+        takeSeatRequestStatus: React.PropTypes.string,
+        useOffensiveItemRequestStatus: React.PropTypes.string
     },
 
     render() {
@@ -29,8 +34,11 @@ const Seats = React.createClass({
             characters,
             myTargetId,
             myTeamId,
+            myCharacterId,
             showTutorial,
             iSit,
+            takeSeatRequestStatus,
+            useOffensiveItemRequestStatus,
             onCharacterClick,
             onSeatClick,
             onTutorialComplete
@@ -53,14 +61,19 @@ const Seats = React.createClass({
                             characterModel.get('teamId') != myTeamId;
                         const photoUrl =
                             characterModel.get('user').get('photoUrl');
+                        const isMe = myCharacterId == characterId;
+                        const health = characterModel.get('health');
+                        const isDisabled = isMe || health <= 0 ||
+                            useOffensiveItemRequestStatus == PENDING;
                         character = (
                             <Character
                                 ref={`character_${characterId}`}
                                 id={characterId}
-                                health={characterModel.get('health')}
+                                health={health}
                                 photoUrl={photoUrl}
                                 isSelected={characterId == myTargetId}
                                 isEnemy={isEnemy}
+                                isDisabled={isDisabled}
                                 onClick={onCharacterClick}/>
                         );
                     }
@@ -68,12 +81,13 @@ const Seats = React.createClass({
 
                 const iCanTake = !iSit && !character;
                 columns.push(
-                    <td
+                    <Seat
                         key={seatId}
-                        onClick={iCanTake && onSeatClick.bind(this, seatId)}
-                        style={{width: 32}}>
+                        id={String(seatId)}
+                        isDisabled={takeSeatRequestStatus == PENDING}
+                        onClick={iCanTake ? onSeatClick : null}>
                         {character}
-                    </td>
+                    </Seat>
                 );
             }
 
@@ -112,7 +126,7 @@ const Seats = React.createClass({
 });
 
 function mapStateToProps(state, ownProps) {
-    const match = state.match;
+    const {match, requestStatuses} = state;
     const myCharacter =
         match.get('characters').get(match.get('myCharacterId'));
     return {
@@ -120,8 +134,12 @@ function mapStateToProps(state, ownProps) {
         characters: match.get('characters'),
         myTargetId: myCharacter.get('targetId'),
         myTeamId: myCharacter.get('teamId'),
+        myCharacterId: myCharacter.get('id'),
         iSit: myCharacter.get('seatId') != null,
-        showTutorial: match.get('tutorialStep') === CHARACTERS
+        showTutorial: match.get('tutorialStep') === CHARACTERS,
+        takeSeatRequestStatus: requestStatuses.get('match.takeSeat'),
+        useOffensiveItemRequestStatus:
+            requestStatuses.get('match.useOffensiveItem')
     };
 }
 
@@ -139,4 +157,5 @@ function mapDispatchToProps(dispatch, ownProps) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Seats);
+export default connect(
+    mapStateToProps, mapDispatchToProps, undefined, {withRef: true})(Seats);

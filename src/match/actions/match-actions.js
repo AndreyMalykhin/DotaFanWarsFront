@@ -4,6 +4,8 @@ import {addNotification} from 'app/actions/notification-actions';
 import {joinChat} from 'chat/actions/chat-actions';
 import {NO_FREE_SLOTS, LEAVER} from 'match/utils/game-server-error-code';
 import {ensureTutorial} from 'common/actions/tutorial-actions';
+import {setRequestStatus} from 'common/actions/request-status-actions';
+import {PENDING, SUCCESS, FAIL} from 'common/utils/request-status';
 
 export function openRoomPicker(matchId, teamId) {
     return {
@@ -24,6 +26,7 @@ export function getMatchRooms(matchId) {
                 dispatch({type: 'GET_MATCH_ROOMS_RESPONSE', payload: response});
             })
             .catch((error) => {
+                console.log(error);
                 dispatch({
                     type: 'GET_MATCH_ROOMS_RESPONSE',
                     payload: error,
@@ -36,22 +39,19 @@ export function getMatchRooms(matchId) {
 export function joinMatch(room, teamId) {
     return (dispatch, getState, diContainer) => {
         dispatch({type: 'JOIN_MATCH_REQUEST'});
+        dispatch(setRequestStatus('match.joinMatch', PENDING));
         const roomId = room.get('id');
         const accessToken = diContainer.authService.getAccessToken();
         return diContainer.matchService.join(
             room.get('gameServerUrl'), accessToken, roomId, teamId
         ).then((response) => {
-            dispatch({type: 'JOIN_MATCH_RESPONSE', payload: response});
+            dispatch(setRequestStatus('match.joinMatch', SUCCESS));
             dispatch(joinChat(room.get('chatServerUrl'), accessToken, roomId));
             dispatch(push('/match'));
             dispatch(ensureTutorial());
         }).catch((error) => {
             console.log(error);
-            dispatch({
-                type: 'JOIN_MATCH_RESPONSE',
-                payload: error,
-                error: true
-            });
+            dispatch(setRequestStatus('match.joinMatch', FAIL));
             let notificationType;
             let notificationBody;
             const translations = getState().locale.get('translations');

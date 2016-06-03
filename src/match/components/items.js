@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {Row, Col} from 'react-bootstrap';
 import Immutable from 'immutable';
 import Item from 'match/components/item';
-import {useItem, buyItem} from 'match/actions/item-actions';
+import {useItem, buyItem} from 'match/actions/character-actions';
 import {ITEMS} from 'match/utils/tutorial-step-index';
 import {nextTutorialStep} from 'common/actions/tutorial-actions';
 import TutorialStep from 'common/components/tutorial-step';
@@ -14,7 +14,7 @@ const Items = React.createClass({
         onTutorialComplete: React.PropTypes.func.isRequired,
         onItemUse: React.PropTypes.func.isRequired,
         onItemBuy: React.PropTypes.func.isRequired,
-        items: React.PropTypes.instanceOf(Immutable.List).isRequired,
+        items: React.PropTypes.instanceOf(Immutable.OrderedMap).isRequired,
         myItems: React.PropTypes.instanceOf(Immutable.Map).isRequired,
         myMoney: React.PropTypes.number.isRequired,
         iDead: React.PropTypes.bool.isRequired,
@@ -54,8 +54,7 @@ const Items = React.createClass({
             const itemId = item.get('id');
             const myItem = myItems.get(itemId);
             const countInBag = myItem ? myItem.get('count') : 0;
-            const isActive =
-                Boolean(!iDead && myItem && myItem.get('isActive'));
+            const isActive = Boolean(myItem && myItem.get('isActive'));
             const isBuyDisabled = iDead || !iSit || item.get('price') > myMoney;
             itemViews.push(
                 <Col key={itemId} xs={6}>

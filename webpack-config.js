@@ -8,11 +8,40 @@ var postcssVars = require('postcss-simple-vars');
 var postcssNested = require('postcss-nested');
 var postcssMixins = require('postcss-mixins');
 
+var plugins = [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
+    new webpack.ContextReplacementPlugin(
+        /\/(locale-data|locale-data\/jsonp)$/, /\/(en|ru)\.js$/),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.EnvironmentPlugin([
+        'DFWF_DEV',
+        'DFWF_BACKEND_URL',
+        'DFWF_FACEBOOK_APP_ID',
+        'DFWF_GOOGLE_APP_ID'
+    ]),
+    new HtmlWebpackPlugin({
+        template: path.resolve(__dirname, 'src/app/templates/app.html'),
+        inject: true
+    })
+];
+var cssLoader = 'css-loader?importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader';
+
+if (process.env.DFWF_DEV) {
+    cssLoader = 'style-loader!' + cssLoader;
+} else {
+    plugins.push(
+        new ExtractTextPlugin("bundle-[contenthash].css", {allChunks: true}));
+    cssLoader = ExtractTextPlugin.extract('style-loader', cssLoader);
+}
+
 module.exports = {
     resolve: {
         root: path.resolve(__dirname, 'src')
     },
     entry: [
+        'webpack-dev-server/client?http://0.0.0.0:' + process.env.DFWF_PORT,
+        'webpack/hot/only-dev-server',
         path.resolve(__dirname, 'src/bootstrap.js')
     ],
     output: {
@@ -24,42 +53,20 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader',
-                query: {
-                    cacheDirectory: true
-                }
+                loader: 'react-hot!babel-loader?cacheDirectory'
             },
             {
                 test: /\.css$/,
-                loader: ExtractTextPlugin.extract("style-loader",
-                    "css-loader?importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader")
+                loader: cssLoader
             },
             {
                 test: /(\.jpeg$|\.jpg$|\.gif$|\.png$|\.woff$|\.woff2$|\.ttf$|\.eot$|\.svg$)/,
                 loader: 'url-loader',
-                query: {
-                    limit: 8192
-                }
+                query: {limit: 8192}
             }
         ]
     },
-    plugins: [
-        new webpack.NoErrorsPlugin(),
-        new webpack.ContextReplacementPlugin(
-            /\/(locale-data|locale-data\/jsonp)$/, /\/(en|ru)\.js$/),
-        new webpack.optimize.OccurrenceOrderPlugin(),
-        new webpack.EnvironmentPlugin([
-            'DFWF_DEV',
-            'DFWF_BACKEND_URL',
-            'DFWF_FACEBOOK_APP_ID',
-            'DFWF_GOOGLE_APP_ID'
-        ]),
-        new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, 'src/app/templates/app.html'),
-            inject: true
-        }),
-        new ExtractTextPlugin("bundle-[contenthash].css", {allChunks: true})
-    ],
+    plugins: plugins,
     postcss: function(webpack) {
         return [
             postcssMixins,
@@ -73,6 +80,7 @@ module.exports = {
         host: '0.0.0.0',
         contentBase: 'build',
         inline: true,
-        colors: true
+        colors: true,
+        hot: true
     }
 };

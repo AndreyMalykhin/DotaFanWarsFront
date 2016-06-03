@@ -4,13 +4,18 @@ import {Overlay} from 'react-bootstrap';
 const Projectile = React.createClass({
     propTypes: {
         onGetTargetNode: React.PropTypes.func.isRequired,
-        targetId: React.PropTypes.string.isRequired
+        targetId: React.PropTypes.string.isRequired,
+        container: React.PropTypes.any
     },
 
     render() {
         return (
-            <Overlay target={this._onGetTargetNode} show placement='top'>
-                <img src='https://placekitten.com/32/32'/>
+            <Overlay
+                container={this.props.container}
+                target={this._onGetTargetNode}
+                show
+                placement='top'>
+                <img src='https://placekitten.com/32/32' style={{position: 'absolute'}}/>
             </Overlay>
         );
     },

@@ -19,10 +19,10 @@ const Item = React.createClass({
         const {
             isActive,
             isUseDisabled,
+            isBuyDisabled,
             name,
             countInBag,
-            photoUrl,
-            isBuyDisabled
+            photoUrl
         } = this.props;
         return (
             <div className={isActive ? 'active' : null}>
@@ -30,7 +30,7 @@ const Item = React.createClass({
                 <Image
                     className={isUseDisabled ? 'disabled' : null}
                     src={photoUrl}
-                    onClick={this._onClick}
+                    onClick={isUseDisabled ? null : this._onClick}
                     responsive/>
                 <Button disabled={isBuyDisabled} onClick={this._onBuy}>
                     <FormattedMessage id='item.buy'/>
@@ -44,10 +44,6 @@ const Item = React.createClass({
     },
 
     _onClick() {
-        if (this.props.isUseDisabled) {
-            return;
-        }
-
         this.props.onUse(this.props.id);
     }
 });

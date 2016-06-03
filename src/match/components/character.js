@@ -5,31 +5,33 @@ import classNames from 'classnames';
 
 const Character = React.createClass({
     propTypes: {
-        onClick: React.PropTypes.func.isRequired,
         isSelected: React.PropTypes.bool.isRequired,
+        isDisabled: React.PropTypes.bool.isRequired,
         isEnemy: React.PropTypes.bool.isRequired,
         health: React.PropTypes.number.isRequired,
         id: React.PropTypes.string.isRequired,
+        onClick: React.PropTypes.func,
         photoUrl: React.PropTypes.string
     },
 
     render() {
-        const {isSelected, isEnemy, health, photoUrl} = this.props;
-        const imgClass = classNames({selected: isSelected, enemy: isEnemy});
+        const {isSelected, isDisabled, isEnemy, health, photoUrl} = this.props;
+        const imgClass = classNames(
+            {selected: isSelected, enemy: isEnemy, dead: health <= 0});
         return (
-            <div>
+            <div className={imgClass}>
                 <ProgressBar now={health} style={{height: 8, margin: 0}}/>
                 <Image
-                    className={imgClass}
                     src={photoUrl}
-                    onClick={this._onClick}
+                    onClick={isDisabled ? null : this._onClick}
                     style={{width: 32, height: 32}}/>
             </div>
         );
     },
 
     _onClick() {
-        this.props.onClick(this.props.id);
+        const {id, onClick} = this.props;
+        onClick && onClick(id);
     }
 });
 

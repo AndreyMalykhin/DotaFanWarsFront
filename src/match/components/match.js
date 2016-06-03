@@ -41,7 +41,8 @@ const Match = React.createClass({
     },
 
     _onGetTargetNode(targetId) {
-        return ReactDOM.findDOMNode(this.refs.seats.getCharacter(targetId));
+        return ReactDOM.findDOMNode(
+            this.refs.seats.getWrappedInstance().getCharacter(targetId));
     }
 });
 

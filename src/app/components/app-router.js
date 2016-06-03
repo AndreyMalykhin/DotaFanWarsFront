@@ -9,6 +9,10 @@ import UserForm from 'user/components/user-form';
 import UserLeaderboard from 'user/components/user-leaderboard';
 
 const AppRouter = React.createClass({
+    propTypes: {
+        history: React.PropTypes.any.isRequired
+    },
+
     render() {
         return (
             <Router history={this.props.history}>
@@ -27,10 +31,6 @@ const AppRouter = React.createClass({
                 </Route>
             </Router>
         );
-    },
-
-    propTypes: {
-        history: React.PropTypes.any.isRequired
     }
 });
 

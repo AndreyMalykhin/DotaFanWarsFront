@@ -45,12 +45,16 @@ export default class MatchService {
     }
 
     takeSeat(id) {
-        this._socket.emit('takeSeat', {id: id});
+        return new Promise((resolve, reject) => {
+            this._socket.emit('takeSeat', {seatId: id}, resolve);
+        });
     }
 
-    attackCharacter(characterId, itemId) {
-        this._socket.emit(
-            'attackCharacter', {characterId: characterId, itemId: itemId});
+    useItem(itemId, targetId = null) {
+        return new Promise((resolve, reject) => {
+            this._socket.emit(
+                'useItem', {itemId: itemId, targetId: targetId}, resolve);
+        });
     }
 
     on(event, listener) {

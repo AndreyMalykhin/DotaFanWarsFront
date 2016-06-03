@@ -9,6 +9,7 @@ export function getCountries() {
                 });
             })
             .catch((error) => {
+                console.log(error);
                 dispatch({
                     type: 'GET_COUNTRIES_RESPONSE',
                     payload: error,

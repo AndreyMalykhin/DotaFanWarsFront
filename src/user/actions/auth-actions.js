@@ -16,6 +16,7 @@ export function loginViaProvider(provider) {
                 });
             })
             .catch((error) => {
+                console.log(error);
                 dispatch({
                     type: 'LOGIN_RESPONSE',
                     payload: error,

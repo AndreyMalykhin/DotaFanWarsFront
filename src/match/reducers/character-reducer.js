@@ -8,6 +8,13 @@ export default function characterReducer(characters = null, action) {
     case 'SET_CHARACTER_TARGET':
         const {characterId, targetId} = action.payload;
         return characters.setIn([characterId, 'targetId'], targetId);
+    case 'SET_ITEM_ACTIVE': {
+        const payload = action.payload;
+        return characters.setIn(
+            [payload.characterId, 'items', payload.itemId, 'isActive'],
+            payload.isActive
+        );
+    }
     }
 
     return characters;

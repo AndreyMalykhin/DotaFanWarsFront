@@ -6,7 +6,7 @@ import {PENDING} from 'common/utils/request-status';
 
 const ChatOutput = React.createClass({
     propTypes: {
-        messages: React.PropTypes.instanceOf(Immutable.List),
+        messages: React.PropTypes.instanceOf(Immutable.List).isRequired,
         joinRequestStatus: React.PropTypes.string
     },
 
@@ -15,7 +15,7 @@ const ChatOutput = React.createClass({
         return (
             <div>
                 <Loader loaded={joinRequestStatus != PENDING}/>
-                <ul>
+                <ul style={{height: 128}}>
                     {messages.map((msg) => (
                         <li key={msg.get('id')}>
                             <strong>{msg.get('sender').get('name')}</strong>
@@ -29,10 +29,10 @@ const ChatOutput = React.createClass({
 });
 
 export default function mapStateToProps(state, ownProps) {
-    const chat = state.match.get('chat');
+    const {match, requestStatuses} = state;
     return {
-        messages: chat.get('messages'),
-        joinRequestStatus: chat.get('joinRequestStatus')
+        messages: match.get('chat').get('messages'),
+        joinRequestStatus: requestStatuses.get('match.joinChat')
     };
 }
 

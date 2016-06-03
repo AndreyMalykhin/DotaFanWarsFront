@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Immutable from 'immutable';
-import {Projectile} from 'match/components/projectile';
+import Projectile from 'match/components/projectile';
 
 const Projectiles = React.createClass({
     propTypes: {
@@ -12,19 +12,20 @@ const Projectiles = React.createClass({
     render() {
         const {projectiles, onGetTargetNode, onProjectileHit} = this.props;
         return (
-            <div>
+            <div style={{position: 'relative'}}>
                 {projectiles.map((projectile) => (
                     <Projectile
                         key={projectile.get('id')}
+                        container={this}
                         targetId={projectile.get('targetId')}
                         onGetTargetNode={onGetTargetNode}/>
-                )).values()}
+                )).toArray()}
             </div>
         );
     }
 });
 
-export default function mapStateToProps(state, ownProps) {
+function mapStateToProps(state, ownProps) {
     return {
         projectiles: state.match.get('projectiles')
     };

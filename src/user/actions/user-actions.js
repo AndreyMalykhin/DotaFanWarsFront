@@ -11,6 +11,7 @@ export function getUser() {
                 });
             })
             .catch((error) => {
+                console.log(error);
                 dispatch({
                     type: 'GET_USER_RESPONSE',
                     payload: error,
@@ -41,6 +42,7 @@ export function saveUser() {
                 }
             })
             .catch((error) => {
+                console.log(error);
                 dispatch({
                     type: 'SAVE_USER_RESPONSE',
                     payload: error,
@@ -67,6 +69,7 @@ export function setUserPhoto(file) {
                 }
             })
             .catch((error) => {
+                console.log(error);
                 dispatch({
                     type: 'SET_USER_PHOTO_RESPONSE',
                     payload: error,
