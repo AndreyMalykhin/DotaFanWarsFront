@@ -13,10 +13,9 @@ const RoomPicker = React.createClass({
         onClose: React.PropTypes.func.isRequired,
         onPick: React.PropTypes.func.isRequired,
         isOpen: React.PropTypes.bool.isRequired,
-        matchId: React.PropTypes.string,
-        teamId: React.PropTypes.string,
-        joinMatchRequestStatus: React.PropTypes.string,
-        getRoomsRequestStatus: React.PropTypes.string,
+        isLoading: React.PropTypes.bool.isRequired,
+        matchId: React.PropTypes.string.isRequired,
+        teamId: React.PropTypes.string.isRequired,
         rooms: React.PropTypes.instanceOf(Immutable.List)
     },
 
@@ -25,14 +24,10 @@ const RoomPicker = React.createClass({
             isOpen,
             rooms,
             teamId,
-            joinMatchRequestStatus,
-            getRoomsRequestStatus,
+            isLoading,
             onClose,
             onPick
         } = this.props;
-        const isRequestPending = getRoomsRequestStatus == PENDING
-            || joinMatchRequestStatus == PENDING;
-        const isDisabled = isRequestPending;
         return (
             <Modal show={isOpen} onHide={onClose}>
                 <Modal.Header closeButton>
@@ -41,12 +36,12 @@ const RoomPicker = React.createClass({
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Loader loaded={!isRequestPending}/>
+                    <Loader loaded={!isLoading}/>
                     <ListGroup>
                         {rooms && rooms.map((room) => (
                             <ListGroupItem
                                 key={room.get('id')}
-                                disabled={isDisabled}
+                                disabled={isLoading}
                                 onClick={onPick.bind(this, room, teamId)}>
                                 {room.get('name')}
                             </ListGroupItem>
@@ -55,6 +50,11 @@ const RoomPicker = React.createClass({
                 </Modal.Body>
             </Modal>
         );
+    },
+
+    componentDidMount() {
+        const {matchId, onLoad} = this.props;
+        onLoad(matchId);
     },
 
     componentWillReceiveProps(newProps) {
@@ -70,13 +70,14 @@ const RoomPicker = React.createClass({
 
 function mapStateToProps(state, ownProps) {
     const {roomPicker, match, requestStatuses} = state;
+    const isLoading = roomPicker.get('getRoomsRequestStatus') == PENDING
+        || requestStatuses.get('match.joinMatch') == PENDING;
     return {
         isOpen: roomPicker.get('isOpen'),
         rooms: roomPicker.get('rooms'),
         teamId: roomPicker.get('teamId'),
         matchId: roomPicker.get('matchId'),
-        getRoomsRequestStatus: roomPicker.get('getRoomsRequestStatus'),
-        joinMatchRequestStatus: requestStatuses.get('match.joinMatch')
+        isLoading: isLoading
     };
 }
 

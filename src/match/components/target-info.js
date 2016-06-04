@@ -8,17 +8,15 @@ const TargetInfo = React.createClass({
     propTypes: {
         onClose: React.PropTypes.func.isRequired,
         onGetTargetNode: React.PropTypes.func.isRequired,
-        isOpen: React.PropTypes.bool.isRequired,
-        rating: React.PropTypes.number,
-        nickname: React.PropTypes.string,
-        id: React.PropTypes.string,
+        rating: React.PropTypes.number.isRequired,
+        nickname: React.PropTypes.string.isRequired,
+        id: React.PropTypes.string.isRequired,
         photoUrl: React.PropTypes.string,
         countryName: React.PropTypes.string
     },
 
     render() {
         const {
-            isOpen,
             rating,
             photoUrl,
             nickname,
@@ -28,16 +26,16 @@ const TargetInfo = React.createClass({
         } = this.props;
         return (
             <Overlay
-                show={isOpen}
                 onHide={onClose}
                 target={this._onGetTargetNode}
-                placement='top'>
+                show
+                placement='bottom'>
                 <Popover id=''>
                     <p>
                         <FormattedMessage id='targetInfo.rating'/>&nbsp;
                         {rating}
                     </p>
-                    <Image src={photoUrl} rounded/>
+                    <Image src={photoUrl} rounded width={128} height={128}/>
                     <p>{nickname}</p>
                     {countryName && <p>{countryName}</p>}
                 </Popover>
@@ -46,7 +44,8 @@ const TargetInfo = React.createClass({
     },
 
     _onGetTargetNode() {
-        return this.props.onGetTargetNode(this.props.id);
+        const {onGetTargetNode, id} = this.props;
+        return onGetTargetNode(id);
     }
 });
 
@@ -55,15 +54,14 @@ export default function mapStateToProps(state, ownProps) {
     const characters = match.get('characters');
     const id =
         characters.get(match.get('myCharacterId')).get('targetId');
-    const user = id && characters.get(id).get('user');
-    const countryId = user && user.get('countryId');
+    const user = characters.get(id).get('user');
+    const countryId = user.get('countryId');
     const countryName =
         countryId && match.get('countries').get(countryId).get('name');
     return {
-        isOpen: id != null,
-        rating: user && user.get('rating'),
-        nickname: user && user.get('nickname'),
-        photoUrl: user && user.get('photoUrl'),
+        rating: user.get('rating'),
+        nickname: user.get('nickname'),
+        photoUrl: user.get('photoUrl'),
         countryName: countryName,
         id: id
     };

@@ -18,13 +18,18 @@ const Character = React.createClass({
         const {isSelected, isDisabled, isEnemy, health, photoUrl} = this.props;
         const imgClass = classNames(
             {selected: isSelected, enemy: isEnemy, dead: health <= 0});
+        const style = {};
+        isEnemy && Object.assign(style, {border: '1px solid red'});
+        isSelected && Object.assign(style, {outline: '1px solid yellow'});
+        isDisabled && Object.assign(style, {opacity: 0.5});
         return (
-            <div className={imgClass}>
+            <div className={imgClass} style={style}>
                 <ProgressBar now={health} style={{height: 8, margin: 0}}/>
                 <Image
                     src={photoUrl}
                     onClick={isDisabled ? null : this._onClick}
-                    style={{width: 32, height: 32}}/>
+                    width={32}
+                    height={32}/>
             </div>
         );
     },

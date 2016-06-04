@@ -21,11 +21,12 @@ const Seats = React.createClass({
         characters: React.PropTypes.instanceOf(Immutable.Map).isRequired,
         showTutorial: React.PropTypes.bool.isRequired,
         iSit: React.PropTypes.bool.isRequired,
+        iActivatedItem: React.PropTypes.bool.isRequired,
         myTeamId: React.PropTypes.string.isRequired,
         myCharacterId: React.PropTypes.string.isRequired,
-        myTargetId: React.PropTypes.string,
-        takeSeatRequestStatus: React.PropTypes.string,
-        useOffensiveItemRequestStatus: React.PropTypes.string
+        iTakeSeat: React.PropTypes.bool.isRequired,
+        iUseOffensiveItem: React.PropTypes.bool.isRequired,
+        myTargetId: React.PropTypes.string
     },
 
     render() {
@@ -37,8 +38,9 @@ const Seats = React.createClass({
             myCharacterId,
             showTutorial,
             iSit,
-            takeSeatRequestStatus,
-            useOffensiveItemRequestStatus,
+            iActivatedItem,
+            iTakeSeat,
+            iUseOffensiveItem,
             onCharacterClick,
             onSeatClick,
             onTutorialComplete
@@ -63,8 +65,11 @@ const Seats = React.createClass({
                             characterModel.get('user').get('photoUrl');
                         const isMe = myCharacterId == characterId;
                         const health = characterModel.get('health');
-                        const isDisabled = isMe || health <= 0 ||
-                            useOffensiveItemRequestStatus == PENDING;
+                        const isDisabled =
+                            isMe
+                            || health <= 0
+                            || iUseOffensiveItem
+                            || (iActivatedItem && !isEnemy);
                         character = (
                             <Character
                                 ref={`character_${characterId}`}
@@ -84,7 +89,7 @@ const Seats = React.createClass({
                     <Seat
                         key={seatId}
                         id={String(seatId)}
-                        isDisabled={takeSeatRequestStatus == PENDING}
+                        isDisabled={iTakeSeat}
                         onClick={iCanTake ? onSeatClick : null}>
                         {character}
                     </Seat>
@@ -136,10 +141,11 @@ function mapStateToProps(state, ownProps) {
         myTeamId: myCharacter.get('teamId'),
         myCharacterId: myCharacter.get('id'),
         iSit: myCharacter.get('seatId') != null,
+        iActivatedItem: myCharacter.get('activeItemId') != null,
         showTutorial: match.get('tutorialStep') === CHARACTERS,
-        takeSeatRequestStatus: requestStatuses.get('match.takeSeat'),
-        useOffensiveItemRequestStatus:
-            requestStatuses.get('match.useOffensiveItem')
+        iTakeSeat: requestStatuses.get('match.takeSeat') == PENDING,
+        iUseOffensiveItem:
+            requestStatuses.get('match.useOffensiveItem') == PENDING
     };
 }
 

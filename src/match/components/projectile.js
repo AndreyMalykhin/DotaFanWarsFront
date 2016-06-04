@@ -15,7 +15,11 @@ const Projectile = React.createClass({
                 target={this._onGetTargetNode}
                 show
                 placement='top'>
-                <img src='https://placekitten.com/32/32' style={{position: 'absolute'}}/>
+                <img
+                    src='https://placekitten.com/32/32'
+                     style={{position: 'absolute', marginTop: 32}}
+                    width={64}
+                    height={64}/>
             </Overlay>
         );
     },

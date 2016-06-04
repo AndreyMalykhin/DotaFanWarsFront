@@ -9,10 +9,13 @@ const Seat = React.createClass({
 
     render() {
         const {isDisabled, children} = this.props;
+        const style = {width: 32};
+        isDisabled && Object.assign(style, {background: 'gray'});
         return (
-            <td className={isDisabled ? 'disabled' : null}
+            <td
+                className={isDisabled ? 'disabled' : null}
                 onClick={isDisabled ? null : this._onClick}
-                style={{width: 32}}>
+                style={style}>
                 {children}
             </td>
         );

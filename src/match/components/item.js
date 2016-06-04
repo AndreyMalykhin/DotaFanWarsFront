@@ -11,7 +11,7 @@ const Item = React.createClass({
         isBuyDisabled: React.PropTypes.bool.isRequired,
         name: React.PropTypes.string.isRequired,
         id: React.PropTypes.string.isRequired,
-        countInBag: React.PropTypes.number.isRequired,
+        count: React.PropTypes.number.isRequired,
         photoUrl: React.PropTypes.string.isRequired
     },
 
@@ -21,17 +21,21 @@ const Item = React.createClass({
             isUseDisabled,
             isBuyDisabled,
             name,
-            countInBag,
+            count,
             photoUrl
         } = this.props;
         return (
-            <div className={isActive ? 'active' : null}>
-                <p>{name} <Badge>{countInBag}</Badge></p>
+            <div
+                className={isActive ? 'active' : null}
+                style={isActive ? {border: '1px solid yellow'} : null}>
+                <p>{name} <Badge>{count}</Badge></p>
                 <Image
                     className={isUseDisabled ? 'disabled' : null}
+                    style={isUseDisabled ? {opacity: 0.5} : null}
                     src={photoUrl}
                     onClick={isUseDisabled ? null : this._onClick}
-                    responsive/>
+                    width={32}
+                    height={32}/>
                 <Button disabled={isBuyDisabled} onClick={this._onBuy}>
                     <FormattedMessage id='item.buy'/>
                 </Button>

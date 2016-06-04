@@ -8,6 +8,7 @@ import {useItem, buyItem} from 'match/actions/character-actions';
 import {ITEMS} from 'match/utils/tutorial-step-index';
 import {nextTutorialStep} from 'common/actions/tutorial-actions';
 import TutorialStep from 'common/components/tutorial-step';
+import {PENDING} from 'common/utils/request-status';
 
 const Items = React.createClass({
     propTypes: {
@@ -19,7 +20,11 @@ const Items = React.createClass({
         myMoney: React.PropTypes.number.isRequired,
         iDead: React.PropTypes.bool.isRequired,
         iSit: React.PropTypes.bool.isRequired,
-        showTutorial: React.PropTypes.bool.isRequired
+        showTutorial: React.PropTypes.bool.isRequired,
+        iUseOffensiveItem: React.PropTypes.bool.isRequired,
+        iUseDefensiveItem: React.PropTypes.bool.isRequired,
+        iBuyItem: React.PropTypes.bool.isRequired,
+        myActiveItemId: React.PropTypes.string
     },
 
     render() {
@@ -27,9 +32,13 @@ const Items = React.createClass({
             items,
             myItems,
             myMoney,
+            myActiveItemId,
             iSit,
             iDead,
             showTutorial,
+            iUseOffensiveItem,
+            iUseDefensiveItem,
+            iBuyItem,
             onItemUse,
             onItemBuy,
             onTutorialComplete
@@ -53,18 +62,27 @@ const Items = React.createClass({
         for (let item of items.values()) {
             const itemId = item.get('id');
             const myItem = myItems.get(itemId);
-            const countInBag = myItem ? myItem.get('count') : 0;
-            const isActive = Boolean(myItem && myItem.get('isActive'));
-            const isBuyDisabled = iDead || !iSit || item.get('price') > myMoney;
+            const count = myItem ? myItem.get('count') : 0;
+            const isUseDisabled =
+                iDead
+                || !iSit
+                || !count
+                || iUseOffensiveItem
+                || iUseDefensiveItem;
+            const isBuyDisabled =
+                iDead
+                || !iSit
+                || iBuyItem
+                || item.get('price') > myMoney;
             itemViews.push(
                 <Col key={itemId} xs={6}>
                     <Item
                         id={itemId}
                         name={item.get('name')}
-                        countInBag={countInBag}
+                        count={count}
                         photoUrl={item.get('photoUrl')}
-                        isActive={isActive}
-                        isUseDisabled={iDead || !iSit || !countInBag}
+                        isActive={itemId == myActiveItemId}
+                        isUseDisabled={isUseDisabled}
                         isBuyDisabled={isBuyDisabled}
                         onUse={onItemUse}
                         onBuy={onItemBuy}/>
@@ -81,15 +99,21 @@ const Items = React.createClass({
 });
 
 export default function mapStateToProps(state, ownProps) {
-    const match = state.match;
+    const {match, requestStatuses} = state;
     const myCharacter = match.get('characters').get(match.get('myCharacterId'));
     return {
         myMoney: myCharacter.get('money'),
+        myActiveItemId: myCharacter.get('activeItemId'),
         iSit: myCharacter.get('seatId') != null,
         iDead: myCharacter.get('health') <= 0,
         items: match.get('items'),
         myItems: myCharacter.get('items'),
-        showTutorial: match.get('tutorialStep') === ITEMS
+        showTutorial: match.get('tutorialStep') === ITEMS,
+        iUseOffensiveItem:
+            requestStatuses.get('match.useOffensiveItem') == PENDING,
+        iUseDefensiveItem:
+            requestStatuses.get('match.useDefensiveItem') == PENDING,
+        iBuyItem: requestStatuses.get('buyItem') == PENDING
     };
 }
 

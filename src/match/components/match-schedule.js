@@ -16,41 +16,42 @@ const MatchSchedule = React.createClass({
         onLoad: React.PropTypes.func.isRequired,
         onJoinMatch: React.PropTypes.func.isRequired,
         page: React.PropTypes.number.isRequired,
-        getRequestStatus: React.PropTypes.string,
+        isLoading: React.PropTypes.bool.isRequired,
+        addRoomPicker: React.PropTypes.bool.isRequired,
         items: React.PropTypes.instanceOf(Immutable.List),
         pageCount: React.PropTypes.number,
         lastUpdateTime: React.PropTypes.number
     },
 
-    _updaterId: null,
+    _updateIntervalId: null,
 
     render() {
         const {
-            getRequestStatus,
             items,
             page,
             pageCount,
-            onJoinMatch
+            isLoading,
+            addRoomPicker,
+            onJoinMatch,
+            onLoad
         } = this.props;
-        let list;
-        const isDisabled = this._isDisabled();
-        const isRequestPending = isDisabled;
+        let itemsView;
 
         if (items) {
             if (items.size != 0) {
-                list = (
+                itemsView = (
                     <ListGroup componentClass='ul'>
                         {items.map((item) => (
                             <MatchScheduleItem
                                 match={item}
                                 key={item.get('id')}
-                                isDisabled={isDisabled}
+                                isDisabled={isLoading}
                                 onJoin={onJoinMatch}/>
                         ))}
                     </ListGroup>
                 );
             } else {
-                list = <p><FormattedMessage id='matchSchedule.empty'/></p>;
+                itemsView = <p><FormattedMessage id='matchSchedule.empty'/></p>;
             }
         }
 
@@ -59,20 +60,20 @@ const MatchSchedule = React.createClass({
         if (pageCount) {
             paginator = (
                 <Pagination
-                    className={isDisabled ? 'disabled' : null}
+                    style={isLoading ? {opacity: 0.5} : null}
                     items={pageCount}
                     activePage={page}
-                    onSelect={this._onPageSelect}/>
+                    onSelect={isLoading ? null : onLoad}/>
             );
         }
 
         return (
             <Row>
                 <Col xs={12}>
-                    <Loader loaded={!isRequestPending}></Loader>
-                    {list}
+                    <Loader loaded={!isLoading}></Loader>
+                    {itemsView}
                     {paginator}
-                    <RoomPicker/>
+                    {addRoomPicker && <RoomPicker/>}
                 </Col>
             </Row>
         );
@@ -81,35 +82,25 @@ const MatchSchedule = React.createClass({
     componentDidMount() {
         const {onLoad, page} = this.props;
         onLoad(page);
-        this._updaterId = setInterval(() => {
+        this._updateIntervalId = setInterval(() => {
             onLoad(this.props.page);
         }, 60000);
     },
 
     componentWillUnmount() {
-        clearInterval(this._updaterId);
-    },
-
-    _onPageSelect(page) {
-        if (this._isDisabled()) {
-            return;
-        }
-
-        this.props.onLoad(page);
-    },
-
-    _isDisabled() {
-        return this.props.getRequestStatus == PENDING;
+        clearInterval(this._updateIntervalId);
     }
 });
 
 function mapStateToProps(state, ownProps) {
+    const {roomPicker, matchSchedule} = state;
     return {
-        items: state.matchSchedule.get('items'),
-        getRequestStatus: state.matchSchedule.get('getRequestStatus'),
-        page: state.matchSchedule.get('page'),
-        pageCount: state.matchSchedule.get('pageCount'),
-        lastUpdateTime: state.matchSchedule.get('lastUpdateTime')
+        items: matchSchedule.get('items'),
+        isLoading: matchSchedule.get('getRequestStatus') == PENDING,
+        page: matchSchedule.get('page'),
+        pageCount: matchSchedule.get('pageCount'),
+        lastUpdateTime: matchSchedule.get('lastUpdateTime'),
+        addRoomPicker: roomPicker.get('matchId') != null
     };
 }
 

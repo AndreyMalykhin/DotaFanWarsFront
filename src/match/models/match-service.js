@@ -24,7 +24,7 @@ export default class MatchService {
             const onConnect = () => {
                 this._listenGameServer();
                 this._socket.removeListener('error', onError);
-                this._socket.once('messages', () => {resolve();});
+                this._socket.once('messages', resolve);
             };
             const onError = (code) => {
                 this._socket.removeListener('connect', onConnect);
@@ -54,6 +54,12 @@ export default class MatchService {
         return new Promise((resolve, reject) => {
             this._socket.emit(
                 'useItem', {itemId: itemId, targetId: targetId}, resolve);
+        });
+    }
+
+    buyItem(id) {
+        return new Promise((resolve, reject) => {
+            this._socket.emit('buyItem', {itemId: id}, resolve);
         });
     }
 

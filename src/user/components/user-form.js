@@ -79,7 +79,7 @@ const UserForm = React.createClass({
                         </FormControl.Static>
                     </FormGroup>
                     <FormGroup validationState={photoError && 'error'}>
-                        <Image src={photoUrl} rounded/>
+                        <Image src={photoUrl} rounded responsive/>
                         <div>
                             <Button
                                 disabled={isDisabled}

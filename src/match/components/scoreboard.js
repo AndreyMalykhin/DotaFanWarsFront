@@ -21,7 +21,7 @@ const Scoreboard = React.createClass({
     _renderTeam(team, extraClass = null) {
         return (
             <Col xs={6} className={extraClass}>
-                <Image src={team.get('logoUrl')} style={{width: 32}}/>
+                <Image src={team.get('logoUrl')} width={32} height={32}/>
                 <span>{team.get('name')}</span>
                 <Badge>{team.get('score')}</Badge>
             </Col>

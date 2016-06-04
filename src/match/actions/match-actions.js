@@ -6,6 +6,12 @@ import {NO_FREE_SLOTS, LEAVER} from 'match/utils/game-server-error-code';
 import {ensureTutorial} from 'common/actions/tutorial-actions';
 import {setRequestStatus} from 'common/actions/request-status-actions';
 import {PENDING, SUCCESS, FAIL} from 'common/utils/request-status';
+import {Msg} from 'match/models/match-service';
+import {updateSeats} from 'match/actions/seat-actions';
+import {updateCharacters} from 'match/actions/character-actions';
+import {updateTeams} from 'match/actions/team-actions';
+import {updateItems} from 'match/actions/item-actions';
+import {updateCountries} from 'match/actions/country-actions';
 
 export function openRoomPicker(matchId, teamId) {
     return {
@@ -44,11 +50,12 @@ export function joinMatch(room, teamId) {
         const accessToken = diContainer.authService.getAccessToken();
         return diContainer.matchService.join(
             room.get('gameServerUrl'), accessToken, roomId, teamId
-        ).then((response) => {
+        ).then((messages) => {
             dispatch(setRequestStatus('match.joinMatch', SUCCESS));
+            dispatch(processMessages(messages));
+            dispatch(ensureTutorial());
             dispatch(joinChat(room.get('chatServerUrl'), accessToken, roomId));
             dispatch(push('/match'));
-            dispatch(ensureTutorial());
         }).catch((error) => {
             console.log(error);
             dispatch(setRequestStatus('match.joinMatch', FAIL));
@@ -82,6 +89,40 @@ export function leaveMatch() {
     };
 }
 
-export function initMatch(myCharacterId) {
+export function processMessages(messages) {
+    return (dispatch, getState, diContainer) => {
+        const promises = [];
+
+        for (let msg of messages) {
+            promises.push(dispatch(processMsg(msg)));
+        }
+
+        return Promise.all(promises);
+    };
+}
+
+function processMsg(msg) {
+    const {type, data} = msg;
+
+    switch (type) {
+    case Msg.START:
+        return initMatch(data.myCharacterId);
+    case Msg.UPDATE_ITEMS:
+        return updateItems(data);
+    case Msg.UPDATE_SEATS:
+        return updateSeats(data);
+    case Msg.UPDATE_CHARACTERS:
+        return updateCharacters(data);
+    case Msg.UPDATE_TEAMS:
+        return updateTeams(data);
+    case Msg.UPDATE_COUNTRIES:
+        return updateCountries(data);
+    }
+
+    console.assert(false);
+    return null;
+}
+
+function initMatch(myCharacterId) {
     return {type: 'INIT_MATCH', payload: {myCharacterId: myCharacterId}};
 }

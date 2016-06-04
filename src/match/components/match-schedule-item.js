@@ -19,17 +19,17 @@ const MatchScheduleItem = React.createClass({
                         updateInterval={0}/>;
         }
 
-        const teamColumns = match.get('teams').map((team) =>
+        const teamColumns = match.get('teams').map((team) => (
             <Col xs={5}>
                 <p>{team.get('name')}</p>
-                <Image src={team.get('logoUrl')} rounded responsive/>
+                <Image src={team.get('logoUrl')} rounded width={64} height={64}/>
                 <Button
                     disabled={!isLive || isDisabled}
                     onClick={this._onJoin.bind(this, match.get('id'), team.get('id'))}>
                     <FormattedMessage id='matchScheduleItem.join'/>
                 </Button>
             </Col>
-        );
+        ));
 
         return (
             <li className='list-group-item'>

@@ -15,15 +15,20 @@ import ChatOutput from 'chat/components/chat-output';
 
 const Match = React.createClass({
     propTypes: {
-        onLeave: React.PropTypes.func.isRequired
+        onLeave: React.PropTypes.func.isRequired,
+        iHaveTarget: React.PropTypes.bool.isRequired,
+        isMatchEnded: React.PropTypes.bool.isRequired
     },
 
     render() {
+        const {iHaveTarget, isMatchEnded} = this.props;
+        const targetInfo = iHaveTarget &&
+            <TargetInfo onGetTargetNode={this._onGetTargetNode}/>;
         return (
             <Grid fluid>
-                <TargetInfo onGetTargetNode={this._onGetTargetNode}/>
+                {targetInfo}
                 <Projectiles onGetTargetNode={this._onGetTargetNode}/>
-                <MatchResultDlg/>
+                {isMatchEnded && <MatchResultDlg/>}
                 <Scoreboard/>
                 <Row><Col xs={12}><ChatOutput/></Col></Row>
                 <Row><Col xs={12}><Seats ref='seats'/></Col></Row>
@@ -46,6 +51,15 @@ const Match = React.createClass({
     }
 });
 
+function mapStateToProps(state, ownProps) {
+    const match = state.match;
+    return {
+        iHaveTarget: match.get('characters').get(match.get('myCharacterId'))
+            .get('targetId') != null,
+        isMatchEnded: match.get('result') != null
+    };
+}
+
 function mapDispatchToProps(dispatch, ownProps) {
     return {
         onLeave() {
@@ -54,4 +68,4 @@ function mapDispatchToProps(dispatch, ownProps) {
     };
 }
 
-export default connect(undefined, mapDispatchToProps)(Match);
+export default connect(mapStateToProps, mapDispatchToProps)(Match);
