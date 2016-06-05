@@ -1,8 +1,7 @@
-import {launchProjectile} from 'match/actions/projectile-actions';
 import {OFFENSIVE} from 'match/models/item-type';
 import {setRequestStatus} from 'common/actions/request-status-actions';
 import {PENDING, SUCCESS, FAIL} from 'common/utils/request-status';
-import {processMessages} from 'match/actions/match-actions';
+import {processServerMessages} from 'match/actions/match-actions';
 
 export function touchCharacter(id) {
     return (dispatch, getState, diContainer) => {
@@ -15,14 +14,11 @@ export function touchCharacter(id) {
 
         if (myActiveItemId && isEnemy) {
             dispatch(setRequestStatus('match.useOffensiveItem', PENDING));
-            return dispatch(launchProjectile(id))
-                .then(() => {
-                    return diContainer.matchService.useItem(myActiveItemId, id);
-                })
+            return diContainer.matchService.useItem(myActiveItemId, id)
                 .then((messages) => {
                     dispatch(
                         setRequestStatus('match.useOffensiveItem', SUCCESS));
-                    dispatch(processMessages(messages));
+                    dispatch(processServerMessages(messages));
                 })
                 .catch((error) => {
                     console.log(error);
@@ -75,13 +71,17 @@ export function updateCharacters(characters) {
     };
 }
 
+export function removeCharacters(ids) {
+    return {type: 'REMOVE_CHARACTERS', payload: ids};
+}
+
 export function buyItem(id) {
     return (dispatch, getState, diContainer) => {
         dispatch(setRequestStatus('match.buyItem', PENDING));
         return diContainer.matchService.buyItem(id)
             .then((messages) => {
                 dispatch(setRequestStatus('match.buyItem', SUCCESS));
-                dispatch(processMessages(messages));
+                dispatch(processServerMessages(messages));
             })
             .catch((error) => {
                 console.log(error);
@@ -107,7 +107,7 @@ export function useItem(id) {
         return diContainer.matchService.useItem(id)
             .then((messages) => {
                 dispatch(setRequestStatus('match.useDefensiveItem', SUCCESS));
-                dispatch(processMessages(messages));
+                dispatch(processServerMessages(messages));
             })
             .catch((error) => {
                 console.log(error);

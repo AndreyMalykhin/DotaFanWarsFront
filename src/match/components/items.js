@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import {Row, Col} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
 import Immutable from 'immutable';
 import Item from 'match/components/item';
 import {useItem, buyItem} from 'match/actions/character-actions';
@@ -9,6 +10,7 @@ import {ITEMS} from 'match/utils/tutorial-step-index';
 import {nextTutorialStep} from 'common/actions/tutorial-actions';
 import TutorialStep from 'common/components/tutorial-step';
 import {PENDING} from 'common/utils/request-status';
+import {MATCH} from 'common/utils/tutorial-id';
 
 const Items = React.createClass({
     propTypes: {
@@ -50,9 +52,8 @@ const Items = React.createClass({
                 <TutorialStep
                     onGetTargetNode={this._onGetTutorialTargetNode}
                     onComplete={onTutorialComplete}
-                    placement='left'
-                    isCompleted={false}>
-                    <FormattedMessage id='matchTutorial.itemsStep'/>
+                    placement='left'>
+                    <FormattedMessage id='items.tutorial'/>
                 </TutorialStep>
             );
         }
@@ -99,7 +100,7 @@ const Items = React.createClass({
 });
 
 export default function mapStateToProps(state, ownProps) {
-    const {match, requestStatuses} = state;
+    const {match, requestStatuses, tutorials} = state;
     const myCharacter = match.get('characters').get(match.get('myCharacterId'));
     return {
         myMoney: myCharacter.get('money'),
@@ -108,7 +109,7 @@ export default function mapStateToProps(state, ownProps) {
         iDead: myCharacter.get('health') <= 0,
         items: match.get('items'),
         myItems: myCharacter.get('items'),
-        showTutorial: match.get('tutorialStep') === ITEMS,
+        showTutorial: tutorials.get(MATCH).get('step') === ITEMS,
         iUseOffensiveItem:
             requestStatuses.get('match.useOffensiveItem') == PENDING,
         iUseDefensiveItem:
@@ -126,7 +127,7 @@ function mapDispatchToProps(dispatch, ownProps) {
             dispatch(buyItem(id));
         },
         onTutorialComplete() {
-            dispatch(nextTutorialStep());
+            dispatch(nextTutorialStep(MATCH));
         }
     };
 }

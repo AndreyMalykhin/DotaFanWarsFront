@@ -23,6 +23,7 @@ setupDI(di);
 const diContainer = di.container;
 diContainer.errorController.bind();
 diContainer.matchController.bind();
+diContainer.chatController.bind();
 const store = diContainer.store;
 store.dispatch(setLoggedIn(diContainer.authService.isLoggedIn()));
 const history = syncHistoryWithStore(diContainer.history, store);

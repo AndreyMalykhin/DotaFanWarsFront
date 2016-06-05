@@ -1,17 +1,7 @@
-import uuid from 'node-uuid';
+export function updateProjectiles(projectiles) {
+    return {type: 'UPDATE_PROJECTILES', payload: projectiles};
+}
 
-export function launchProjectile(targetId) {
-    return (dispatch, getState, diContainer) => {
-        const projectileId = uuid.v4();
-        dispatch({
-            type: 'LAUNCH_PROJECTILE',
-            payload: {id: projectileId, targetId: targetId}
-        });
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                dispatch({type: 'HIT_PROJECTILE', payload: {id: projectileId}});
-                resolve();
-            }, 1000);
-        });
-    };
+export function removeProjectiles(ids) {
+    return {type: 'REMOVE_PROJECTILES', payload: ids};
 }

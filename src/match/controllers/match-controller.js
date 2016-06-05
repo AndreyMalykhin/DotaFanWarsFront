@@ -1,5 +1,5 @@
 import {Event} from 'match/models/match-service';
-import {processMessages} from 'match/actions/match-actions';
+import {processServerMessages} from 'match/actions/match-actions';
 
 export default class MatchController {
     constructor(store, matchService) {
@@ -8,6 +8,8 @@ export default class MatchController {
     }
 
     bind() {
-        this._matchService.on(Event.MESSAGES, processMessages);
+        this._matchService.on(Event.MESSAGES, (messages) => {
+            this._store.dispatch(processServerMessages(messages));
+        });
     }
 }

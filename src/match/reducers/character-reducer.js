@@ -5,6 +5,9 @@ export default function characterReducer(characters = null, action) {
     case 'UPDATE_CHARACTERS':
         return characters.mergeDeep(
             Immutable.fromJS(action.payload, charactersReviver));
+    case 'REMOVE_CHARACTERS':
+        return characters.filter(
+            (character) => !action.payload.includes(character.get('id')));
     case 'SET_TARGET':
         const {characterId, targetId} = action.payload;
         return characters.setIn([characterId, 'targetId'], targetId);

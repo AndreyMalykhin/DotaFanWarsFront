@@ -3,15 +3,17 @@ import {INFO, ERROR} from 'app/utils/notification-type';
 import {addNotification} from 'app/actions/notification-actions';
 import {joinChat} from 'chat/actions/chat-actions';
 import {NO_FREE_SLOTS, LEAVER} from 'match/utils/game-server-error-code';
-import {ensureTutorial} from 'common/actions/tutorial-actions';
 import {setRequestStatus} from 'common/actions/request-status-actions';
 import {PENDING, SUCCESS, FAIL} from 'common/utils/request-status';
 import {Msg} from 'match/models/match-service';
 import {updateSeats} from 'match/actions/seat-actions';
-import {updateCharacters} from 'match/actions/character-actions';
+import {removeCharacters, updateCharacters} from
+    'match/actions/character-actions';
 import {updateTeams} from 'match/actions/team-actions';
 import {updateItems} from 'match/actions/item-actions';
 import {updateCountries} from 'match/actions/country-actions';
+import {removeProjectiles, updateProjectiles} from
+    'match/actions/projectile-actions';
 
 export function openRoomPicker(matchId, teamId) {
     return {
@@ -50,10 +52,8 @@ export function joinMatch(room, teamId) {
         const accessToken = diContainer.authService.getAccessToken();
         return diContainer.matchService.join(
             room.get('gameServerUrl'), accessToken, roomId, teamId
-        ).then((messages) => {
+        ).then(() => {
             dispatch(setRequestStatus('match.joinMatch', SUCCESS));
-            dispatch(processMessages(messages));
-            dispatch(ensureTutorial());
             dispatch(joinChat(room.get('chatServerUrl'), accessToken, roomId));
             dispatch(push('/match'));
         }).catch((error) => {
@@ -85,38 +85,47 @@ export function joinMatch(room, teamId) {
 export function leaveMatch() {
     return (dispatch, getState, diContainer) => {
         diContainer.matchService.leave();
+        diContainer.chatService.leave();
         dispatch({type: 'LEAVE_MATCH'});
     };
 }
 
-export function processMessages(messages) {
+export function processServerMessages(messages) {
     return (dispatch, getState, diContainer) => {
         const promises = [];
 
         for (let msg of messages) {
-            promises.push(dispatch(processMsg(msg)));
+            promises.push(dispatch(processServerMsg(msg)));
         }
 
         return Promise.all(promises);
     };
 }
 
-function processMsg(msg) {
+function processServerMsg(msg) {
     const {type, data} = msg;
 
     switch (type) {
     case Msg.START:
         return initMatch(data.myCharacterId);
+    case Msg.END:
+        return endMatch(data);
     case Msg.UPDATE_ITEMS:
         return updateItems(data);
     case Msg.UPDATE_SEATS:
         return updateSeats(data);
     case Msg.UPDATE_CHARACTERS:
         return updateCharacters(data);
+    case Msg.REMOVE_CHARACTERS:
+        return removeCharacters(data);
     case Msg.UPDATE_TEAMS:
         return updateTeams(data);
     case Msg.UPDATE_COUNTRIES:
         return updateCountries(data);
+    case Msg.UPDATE_PROJECTILES:
+        return updateProjectiles(data);
+    case Msg.REMOVE_PROJECTILES:
+        return removeProjectiles(data);
     }
 
     console.assert(false);
@@ -125,4 +134,8 @@ function processMsg(msg) {
 
 function initMatch(myCharacterId) {
     return {type: 'INIT_MATCH', payload: {myCharacterId: myCharacterId}};
+}
+
+function endMatch(matchResult) {
+    return {type: 'END_MATCH', payload: matchResult};
 }

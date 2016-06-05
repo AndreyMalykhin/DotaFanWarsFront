@@ -5,7 +5,7 @@ export default function teamReducer(teams = null, action) {
     case 'UPDATE_TEAMS':
         return teams.withMutations((teams) => {
             for (let team of action.payload) {
-                teams.set(team.id, Immutable.fromJS(team));
+                teams.merge({[team.id]: Immutable.fromJS(team)});
             }
         });
     }

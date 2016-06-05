@@ -5,7 +5,7 @@ export default function itemReducer(items = null, action) {
     case 'UPDATE_ITEMS':
         return items.withMutations((items) => {
             for (let item of action.payload) {
-                items.set(item.id, Immutable.fromJS(item));
+                items.merge({[item.id]: Immutable.fromJS(item)});
             }
         });
     }

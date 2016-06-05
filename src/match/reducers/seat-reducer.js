@@ -5,7 +5,7 @@ export default function seatReducer(seats = null, action) {
     case 'UPDATE_SEATS':
         return seats.withMutations((seats) => {
             for (let seat of action.payload) {
-                seats.set(seat.id, Immutable.fromJS(seat));
+                seats.merge({[seat.id]: Immutable.fromJS(seat)});
             }
         });
     }

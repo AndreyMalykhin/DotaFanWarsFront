@@ -66,7 +66,14 @@ export default function storeFactory(container) {
             'match.takeSeat': null,
             'match.useOffensiveItem': null,
             'match.useDefensiveItem': null,
-            'match.buyItem': null
+            'match.buyItem': null,
+            'match.sendMsg': null
+        }),
+        tutorials: Immutable.Map({
+            match: Immutable.Map({
+                step: null,
+                stepCount: 2
+            })
         })
     };
     let middlewares = [

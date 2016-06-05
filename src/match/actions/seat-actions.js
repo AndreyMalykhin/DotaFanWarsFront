@@ -1,6 +1,6 @@
 import {setRequestStatus} from 'common/actions/request-status-actions';
 import {PENDING, SUCCESS, FAIL} from 'common/utils/request-status';
-import {processMessages} from 'match/actions/match-actions';
+import {processServerMessages} from 'match/actions/match-actions';
 
 export function takeSeat(id) {
     return (dispatch, getState, diContainer) => {
@@ -8,7 +8,7 @@ export function takeSeat(id) {
         return diContainer.matchService.takeSeat(id)
             .then((messages) => {
                 dispatch(setRequestStatus('match.takeSeat', SUCCESS));
-                dispatch(processMessages(messages));
+                dispatch(processServerMessages(messages));
             })
             .catch((error) => {
                 console.log(error);

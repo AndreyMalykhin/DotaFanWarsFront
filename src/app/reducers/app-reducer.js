@@ -5,6 +5,7 @@ import userFormReducer from 'user/reducers/user-form-reducer';
 import authReducer from 'user/reducers/auth-reducer';
 import dummyReducer from 'common/reducers/dummy-reducer';
 import requestStatusReducer from 'common/reducers/request-status-reducer';
+import tutorialReducer from 'common/reducers/tutorial-reducer';
 import matchScheduleReducer from 'match/reducers/match-schedule-reducer';
 import matchReducer from 'match/reducers/match-reducer';
 import roomPickerReducer from 'match/reducers/room-picker-reducer';
@@ -26,5 +27,6 @@ export default combineReducers({
     toolbar: toolbarReducer,
     roomPicker: roomPickerReducer,
     requestStatuses: requestStatusReducer,
+    tutorials: tutorialReducer,
     routing: routerReducer
 });

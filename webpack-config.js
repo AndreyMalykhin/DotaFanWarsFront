@@ -9,8 +9,8 @@ var postcssNested = require('postcss-nested');
 var postcssMixins = require('postcss-mixins');
 
 var plugins = [
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.ContextReplacementPlugin(
         /\/(locale-data|locale-data\/jsonp)$/, /\/(en|ru)\.js$/),
     new webpack.optimize.OccurrenceOrderPlugin(),
@@ -25,10 +25,15 @@ var plugins = [
         inject: true
     })
 ];
+var entry = [path.resolve(__dirname, 'src/bootstrap.js')];
 var cssLoader = 'css-loader?importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader';
 
 if (process.env.DFWF_DEV) {
     cssLoader = 'style-loader!' + cssLoader;
+    entry.unshift(
+        'webpack-dev-server/client?http://0.0.0.0:' + process.env.DFWF_PORT,
+        'webpack/hot/only-dev-server'
+    );
 } else {
     plugins.push(
         new ExtractTextPlugin("bundle-[contenthash].css", {allChunks: true}));
@@ -39,11 +44,7 @@ module.exports = {
     resolve: {
         root: path.resolve(__dirname, 'src')
     },
-    entry: [
-        'webpack-dev-server/client?http://0.0.0.0:' + process.env.DFWF_PORT,
-        'webpack/hot/only-dev-server',
-        path.resolve(__dirname, 'src/bootstrap.js')
-    ],
+    entry: entry,
     output: {
         path: path.resolve(__dirname, 'build'),
         filename: 'bundle-[hash].js'

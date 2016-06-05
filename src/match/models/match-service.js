@@ -22,16 +22,20 @@ export default class MatchService {
             this._socket = this._socketIO.connect(gameServerUrl,
                 {query: query, transports: ['websocket', 'polling']});
             const onConnect = () => {
-                this._listenGameServer();
+                this._listenServer();
                 this._socket.removeListener('error', onError);
-                this._socket.once('messages', resolve);
+                this._socket.removeListener('connect_error', onError);
+                this._socket.once(Event.MESSAGES, () => {resolve();});
             };
-            const onError = (code) => {
+            const onError = (error) => {
                 this._socket.removeListener('connect', onConnect);
-                reject(new Error(code));
+                this._socket.disconnect(true);
+                this._socket = null;
+                reject(typeof error == 'string' ? new Error(error) : error);
             };
             this._socket.once('connect', onConnect);
             this._socket.once('error', onError);
+            this._socket.once('connect_error', onError);
         });
     }
 
@@ -40,7 +44,7 @@ export default class MatchService {
             return;
         }
 
-        this._socket.disconnect();
+        this._socket.disconnect(true);
         this._socket = null;
     }
 
@@ -67,7 +71,7 @@ export default class MatchService {
         this._eventBus.on(event, listener);
     }
 
-    _listenGameServer() {
+    _listenServer() {
         this._socket.on(Event.MESSAGES, (messages) => {
             this._eventBus.emit(Event.MESSAGES, messages);
         });
@@ -80,9 +84,13 @@ export const Event = {
 
 export const Msg = {
     START: 'start',
+    END: 'end',
     UPDATE_SEATS: 'updateSeats',
     UPDATE_CHARACTERS: 'updateCharacters',
+    REMOVE_CHARACTERS: 'removeCharacters',
     UPDATE_TEAMS: 'updateTeams',
     UPDATE_ITEMS: 'updateItems',
-    UPDATE_COUNTRIES: 'updateCountries'
+    UPDATE_COUNTRIES: 'updateCountries',
+    UPDATE_PROJECTILES: 'updateProjectiles',
+    REMOVE_PROJECTILES: 'removeProjectiles'
 };

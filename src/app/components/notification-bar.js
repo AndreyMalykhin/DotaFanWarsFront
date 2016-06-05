@@ -5,12 +5,14 @@ import {Alert} from 'react-bootstrap';
 import {removeNotification} from 'app/actions/notification-actions';
 import {ERROR, INFO} from 'app/utils/notification-type';
 
-const notificationStyles = {
-    [ERROR]: 'danger',
-    [INFO]: 'info'
-};
+const notificationStyles = {[ERROR]: 'danger', [INFO]: 'info'};
 
 const NotificationBar = React.createClass({
+    propTypes: {
+        notifications: React.PropTypes.instanceOf(Immutable.List).isRequired,
+        onNotificationClose: React.PropTypes.func.isRequired
+    },
+
     render() {
         const {notifications, onNotificationClose} = this.props;
         return (
@@ -25,11 +27,6 @@ const NotificationBar = React.createClass({
                 )}
             </div>
         );
-    },
-
-    propTypes: {
-        notifications: React.PropTypes.instanceOf(Immutable.List).isRequired,
-        onNotificationClose: React.PropTypes.func.isRequired
     }
 });
 

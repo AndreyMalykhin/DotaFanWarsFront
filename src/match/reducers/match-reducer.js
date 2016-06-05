@@ -14,6 +14,7 @@ export default function matchReducer(match = null, action) {
         return Immutable.Map({
             chat: Immutable.Map({
                 messages: Immutable.List(),
+                users: Immutable.Map(),
                 inputMsg: ''
             }),
             projectiles: Immutable.Map(),
@@ -21,8 +22,8 @@ export default function matchReducer(match = null, action) {
             teams: Immutable.Map(),
             seats: Immutable.Map(),
             items: Immutable.OrderedMap(),
+            projectiles: Immutable.Map(),
             countries: Immutable.Map(),
-            tutorialStep: null,
             myCharacterId: null,
             result: null
         });
@@ -30,6 +31,8 @@ export default function matchReducer(match = null, action) {
         return null;
     case 'INIT_MATCH':
         return match.set('myCharacterId', action.payload.myCharacterId);
+    case 'END_MATCH':
+        return match.set('result', Immutable.fromJS(action.payload));
     }
 
     return match && match.merge({
@@ -39,7 +42,6 @@ export default function matchReducer(match = null, action) {
         teams: teamReducer(match.get('teams'), action),
         seats: seatReducer(match.get('seats'), action),
         items: itemReducer(match.get('items'), action),
-        countries: countryReducer(match.get('countries'), action),
-        tutorialStep: tutorialReducer(match.get('tutorialStep'), action)
+        countries: countryReducer(match.get('countries'), action)
     });
 }

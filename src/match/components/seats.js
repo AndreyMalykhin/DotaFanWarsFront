@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import {Table} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
 import Immutable from 'immutable';
 import {touchCharacter} from 'match/actions/character-actions';
 import {takeSeat} from 'match/actions/seat-actions';
@@ -11,6 +12,7 @@ import {CHARACTERS} from 'match/utils/tutorial-step-index';
 import TutorialStep from 'common/components/tutorial-step';
 import {nextTutorialStep} from 'common/actions/tutorial-actions';
 import {PENDING} from 'common/utils/request-status';
+import {MATCH} from 'common/utils/tutorial-id';
 
 const Seats = React.createClass({
     propTypes: {
@@ -106,9 +108,8 @@ const Seats = React.createClass({
                 <TutorialStep
                     onGetTargetNode={this._onGetTutorialTargetNode}
                     onComplete={onTutorialComplete}
-                    placement='top'
-                    isCompleted={false}>
-                    <FormattedMessage id='matchTutorial.charactersStep'/>
+                    placement='top'>
+                    <FormattedMessage id='seats.tutorial'/>
                 </TutorialStep>
             );
         }
@@ -131,7 +132,7 @@ const Seats = React.createClass({
 });
 
 function mapStateToProps(state, ownProps) {
-    const {match, requestStatuses} = state;
+    const {match, requestStatuses, tutorials} = state;
     const myCharacter =
         match.get('characters').get(match.get('myCharacterId'));
     return {
@@ -142,7 +143,7 @@ function mapStateToProps(state, ownProps) {
         myCharacterId: myCharacter.get('id'),
         iSit: myCharacter.get('seatId') != null,
         iActivatedItem: myCharacter.get('activeItemId') != null,
-        showTutorial: match.get('tutorialStep') === CHARACTERS,
+        showTutorial: tutorials.get(MATCH).get('step') === CHARACTERS,
         iTakeSeat: requestStatuses.get('match.takeSeat') == PENDING,
         iUseOffensiveItem:
             requestStatuses.get('match.useOffensiveItem') == PENDING
@@ -158,7 +159,7 @@ function mapDispatchToProps(dispatch, ownProps) {
             dispatch(takeSeat(seatId));
         },
         onTutorialComplete() {
-            dispatch(nextTutorialStep());
+            dispatch(nextTutorialStep(MATCH));
         }
     };
 }

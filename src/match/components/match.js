@@ -12,13 +12,18 @@ import CharacterStats from 'match/components/character-stats';
 import TargetInfo from 'match/components/target-info';
 import ChatInput from 'chat/components/chat-input';
 import ChatOutput from 'chat/components/chat-output';
+import {ensureTutorial} from 'common/actions/tutorial-actions';
+import {MATCH} from 'common/utils/tutorial-id';
 
 const Match = React.createClass({
     propTypes: {
         onLeave: React.PropTypes.func.isRequired,
+        onReadyForTutorial: React.PropTypes.func.isRequired,
         iHaveTarget: React.PropTypes.bool.isRequired,
         isMatchEnded: React.PropTypes.bool.isRequired
     },
+
+    _tutorialTimeoutId: null,
 
     render() {
         const {iHaveTarget, isMatchEnded} = this.props;
@@ -41,7 +46,13 @@ const Match = React.createClass({
         );
     },
 
+    componentDidMount() {
+        this._tutorialTimeoutId =
+            setTimeout(this.props.onReadyForTutorial, 2000);
+    },
+
     componentWillUnmount() {
+        clearTimeout(this._tutorialTimeoutId);
         this.props.onLeave();
     },
 
@@ -64,6 +75,9 @@ function mapDispatchToProps(dispatch, ownProps) {
     return {
         onLeave() {
             dispatch(leaveMatch());
+        },
+        onReadyForTutorial() {
+            dispatch(ensureTutorial(MATCH));
         }
     };
 }

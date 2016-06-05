@@ -4,6 +4,7 @@ export default {
     'common.save': 'Save',
     'common.cancel': 'Cancel',
     'common.close': 'Close',
+    'common.ok': 'OK',
     'toolbar.appTitle': 'Dota Fan Wars',
     'locale.en': 'EN',
     'locale.ru': 'РУ',
@@ -30,8 +31,9 @@ export default {
     'matchResultDlg.title': 'Match result',
     'matchResultDlg.winner': 'Winner: {name}',
     'matchResultDlg.draw': 'Draw',
+    'matchResultDlg.rating': 'Rating',
     'chatInput.placeholder': 'Message',
     'chatInput.send': 'Send',
-    'matchTutorial.charactersStep': 'This is the players',
-    'matchTutorial.itemsStep': 'This is the items'
+    'seats.tutorial': 'This is the players',
+    'items.tutorial': 'This is the items'
 };

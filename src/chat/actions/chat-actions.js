@@ -1,12 +1,13 @@
 import {setRequestStatus} from 'common/actions/request-status-actions';
 import {PENDING, SUCCESS, FAIL} from 'common/utils/request-status';
+import {Msg} from 'chat/models/chat-service';
 
 export function joinChat(serverUrl, roomId) {
     return (dispatch, getState, diContainer) => {
         dispatch(setRequestStatus('match.joinChat', PENDING));
         return diContainer.chatService.join(
             serverUrl, diContainer.authService.getAccessToken(), roomId
-        ).then((response) => {
+        ).then(() => {
             dispatch(setRequestStatus('match.joinChat', SUCCESS));
         }).catch((error) => {
             console.log(error);
@@ -16,7 +17,68 @@ export function joinChat(serverUrl, roomId) {
 }
 
 export function sendMsg() {
+    return (dispatch, getState, diContainer) => {
+        const msg = getState().match.get('chat').get('inputMsg');
+        dispatch(setChatInputMsg(''));
+        dispatch(setRequestStatus('match.sendMsg', PENDING));
+        return diContainer.chatService.sendMsg(msg)
+            .then((messages) => {
+                dispatch(setRequestStatus('match.sendMsg', SUCCESS));
+                dispatch(processServerMessages(messages));
+            })
+            .catch((error) => {
+                console.log(error);
+                dispatch(setRequestStatus('match.sendMsg', FAIL));
+            });
+    };
 }
 
 export function setChatInputMsg(msg) {
+    return {type: 'SET_CHAT_INPUT_MSG', payload: msg.trim()};
+}
+
+export function processServerMessages(messages) {
+    return (dispatch, getState, diContainer) => {
+        const promises = [];
+
+        for (let msg of messages) {
+            promises.push(dispatch(processServerMsg(msg)));
+        }
+
+        return Promise.all(promises);
+    };
+}
+
+function processServerMsg(msg) {
+    const {type, data} = msg;
+
+    switch (type) {
+    case Msg.START:
+        return initChat();
+    case Msg.UPDATE_MESSAGES:
+        return updateChatMessages(data);
+    case Msg.UPDATE_USERS:
+        return updateChatUsers(data);
+    case Msg.REMOVE_USERS:
+        return removeChatUsers(data);
+    }
+
+    console.assert(false);
+    return null;
+}
+
+function initChat() {
+    return {type: 'INIT_CHAT'};
+}
+
+function updateChatMessages(messages) {
+    return {type: 'UPDATE_CHAT_MESSAGES', payload: messages};
+}
+
+function updateChatUsers(users) {
+    return {type: 'UPDATE_CHAT_USERS', payload: users};
+}
+
+function removeChatUsers(ids) {
+    return {type: 'REMOVE_CHAT_USERS', payload: ids};
 }
