@@ -28,11 +28,6 @@ const MainMenu = React.createClass({
                         <FormattedMessage id='mainMenu.userLeaderboard'/>
                     </NavItem>
                 </LinkContainer>
-                <LinkContainer to='/team-leaderboard'>
-                    <NavItem>
-                        <FormattedMessage id='mainMenu.teamLeaderboard'/>
-                    </NavItem>
-                </LinkContainer>
                 {profile}
             </Nav>
         );

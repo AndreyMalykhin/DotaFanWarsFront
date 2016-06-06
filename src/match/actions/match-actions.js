@@ -1,6 +1,7 @@
 import {push} from 'react-router-redux';
-import {INFO, ERROR} from 'app/utils/notification-type';
-import {addNotification} from 'app/actions/notification-actions';
+import {INFO, ERROR} from 'common/utils/notification-type';
+import {addNotification, addGenericError} from
+    'common/actions/notification-actions';
 import {joinChat} from 'chat/actions/chat-actions';
 import {NO_FREE_SLOTS, LEAVER} from 'match/utils/game-server-error-code';
 import {setRequestStatus} from 'common/actions/request-status-actions';
@@ -77,7 +78,10 @@ export function joinMatch(room, teamId) {
             if (notificationBody) {
                 dispatch(
                     addNotification(notificationType, notificationBody));
+                return;
             }
+
+            dispatch(addGenericError());
         });
     };
 }
@@ -87,6 +91,7 @@ export function leaveMatch() {
         diContainer.matchService.leave();
         diContainer.chatService.leave();
         dispatch({type: 'LEAVE_MATCH'});
+        return Promise.resolve();
     };
 }
 

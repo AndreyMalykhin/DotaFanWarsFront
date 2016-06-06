@@ -1,5 +1,5 @@
-import {ERROR} from 'app/utils/notification-type';
-import {addGenericError} from 'app/actions/notification-actions';
+import {ERROR} from 'common/utils/notification-type';
+import {addGenericError} from 'common/actions/notification-actions';
 import {Event} from 'common/utils/fetcher';
 
 export default class ErrorController {

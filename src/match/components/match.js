@@ -14,6 +14,7 @@ import ChatInput from 'chat/components/chat-input';
 import ChatOutput from 'chat/components/chat-output';
 import {ensureTutorial} from 'common/actions/tutorial-actions';
 import {MATCH} from 'common/utils/tutorial-id';
+import NotificationBar from 'common/components/notification-bar';
 
 const Match = React.createClass({
     propTypes: {
@@ -31,6 +32,7 @@ const Match = React.createClass({
             <TargetInfo onGetTargetNode={this._onGetTargetNode}/>;
         return (
             <Grid fluid>
+                <NotificationBar/>
                 {targetInfo}
                 <Projectiles onGetTargetNode={this._onGetTargetNode}/>
                 {isMatchEnded && <MatchResultDlg/>}

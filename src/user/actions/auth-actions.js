@@ -1,5 +1,5 @@
-import {addGenericError} from 'app/actions/notification-actions';
-import {ERROR} from 'app/utils/notification-type';
+import {addGenericError} from 'common/actions/notification-actions';
+import {ERROR} from 'common/utils/notification-type';
 
 export function setLoggedIn(isLoggedIn) {
     return {type: 'SET_LOGGED_IN', payload: {isLoggedIn: isLoggedIn}};

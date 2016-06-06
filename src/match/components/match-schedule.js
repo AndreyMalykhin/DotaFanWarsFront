@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Row, Col, Pagination, ListGroup} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import Immutable from 'immutable';
-import Loader from 'react-loader';
+import Loader from 'common/components/loader';
 import {SUCCESS, PENDING} from 'common/utils/request-status';
 import MatchScheduleItem from 'match/components/match-schedule-item';
 import {getMatchSchedule} from 'match/actions/match-schedule-actions';
@@ -70,7 +70,7 @@ const MatchSchedule = React.createClass({
         return (
             <Row>
                 <Col xs={12}>
-                    <Loader loaded={!isLoading}></Loader>
+                    <Loader isLoaded={!isLoading}></Loader>
                     {itemsView}
                     {paginator}
                     {addRoomPicker && <RoomPicker/>}

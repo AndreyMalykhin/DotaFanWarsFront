@@ -2,8 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import Immutable from 'immutable';
 import {Alert} from 'react-bootstrap';
-import {removeNotification} from 'app/actions/notification-actions';
-import {ERROR, INFO} from 'app/utils/notification-type';
+import {removeNotification} from 'common/actions/notification-actions';
+import {ERROR, INFO} from 'common/utils/notification-type';
 
 const notificationStyles = {[ERROR]: 'danger', [INFO]: 'info'};
 
@@ -16,7 +16,7 @@ const NotificationBar = React.createClass({
     render() {
         const {notifications, onNotificationClose} = this.props;
         return (
-                <div style={{position: 'fixed', zIndex: 1}}>
+            <div style={{position: 'fixed', zIndex: 1}}>
                 {notifications.map((notification) =>
                     <Alert
                         key={notification.get('id')}

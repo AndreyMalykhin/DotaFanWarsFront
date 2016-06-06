@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {ProgressBar, Glyphicon} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
 
 const CharacterStats = React.createClass({
     propTypes: {
@@ -10,16 +11,20 @@ const CharacterStats = React.createClass({
 
     render() {
         const {health, money} = this.props;
+        const isDead = health <= 0;
+        const deathMsg = isDead ?
+            <p><FormattedMessage id='characterStats.dead'/></p> : null;
         return (
             <div>
-                <ProgressBar now={health}/>
-                <p>{money} <Glyphicon glyph='usd'/></p>
+                {deathMsg}
+                {!isDead && <ProgressBar now={health}/>}
+                {!isDead && <p>{money} <Glyphicon glyph='usd'/></p>}
             </div>
         );
     }
 });
 
-export default function mapStateToProps(state, ownProps) {
+function mapStateToProps(state, ownProps) {
     const match = state.match;
     const myCharacter = match.get('characters').get(match.get('myCharacterId'));
     return {

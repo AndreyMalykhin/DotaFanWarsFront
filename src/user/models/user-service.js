@@ -28,4 +28,8 @@ export default class UserService {
             headers: Headers.withMultipart(this._fetcher.options.headers)
         });
     }
+
+    getLeaderboard() {
+        return this._fetcher.fetch('users?leaderboard');
+    }
 }

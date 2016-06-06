@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import Loader from 'react-loader';
+import Loader from 'common/components/loader';
 import {FormattedTime} from 'react-intl';
 import Immutable from 'immutable';
 import {PENDING} from 'common/utils/request-status';
@@ -31,7 +31,7 @@ const ChatOutput = React.createClass({
 
         return (
             <div>
-                <Loader loaded={!isLoading}/>
+                <Loader isLoaded={!isLoading}/>
                 <ul style={{height: 128, overflowY: 'auto'}}>{messageViews}</ul>
             </div>
         );

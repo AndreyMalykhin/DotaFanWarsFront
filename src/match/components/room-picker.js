@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import Loader from 'react-loader';
+import Loader from 'common/components/loader';
 import {Modal, ListGroup, ListGroupItem} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import Immutable from 'immutable';
@@ -36,7 +36,7 @@ const RoomPicker = React.createClass({
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Loader loaded={!isLoading}/>
+                    <Loader isLoaded={!isLoading}/>
                     <ListGroup>
                         {rooms && rooms.map((room) => (
                             <ListGroupItem

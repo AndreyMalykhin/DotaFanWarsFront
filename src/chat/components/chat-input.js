@@ -3,18 +3,20 @@ import {connect} from 'react-redux';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Form, FormControl, Button} from 'react-bootstrap';
 import {sendMsg, setChatInputMsg} from 'chat/actions/chat-actions';
-import {PENDING} from 'common/utils/request-status';
+import {PENDING, SUCCESS} from 'common/utils/request-status';
 
 const ChatInput = React.createClass({
     propTypes: {
         onSubmit: React.PropTypes.func.isRequired,
         onChange: React.PropTypes.func.isRequired,
-        isDisabled: React.PropTypes.bool.isRequired,
+        isInputDisabled: React.PropTypes.bool.isRequired,
+        isSendDisabled: React.PropTypes.bool.isRequired,
         msg: React.PropTypes.string
     },
 
     render() {
-        const {intl, msg, isDisabled, onSubmit, onChange} = this.props;
+        const {intl, msg, isInputDisabled, isSendDisabled, onSubmit, onChange} =
+            this.props;
         const placeholder = intl.formatMessage({id: 'chatInput.placeholder'});
         return (
             <Form onSubmit={onSubmit} inline>
@@ -22,8 +24,11 @@ const ChatInput = React.createClass({
                     placeholder={placeholder}
                     value={msg}
                     onChange={onChange}
+                    disabled={isInputDisabled}
                     type='text'/>
-                <Button disabled={isDisabled} type='submit'>
+                <Button
+                    disabled={isSendDisabled}
+                    type='submit'>
                     <FormattedMessage id='chatInput.send'/>
                 </Button>
             </Form>
@@ -36,13 +41,14 @@ export default function mapStateToProps(state, ownProps) {
     const inputMsg = match.get('chat').get('inputMsg');
     const iDead = match.get('characters').get(match.get('myCharacterId'))
         .get('health') <= 0;
-    const isDisabled =
+    const isInputDisabled =
         requestStatuses.get('match.sendMsg') == PENDING
-        || !inputMsg
+        || requestStatuses.get('match.joinChat') != SUCCESS
         || iDead;
     return {
         msg: inputMsg,
-        isDisabled: isDisabled
+        isInputDisabled: isInputDisabled,
+        isSendDisabled: isInputDisabled || !inputMsg
     };
 }
 

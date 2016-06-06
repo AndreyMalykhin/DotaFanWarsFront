@@ -7,7 +7,7 @@ import {Link} from 'react-router';
 import Immutable from 'immutable';
 import MainMenu from 'app/components/main-menu';
 import {PENDING} from 'common/utils/request-status';
-import {setLocale} from 'app/actions/locale-actions';
+import {setLocale} from 'common/actions/locale-actions';
 import {toggleToolbar} from 'app/actions/toolbar-actions';
 
 const Toolbar = React.createClass({

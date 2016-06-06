@@ -8,7 +8,7 @@ import AuthService from 'user/models/auth-service';
 import UserService from 'user/models/user-service';
 import ChatService from 'chat/models/chat-service';
 import ChatController from 'chat/controllers/chat-controller';
-import CountryService from 'app/models/country-service';
+import CountryService from 'common/models/country-service';
 import ErrorController from 'app/controllers/error-controller';
 import storeFactory from 'app/utils/store-factory';
 

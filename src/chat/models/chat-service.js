@@ -10,8 +10,11 @@ export default class ChatService {
     join(serverUrl, accessToken, roomId) {
         return new Promise((resolve, reject) => {
             const query = `accessToken=${encodeURIComponent(accessToken)}&roomId=${encodeURIComponent(roomId)}`;
-            this._socket = this._socketIO.connect(serverUrl,
-                {query: query, transports: ['websocket', 'polling']});
+            this._socket = this._socketIO.connect(serverUrl, {
+                query: query,
+                transports: ['websocket', 'polling'],
+                reconnection: false
+            });
             const onConnect = () => {
                 this._listenServer();
                 this._socket.removeListener('error', onError);
@@ -20,8 +23,8 @@ export default class ChatService {
             };
             const onError = (error) => {
                 this._socket.removeListener('connect', onConnect);
-                this._socket.disconnect(true);
-                this._socket = null;
+                this._socket.removeListener('error', onError);
+                this._socket.removeListener('connect_error', onError);
                 reject(typeof error == 'string' ? new Error(error) : error);
             };
             this._socket.once('connect', onConnect);

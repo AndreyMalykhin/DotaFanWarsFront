@@ -1,5 +1,5 @@
 import uuid from 'node-uuid';
-import {ERROR} from 'app/utils/notification-type';
+import {ERROR} from 'common/utils/notification-type';
 
 export function addNotification(type, body) {
     return {

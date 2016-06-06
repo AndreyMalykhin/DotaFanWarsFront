@@ -1,6 +1,7 @@
 import {setRequestStatus} from 'common/actions/request-status-actions';
 import {PENDING, SUCCESS, FAIL} from 'common/utils/request-status';
 import {Msg} from 'chat/models/chat-service';
+import {addGenericError} from 'common/actions/notification-actions';
 
 export function joinChat(serverUrl, roomId) {
     return (dispatch, getState, diContainer) => {
@@ -12,6 +13,7 @@ export function joinChat(serverUrl, roomId) {
         }).catch((error) => {
             console.log(error);
             dispatch(setRequestStatus('match.joinChat', FAIL));
+            dispatch(addGenericError());
         });
     };
 }

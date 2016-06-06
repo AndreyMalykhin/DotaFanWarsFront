@@ -19,8 +19,11 @@ export default class MatchService {
     join(gameServerUrl, accessToken, roomId, teamId) {
         return new Promise((resolve, reject) => {
             const query = `accessToken=${encodeURIComponent(accessToken)}&roomId=${encodeURIComponent(roomId)}&teamId=${encodeURIComponent(teamId)}`;
-            this._socket = this._socketIO.connect(gameServerUrl,
-                {query: query, transports: ['websocket', 'polling']});
+            this._socket = this._socketIO.connect(gameServerUrl, {
+                query: query,
+                transports: ['websocket', 'polling'],
+                reconnection: false
+            });
             const onConnect = () => {
                 this._listenServer();
                 this._socket.removeListener('error', onError);
@@ -29,7 +32,8 @@ export default class MatchService {
             };
             const onError = (error) => {
                 this._socket.removeListener('connect', onConnect);
-                this._socket.disconnect(true);
+                this._socket.removeListener('error', onError);
+                this._socket.removeListener('connect_error', onError);
                 this._socket = null;
                 reject(typeof error == 'string' ? new Error(error) : error);
             };
@@ -75,11 +79,15 @@ export default class MatchService {
         this._socket.on(Event.MESSAGES, (messages) => {
             this._eventBus.emit(Event.MESSAGES, messages);
         });
+        this._socket.on(Event.DISCONNECT, () => {
+            this._eventBus.emit(Event.DISCONNECT);
+        });
     }
 }
 
 export const Event = {
-    MESSAGES: 'messages'
+    MESSAGES: 'messages',
+    DISCONNECT: 'disconnect'
 };
 
 export const Msg = {

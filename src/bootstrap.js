@@ -10,7 +10,7 @@ import localeData from 'react-intl/locale-data/en';
 import Bottle from 'bottlejs';
 import hello from 'hellojs';
 import {setupDI} from 'app/configs/di-config';
-import AppRouter from 'app/components/app-router';
+import Router from 'app/components/router';
 import {setLoggedIn} from 'user/actions/auth-actions';
 
 hello.init({
@@ -29,8 +29,6 @@ store.dispatch(setLoggedIn(diContainer.authService.isLoggedIn()));
 const history = syncHistoryWithStore(diContainer.history, store);
 
 render(
-    <Provider store={store}>
-        <AppRouter history={history}/>
-    </Provider>,
+    <Provider store={store}><Router history={history}/></Provider>,
     document.getElementById("app")
 );

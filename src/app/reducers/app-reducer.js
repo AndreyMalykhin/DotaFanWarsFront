@@ -9,10 +9,11 @@ import tutorialReducer from 'common/reducers/tutorial-reducer';
 import matchScheduleReducer from 'match/reducers/match-schedule-reducer';
 import matchReducer from 'match/reducers/match-reducer';
 import roomPickerReducer from 'match/reducers/room-picker-reducer';
-import localeReducer from 'app/reducers/locale-reducer';
-import notificationReducer from 'app/reducers/notification-reducer';
-import countryReducer from 'app/reducers/country-reducer';
+import localeReducer from 'common/reducers/locale-reducer';
+import notificationReducer from 'common/reducers/notification-reducer';
+import countryReducer from 'common/reducers/country-reducer';
 import toolbarReducer from 'app/reducers/toolbar-reducer';
+import userLeaderboardReducer from 'user/reducers/user-leaderboard-reducer';
 
 export default combineReducers({
     user: userReducer,
@@ -28,5 +29,6 @@ export default combineReducers({
     roomPicker: roomPickerReducer,
     requestStatuses: requestStatusReducer,
     tutorials: tutorialReducer,
+    userLeaderboard: userLeaderboardReducer,
     routing: routerReducer
 });

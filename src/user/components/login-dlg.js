@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Modal, Button} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import Loader from 'react-loader';
+import Loader from 'common/components/loader';
 import Immutable from 'immutable';
 import {PENDING} from 'common/utils/request-status';
 import {closeLoginDlg, loginViaProvider} from 'user/actions/auth-actions';
@@ -27,7 +27,7 @@ const LoginDlg = React.createClass({
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Loader loaded={!isRequestPending}/>
+                    <Loader isLoaded={!isRequestPending}/>
                     {providers.map((provider) =>
                         <Button
                             disabled={isDisabled}

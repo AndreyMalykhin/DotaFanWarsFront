@@ -35,5 +35,9 @@ export default {
     'chatInput.placeholder': 'Message',
     'chatInput.send': 'Send',
     'seats.tutorial': 'This is the players',
-    'items.tutorial': 'This is the items'
+    'items.tutorial': 'This is the items',
+    'userLeaderboard.rank': 'Rank',
+    'userLeaderboard.player': 'Player',
+    'userLeaderboard.rating': 'Rating',
+    'characterStats.dead': 'You are dead'
 };

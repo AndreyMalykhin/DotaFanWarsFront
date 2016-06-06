@@ -3,9 +3,9 @@ import {Grid} from 'react-bootstrap';
 import LoginDlg from 'user/components/login-dlg';
 import Toolbar from 'app/components/toolbar';
 import Footer from 'app/components/footer';
-import NotificationBar from 'app/components/notification-bar';
+import NotificationBar from 'common/components/notification-bar';
 
-const MainLayout = React.createClass({
+const Lobby = React.createClass({
     render() {
         return (
             <div>
@@ -21,4 +21,4 @@ const MainLayout = React.createClass({
     }
 });
 
-export default MainLayout;
+export default Lobby;

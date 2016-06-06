@@ -34,5 +34,9 @@ export default {
     'chatInput.placeholder': 'Сообщение',
     'chatInput.send': 'Отправить',
     'seats.tutorial': 'Это игроки',
-    'items.tutorial': 'Это вещи'
+    'items.tutorial': 'Это вещи',
+    'userLeaderboard.rank': 'Ранг',
+    'userLeaderboard.player': 'Игрок',
+    'userLeaderboard.rating': 'Рейтинг',
+    'characterStats.dead': 'Вы мертвы'
 };

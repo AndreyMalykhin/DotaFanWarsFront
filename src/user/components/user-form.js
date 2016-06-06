@@ -12,10 +12,10 @@ import {
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {connect} from 'react-redux';
 import {goBack} from 'react-router-redux';
-import Loader from 'react-loader';
+import Loader from 'common/components/loader';
 import Immutable from 'immutable';
 import {PENDING} from 'common/utils/request-status';
-import {getCountries} from 'app/actions/country-actions';
+import {getCountries} from 'common/actions/country-actions';
 import {getUser, saveUser, setUserPhoto} from 'user/actions/user-actions';
 import {setUserCountry, setUserNickname, fillUserForm} from
     'user/actions/user-form-actions';
@@ -147,7 +147,7 @@ const UserForm = React.createClass({
         return (
             <Row>
                 <Col xs={12}>
-                    <Loader loaded={!isRequestPending}/>
+                    <Loader isLoaded={!isRequestPending}/>
                     {form}
                 </Col>
             </Row>
