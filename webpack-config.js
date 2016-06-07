@@ -10,11 +10,10 @@ var postcssMixins = require('postcss-mixins');
 
 var plugins = [
     new webpack.NoErrorsPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.ContextReplacementPlugin(
         /\/(locale-data|locale-data\/jsonp)$/, /\/(en|ru)\.js$/),
-    new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.EnvironmentPlugin([
+        'NODE_ENV',
         'DFWF_DEV',
         'DFWF_BACKEND_URL',
         'DFWF_FACEBOOK_APP_ID',
@@ -27,16 +26,25 @@ var plugins = [
 ];
 var entry = [path.resolve(__dirname, 'src/bootstrap.js')];
 var cssLoader = 'css-loader?importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader';
+var jsLoader = 'babel-loader?cacheDirectory';
 
-if (process.env.DFWF_DEV) {
+if (process.env.DFWF_DEV === '1') {
+    plugins.push(new webpack.HotModuleReplacementPlugin()),
     cssLoader = 'style-loader!' + cssLoader;
+    jsLoader = 'react-hot!' + jsLoader;
     entry.unshift(
         'webpack-dev-server/client?http://0.0.0.0:' + process.env.DFWF_PORT,
         'webpack/hot/only-dev-server'
     );
 } else {
     plugins.push(
-        new ExtractTextPlugin("bundle-[contenthash].css", {allChunks: true}));
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        new webpack.optimize.DedupePlugin(),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {drop_console: true, drop_debugger: true, warnings: false}
+        }),
+        new ExtractTextPlugin("bundle-[contenthash].css", {allChunks: true})
+    );
     cssLoader = ExtractTextPlugin.extract('style-loader', cssLoader);
 }
 
@@ -54,7 +62,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'react-hot!babel-loader?cacheDirectory'
+                loader: jsLoader
             },
             {
                 test: /\.css$/,

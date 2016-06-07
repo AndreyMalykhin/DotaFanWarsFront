@@ -19,7 +19,7 @@ export default function matchReducer(match = null, action) {
             }),
             projectiles: Immutable.Map(),
             characters: Immutable.Map(),
-            teams: Immutable.Map(),
+            teams: Immutable.OrderedMap(),
             seats: Immutable.Map(),
             items: Immutable.OrderedMap(),
             projectiles: Immutable.Map(),

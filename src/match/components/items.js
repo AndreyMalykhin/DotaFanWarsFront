@@ -5,7 +5,8 @@ import {Row, Col} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import Immutable from 'immutable';
 import Item from 'match/components/item';
-import {useItem, buyItem} from 'match/actions/character-actions';
+import {useItem, buyItem, ensureItemInactive} from
+    'match/actions/character-actions';
 import {ITEMS} from 'match/utils/tutorial-step-index';
 import {nextTutorialStep} from 'common/actions/tutorial-actions';
 import TutorialStep from 'common/components/tutorial-step';
@@ -17,6 +18,7 @@ const Items = React.createClass({
         onTutorialComplete: React.PropTypes.func.isRequired,
         onItemUse: React.PropTypes.func.isRequired,
         onItemBuy: React.PropTypes.func.isRequired,
+        onItemRunOut: React.PropTypes.func.isRequired,
         items: React.PropTypes.instanceOf(Immutable.OrderedMap).isRequired,
         myItems: React.PropTypes.instanceOf(Immutable.Map).isRequired,
         myMoney: React.PropTypes.number.isRequired,
@@ -43,6 +45,7 @@ const Items = React.createClass({
             iBuyItem,
             onItemUse,
             onItemBuy,
+            onItemRunOut,
             onTutorialComplete
         } = this.props;
         let tutorialStep;
@@ -52,7 +55,7 @@ const Items = React.createClass({
                 <TutorialStep
                     onGetTargetNode={this._onGetTutorialTargetNode}
                     onComplete={onTutorialComplete}
-                    placement='left'>
+                    placement='top'>
                     <FormattedMessage id='items.tutorial'/>
                 </TutorialStep>
             );
@@ -76,22 +79,22 @@ const Items = React.createClass({
                 || iBuyItem
                 || item.get('price') > myMoney;
             itemViews.push(
-                <Col key={itemId} xs={6}>
-                    <Item
-                        id={itemId}
-                        name={item.get('name')}
-                        count={count}
-                        photoUrl={item.get('photoUrl')}
-                        isActive={itemId == myActiveItemId}
-                        isUseDisabled={isUseDisabled}
-                        isBuyDisabled={isBuyDisabled}
-                        onUse={onItemUse}
-                        onBuy={onItemBuy}/>
-                </Col>
+                <Item
+                    key={itemId}
+                    id={itemId}
+                    name={item.get('name')}
+                    count={count}
+                    photoUrl={item.get('photoUrl')}
+                    isActive={itemId == myActiveItemId}
+                    isUseDisabled={isUseDisabled}
+                    isBuyDisabled={isBuyDisabled}
+                    onRunOut={onItemRunOut}
+                    onUse={onItemUse}
+                    onBuy={onItemBuy}/>
             );
         }
 
-        return <Row ref='items'>{tutorialStep}{itemViews}</Row>;
+        return <div>{tutorialStep}<ul ref='items'>{itemViews}</ul></div>;
     },
 
     _onGetTutorialTargetNode() {
@@ -125,6 +128,9 @@ function mapDispatchToProps(dispatch, ownProps) {
         },
         onItemBuy(id) {
             dispatch(buyItem(id));
+        },
+        onItemRunOut(id) {
+            dispatch(ensureItemInactive(id));
         },
         onTutorialComplete() {
             dispatch(nextTutorialStep(MATCH));

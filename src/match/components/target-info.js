@@ -29,6 +29,7 @@ const TargetInfo = React.createClass({
                 onHide={onClose}
                 target={this._onGetTargetNode}
                 show
+                rootClose
                 placement='bottom'>
                 <Popover id=''>
                     <p>

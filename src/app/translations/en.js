@@ -34,10 +34,12 @@ export default {
     'matchResultDlg.rating': 'Rating',
     'chatInput.placeholder': 'Message',
     'chatInput.send': 'Send',
-    'seats.tutorial': 'This is the players',
-    'items.tutorial': 'This is the items',
+    'seats.tutorial': 'This is the seats. Here you can see other players and interact with them. Your enemies are highlighted with red color. Please take a free seat by clicking on it!',
+    'items.tutorial': 'This is the items. You can use them by clicking on them. In order to be used, some of them require target player, you will see an item highlighted in this case, when you click on it.',
     'userLeaderboard.rank': 'Rank',
     'userLeaderboard.player': 'Player',
     'userLeaderboard.rating': 'Rating',
-    'characterStats.dead': 'You are dead'
+    'characterStats.dead': 'You are dead',
+    'characterStats.tutorial': 'This is your stats (health, gold). You gain some gold each time there is a kill inside real Dota match.',
+    'scoreboard.tutorial': 'This is a scoreboard. Here you can see score inside real Dota match.'
 };

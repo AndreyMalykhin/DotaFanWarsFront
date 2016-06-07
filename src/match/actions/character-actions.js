@@ -40,35 +40,7 @@ export function clearTarget() {
 }
 
 export function updateCharacters(characters) {
-    return (dispatch, getState, diContainer) => {
-        const match = getState().match;
-        const myCharacterId = match.get('myCharacterId');
-        const myCharacter = match.get('characters').get(myCharacterId);
-
-        if (myCharacter) {
-            const myActiveItemId = myCharacter.get('activeItemId');
-
-            if (myActiveItemId) {
-                characters = characters.map((character) => {
-                    if (character.id != myCharacterId || !character.items) {
-                        return character;
-                    }
-
-                    for (let item of character.items) {
-                        if (item.count === 0 && item.id == myActiveItemId) {
-                            return Object.assign(
-                                {activeItemId: null}, character);
-                        }
-                    }
-
-                    return character;
-                });
-            }
-        }
-
-        dispatch({type: 'UPDATE_CHARACTERS', payload: characters});
-        return Promise.resolve();
-    };
+    return {type: 'UPDATE_CHARACTERS', payload: characters};
 }
 
 export function removeCharacters(ids) {
@@ -113,6 +85,21 @@ export function useItem(id) {
                 console.log(error);
                 dispatch(setRequestStatus('match.useDefensiveItem', FAIL));
             });
+    };
+}
+
+export function ensureItemInactive(id) {
+    return (dispatch, getState, diContainer) => {
+        const match = getState().match;
+        const myCharacterId = match.get('myCharacterId');
+        const myActiveItemId =
+            match.get('characters').get(myCharacterId).get('activeItemId');
+
+        if (id == myActiveItemId) {
+            dispatch(setActiveItem(myCharacterId, null));
+        }
+
+        return Promise.resolve();
     };
 }
 

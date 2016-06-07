@@ -6,6 +6,7 @@ const Item = React.createClass({
     propTypes: {
         onUse: React.PropTypes.func.isRequired,
         onBuy: React.PropTypes.func.isRequired,
+        onRunOut: React.PropTypes.func.isRequired,
         isActive: React.PropTypes.bool.isRequired,
         isUseDisabled: React.PropTypes.bool.isRequired,
         isBuyDisabled: React.PropTypes.bool.isRequired,
@@ -24,10 +25,12 @@ const Item = React.createClass({
             count,
             photoUrl
         } = this.props;
+        const style = {display: 'inline-block', width: '50%'};
+        isActive && Object.assign(style, {border: '1px solid yellow'});
         return (
-            <div
+            <li
                 className={isActive ? 'active' : null}
-                style={isActive ? {border: '1px solid yellow'} : null}>
+                style={style}>
                 <p>{name} <Badge>{count}</Badge></p>
                 <Image
                     className={isUseDisabled ? 'disabled' : null}
@@ -39,16 +42,26 @@ const Item = React.createClass({
                 <Button disabled={isBuyDisabled} onClick={this._onBuy}>
                     <FormattedMessage id='item.buy'/>
                 </Button>
-            </div>
+            </li>
         );
     },
 
+    componentWillReceiveProps(newProps) {
+        const {id, count, onRunOut} = this.props;
+
+        if (count && !newProps.count) {
+            onRunOut(id);
+        }
+    },
+
     _onBuy() {
-        this.props.onBuy(this.props.id);
+        const {id, onBuy} = this.props;
+        onBuy(id);
     },
 
     _onClick() {
-        this.props.onUse(this.props.id);
+        const {id, onUse} = this.props;
+        onUse(id);
     }
 });
 

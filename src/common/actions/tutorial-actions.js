@@ -5,8 +5,8 @@ export function nextTutorialStep(tutorialId) {
 
         if (++currentStep >= tutorial.get('stepCount')) {
             currentStep = null;
-            diContainer.localStorage.set(
-                `tutorial_${tutorialId}.isCompleted`, true);
+            // diContainer.localStorage.set(
+            //     `tutorial_${tutorialId}.isCompleted`, true);
         }
 
         dispatch(setTutorialStep(tutorialId, currentStep));
