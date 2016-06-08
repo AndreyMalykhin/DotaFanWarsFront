@@ -33,12 +33,12 @@ export default {
     'matchResultDlg.rating': 'Рейтинг',
     'chatInput.placeholder': 'Сообщение',
     'chatInput.send': 'Отправить',
-    'seats.tutorial': 'This is the seats. Here you can see other players and interact with them. Your enemies are highlighted with red color. Please take a free seat by clicking on it!',
-    'items.tutorial': 'This is the items. You can use them by clicking on them. In order to be used, some of them require target player, you will see an item highlighted in this case, when you click on it.',
+    'seats.tutorial': 'Это места. Здесь вы можете увидеть других игроков и взаимодействовать с ними. Ваши враги подсвечены красным цветом. Пожалуйста займите свободное место нажав на него!',
+    'items.tutorial': 'Это вещи. Вы можете использовать их нажав на них. Некоторые вещи требуют цель для их использования, в этом случае вещь будет подсвечена при нажатии на нее.',
     'userLeaderboard.rank': 'Ранг',
     'userLeaderboard.player': 'Игрок',
     'userLeaderboard.rating': 'Рейтинг',
     'characterStats.dead': 'Вы мертвы',
-    'characterStats.tutorial': 'This is your stats (health, gold). You gain some gold each time there is a kill inside real Dota match.',
-    'scoreboard.tutorial': 'This is a scoreboard. Here you can see score inside real Dota match.'
+    'characterStats.tutorial': 'Это ваши атрибуты (здоровье, золото). Вы получаете золото каждый раз при совершении убийства вашей командой в реальном матче Доты.',
+    'scoreboard.tutorial': 'Это табло. Здесь вы можете наблюдать.счет реального матча Доты.'
 };

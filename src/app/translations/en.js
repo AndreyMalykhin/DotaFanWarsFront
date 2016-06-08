@@ -40,6 +40,6 @@ export default {
     'userLeaderboard.player': 'Player',
     'userLeaderboard.rating': 'Rating',
     'characterStats.dead': 'You are dead',
-    'characterStats.tutorial': 'This is your stats (health, gold). You gain some gold each time there is a kill inside real Dota match.',
+    'characterStats.tutorial': 'This is your stats (health, gold). You gain some gold each time there is a kill by your team inside real Dota match.',
     'scoreboard.tutorial': 'This is a scoreboard. Here you can see score inside real Dota match.'
 };

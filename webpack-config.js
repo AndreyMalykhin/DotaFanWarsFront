@@ -4,9 +4,6 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var autoprefixer = require('autoprefixer');
-var postcssVars = require('postcss-simple-vars');
-var postcssNested = require('postcss-nested');
-var postcssMixins = require('postcss-mixins');
 
 var plugins = [
     new webpack.NoErrorsPlugin(),
@@ -25,12 +22,12 @@ var plugins = [
     })
 ];
 var entry = [path.resolve(__dirname, 'src/bootstrap.js')];
-var cssLoader = 'css-loader?importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader';
 var jsLoader = 'babel-loader?cacheDirectory';
+var cssLoader;
 
 if (process.env.DFWF_DEV === '1') {
     plugins.push(new webpack.HotModuleReplacementPlugin()),
-    cssLoader = 'style-loader!' + cssLoader;
+    cssLoader = 'style-loader!css?sourceMap&importLoaders=2&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader!sass?sourceMap';
     jsLoader = 'react-hot!' + jsLoader;
     entry.unshift(
         'webpack-dev-server/client?http://0.0.0.0:' + process.env.DFWF_PORT,
@@ -45,7 +42,7 @@ if (process.env.DFWF_DEV === '1') {
         }),
         new ExtractTextPlugin("bundle-[contenthash].css", {allChunks: true})
     );
-    cssLoader = ExtractTextPlugin.extract('style-loader', cssLoader);
+    cssLoader = ExtractTextPlugin.extract('style-loader', 'css?importLoaders=2&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader!sass');
 }
 
 module.exports = {
@@ -65,7 +62,7 @@ module.exports = {
                 loader: jsLoader
             },
             {
-                test: /\.css$/,
+                test: /\.scss$/,
                 loader: cssLoader
             },
             {
@@ -77,12 +74,7 @@ module.exports = {
     },
     plugins: plugins,
     postcss: function(webpack) {
-        return [
-            postcssMixins,
-            postcssVars,
-            postcssNested,
-            autoprefixer
-        ];
+        return [autoprefixer];
     },
     devServer: {
         port: process.env.DFWF_PORT,

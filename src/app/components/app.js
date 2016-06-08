@@ -1,4 +1,4 @@
-import 'bootstrap/dist/css/bootstrap.css';
+import 'app/styles/app.scss';
 import React from 'react';
 import {connect} from 'react-redux';
 import {IntlProvider} from 'react-intl';
