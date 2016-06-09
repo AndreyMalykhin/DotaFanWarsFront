@@ -1,3 +1,4 @@
+import styles from 'match/styles/match-schedule-item.scss';
 import React from 'react';
 import {Col, Button, Row, Image} from 'react-bootstrap';
 import {FormattedMessage, FormattedRelative} from 'react-intl';
@@ -20,9 +21,15 @@ const MatchScheduleItem = React.createClass({
         }
 
         const teamColumns = match.get('teams').map((team) => (
-            <Col xs={5}>
-                <p>{team.get('name')}</p>
-                <Image src={team.get('logoUrl')} rounded width={64} height={64}/>
+            <Col xs={6}>
+                <p className={styles.teamName}>{team.get('name')}</p>
+                <p>
+                    <Image
+                        src={team.get('logoUrl')}
+                        rounded
+                        width={64}
+                        height={64}/>
+                </p>
                 <Button
                     disabled={!isLive || isDisabled}
                     onClick={this._onJoin.bind(this, match.get('id'), team.get('id'))}>
@@ -32,16 +39,10 @@ const MatchScheduleItem = React.createClass({
         ));
 
         return (
-            <li className='list-group-item'>
-                <Row>
-                    <Col xs={12}>{title}</Col>
-                </Row>
-                <Row>
-                    {teamColumns.get(0)}
-                    <Col xs={2}>
-                        <FormattedMessage id='matchScheduleItem.vs'/>
-                    </Col>
-                    {teamColumns.get(1)}
+            <li className={`list-group-item ${styles.wrapper}`}>
+                <Row><Col xs={12} className={styles.header}>{title}</Col></Row>
+                <Row className={styles.body}>
+                    {teamColumns.first()}{teamColumns.last()}
                 </Row>
             </li>
         );

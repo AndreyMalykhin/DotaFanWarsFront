@@ -1,3 +1,4 @@
+import styles from 'app/styles/toolbar.scss';
 import React from 'react';
 import {connect} from 'react-redux';
 import {FormattedMessage, injectIntl} from 'react-intl';
@@ -25,14 +26,14 @@ const Toolbar = React.createClass({
         } = this.props;
         const currentLocaleName = intl.formatMessage(
             {id: `locale.${locale}`});
-
         return (
             <Navbar expanded={isExpanded} onToggle={onToggle}>
                 <Navbar.Header>
                     <Navbar.Brand>
-                    <Link to='/'>
-                        <FormattedMessage id='toolbar.appTitle'/>
-                    </Link>
+                        <Link to='/'>
+                            <span className={styles.brandPrefix}>Dota</span>
+                            &nbsp;Fan Wars
+                        </Link>
                     </Navbar.Brand>
                     <Navbar.Toggle/>
                 </Navbar.Header>

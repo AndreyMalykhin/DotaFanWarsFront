@@ -1,3 +1,4 @@
+import styles from 'app/styles/lobby.scss';
 import React from 'react';
 import {Grid} from 'react-bootstrap';
 import LoginDlg from 'user/components/login-dlg';
@@ -8,14 +9,14 @@ import NotificationBar from 'common/components/notification-bar';
 const Lobby = React.createClass({
     render() {
         return (
-            <div>
+            <div className={styles.wrapper}>
                 <Toolbar/>
-                <Grid fluid>
+                <Grid className={styles.body} fluid>
                     <NotificationBar/>
                     <LoginDlg/>
                     {this.props.children}
-                    <Footer/>
                 </Grid>
+                <Footer/>
             </div>
         );
     }

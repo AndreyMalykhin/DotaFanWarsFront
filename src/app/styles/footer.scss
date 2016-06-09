@@ -1,0 +1,10 @@
+$height: 50px;
+
+:local .wrapper {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: $height;
+    line-height: $height;
+    text-align: center;
+}

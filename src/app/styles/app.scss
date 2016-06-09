@@ -1,2 +1,49 @@
+@import "~common/styles/colors";
+
 $bootstrap-sass-asset-helper: true;
+$body-bg: $background-color;
+$brand-primary: $primary-color0;
+$component-active-color: $text-color;
+$navbar-default-color: $text-color;
+$navbar-default-link-color: $text-color;
+$navbar-default-link-hover-color: $primary-color0;
+$navbar-default-link-active-color: $text-color;
+$navbar-default-link-active-bg: $primary-color0;
+$navbar-default-bg: $text-background-color;
+$navbar-default-border: $border-color;
+$navbar-default-toggle-hover-bg: $primary-color3;
+$navbar-default-toggle-icon-bar-bg: $text-color;
+$navbar-default-toggle-border-color: $primary-color4;
+$navbar-default-brand-hover-color: $text-color;
+$list-group-bg: $text-background-color;
+$list-group-border: $border-color;
+$btn-default-color: $text-color;
+$btn-default-bg: $primary-color0;
+$btn-default-border: $primary-color4;
+$pagination-color: $text-color;
+$pagination-bg: $text-background-color;
+$pagination-border: $border-color;
+$pagination-active-color: $text-color;
+$pagination-hover-color: $primary-color0;
+$pagination-hover-bg: $pagination-bg;
+$pagination-hover-border: $pagination-border;
+$modal-content-bg: $text-background-color;
+$modal-content-border-color: $border-color;
+$modal-header-border-color: $modal-content-border-color;
+$close-color: $text-color;
+$list-group-link-color: $text-color;
+
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
+
+html,
+body,
+#app {
+    height: 100%;
+}
+
+.btn-default {
+    &:hover,
+    &:focus {
+        background-color: $primary-color3;
+    }
+}

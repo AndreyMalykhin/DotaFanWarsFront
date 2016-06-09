@@ -1,0 +1,15 @@
+@import "~common/styles/colors";
+
+.navbar-default {
+    .navbar-brand {
+        font-weight: bold;
+    }
+
+    .navbar-toggle {
+        background-color: $primary-color0;
+    }
+}
+
+:local .brand-prefix {
+    color: $primary-color2;
+}

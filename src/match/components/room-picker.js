@@ -1,3 +1,4 @@
+import styles from 'match/styles/room-picker.scss';
 import React from 'react';
 import {connect} from 'react-redux';
 import Loader from 'common/components/loader';
@@ -29,7 +30,7 @@ const RoomPicker = React.createClass({
             onPick
         } = this.props;
         return (
-            <Modal show={isOpen} onHide={onClose}>
+            <Modal show={isOpen} onHide={onClose} className={styles.wrapper}>
                 <Modal.Header closeButton>
                     <Modal.Title>
                         <FormattedMessage id='roomPicker.title'/>

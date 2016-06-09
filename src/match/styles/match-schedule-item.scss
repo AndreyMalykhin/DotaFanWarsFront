@@ -1,0 +1,17 @@
+:local .wrapper {
+    text-align: center;
+}
+
+:local .header {
+    font-weight: bold;
+}
+
+:local .body {
+    margin-top: 8px;
+}
+
+:local .team-name {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

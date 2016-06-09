@@ -1,3 +1,5 @@
+import styles from 'match/styles/match-schedule.scss';
+import paginationStyles from 'common/styles/pagination.scss';
 import React from 'react';
 import {connect} from 'react-redux';
 import {Row, Col, Pagination, ListGroup} from 'react-bootstrap';
@@ -57,13 +59,15 @@ const MatchSchedule = React.createClass({
 
         let paginator;
 
-        if (pageCount) {
+        if (pageCount > 1) {
             paginator = (
-                <Pagination
-                    style={isLoading ? {opacity: 0.5} : null}
-                    items={pageCount}
-                    activePage={page}
-                    onSelect={isLoading ? null : onLoad}/>
+                <div className={styles.paginationWrapper}>
+                    <Pagination
+                        className={isLoading ? paginationStyles.disabled : null}
+                        items={pageCount}
+                        activePage={page}
+                        onSelect={isLoading ? null : onLoad}/>
+                </div>
             );
         }
 

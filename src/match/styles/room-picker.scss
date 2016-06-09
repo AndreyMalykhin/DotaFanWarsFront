@@ -1,0 +1,20 @@
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/variables";
+@import "~common/styles/colors";
+
+:local(.wrapper) {
+    .modal-dialog {
+        @media (min-width: $screen-sm-min) {
+            width: 320px;
+        }
+    }
+
+    .list-group-item {
+        background-color: $primary-color0;
+
+        &:hover,
+        &:focus {
+            color: $primary-color0;
+            background-color: $text-color;
+        }
+    }
+}

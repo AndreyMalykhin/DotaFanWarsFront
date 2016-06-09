@@ -8,7 +8,18 @@ const Loader = React.createClass({
 
     render() {
         const {isLoaded, children} = this.props;
-        return <ReactLoader loaded={isLoaded}>{children}</ReactLoader>;
+        return (
+            <ReactLoader
+                loaded={isLoaded}
+                color='#FF9587'
+                lines={8}
+                length={0}
+                width={8}
+                radius={8}
+                speed={2}>
+                {children}
+            </ReactLoader>
+        );
     }
 });
 

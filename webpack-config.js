@@ -27,7 +27,7 @@ var cssLoader;
 
 if (process.env.DFWF_DEV === '1') {
     plugins.push(new webpack.HotModuleReplacementPlugin()),
-    cssLoader = 'style-loader!css?sourceMap&importLoaders=2&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader!sass?sourceMap';
+    cssLoader = 'style-loader!css?sourceMap&camelCase&importLoaders=2&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader!sass?sourceMap';
     jsLoader = 'react-hot!' + jsLoader;
     entry.unshift(
         'webpack-dev-server/client?http://0.0.0.0:' + process.env.DFWF_PORT,
@@ -42,7 +42,7 @@ if (process.env.DFWF_DEV === '1') {
         }),
         new ExtractTextPlugin("bundle-[contenthash].css", {allChunks: true})
     );
-    cssLoader = ExtractTextPlugin.extract('style-loader', 'css?importLoaders=2&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader!sass');
+    cssLoader = ExtractTextPlugin.extract('style-loader', 'css?camelCase&importLoaders=2&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader!sass');
 }
 
 module.exports = {
