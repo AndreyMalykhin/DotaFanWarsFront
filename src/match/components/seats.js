@@ -1,7 +1,8 @@
+import styles from 'match/styles/seats.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
-import {Table} from 'react-bootstrap';
+import {Row, Col, Table} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import Immutable from 'immutable';
 import {touchCharacter} from 'match/actions/character-actions';
@@ -52,7 +53,7 @@ const Seats = React.createClass({
         for (let row = 0, seatId = 1; row < 4; ++row) {
             const columns = [];
 
-            for (let column = 0; column < 8; ++column, ++seatId) {
+            for (let column = 0; column < 4; ++column, ++seatId) {
                 const seat = seats.get(String(seatId));
                 let character;
 
@@ -86,13 +87,12 @@ const Seats = React.createClass({
                     }
                 }
 
-                const iCanTake = !iSit && !character;
                 columns.push(
                     <Seat
                         key={seatId}
                         id={String(seatId)}
-                        isDisabled={iTakeSeat}
-                        onClick={iCanTake ? onSeatClick : null}>
+                        isDisabled={iTakeSeat || iSit || character != null}
+                        onClick={onSeatClick}>
                         {character}
                     </Seat>
                 );
@@ -115,10 +115,14 @@ const Seats = React.createClass({
         }
 
         return (
-            <div>
-                {tutorialStep}
-                <Table ref='seats' bordered><tbody>{rows}</tbody></Table>
-            </div>
+            <Row>
+                <Col xs={12}>
+                    {tutorialStep}
+                    <Table className={styles.grid} ref='seats' bordered>
+                        <tbody>{rows}</tbody>
+                    </Table>
+                </Col>
+            </Row>
         );
     },
 

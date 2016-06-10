@@ -1,21 +1,22 @@
+import styles from 'match/styles/seat.scss';
 import React from 'react';
+import classNames from 'classnames';
 
 const Seat = React.createClass({
     propTypes: {
+        onClick: React.PropTypes.func.isRequired,
         id: React.PropTypes.string.isRequired,
-        isDisabled: React.PropTypes.bool.isRequired,
-        onClick: React.PropTypes.func
+        isDisabled: React.PropTypes.bool.isRequired
     },
 
     render() {
         const {isDisabled, children} = this.props;
-        const style = {width: 32};
-        isDisabled && Object.assign(style, {background: 'gray'});
+        const cssClass =
+            classNames(styles.wrapper, {[styles.disabled]: isDisabled});
         return (
             <td
-                className={isDisabled ? 'disabled' : null}
-                onClick={isDisabled ? null : this._onClick}
-                style={style}>
+                className={cssClass}
+                onClick={isDisabled ? null : this._onClick}>
                 {children}
             </td>
         );
@@ -23,7 +24,7 @@ const Seat = React.createClass({
 
     _onClick() {
         const {onClick, id} = this.props;
-        onClick && onClick(id);
+        onClick(id);
     }
 });
 

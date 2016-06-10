@@ -1,3 +1,4 @@
+import styles from 'common/styles/notification-bar.scss';
 import React from 'react';
 import {connect} from 'react-redux';
 import Immutable from 'immutable';
@@ -16,16 +17,17 @@ const NotificationBar = React.createClass({
     render() {
         const {notifications, onNotificationClose} = this.props;
         return (
-            <div style={{position: 'fixed', zIndex: 1}}>
-                {notifications.map((notification) =>
-                    <Alert
-                        key={notification.get('id')}
-                        bsStyle={notificationStyles[notification.get('type')]}
-                        onDismiss={onNotificationClose.bind(this, notification.get('id'))}>
-                        {notification.get('body')}
-                    </Alert>
-                )}
-            </div>
+            <ul className={styles.list}>
+                {notifications.map((notification) => (
+                    <li key={notification.get('id')}>
+                        <Alert
+                            bsStyle={notificationStyles[notification.get('type')]}
+                            onDismiss={onNotificationClose.bind(this, notification.get('id'))}>
+                            {notification.get('body')}
+                        </Alert>
+                    </li>
+                ))}
+            </ul>
         );
     }
 });

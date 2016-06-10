@@ -1,5 +1,7 @@
+import styles from 'chat/styles/chat-output.scss';
 import React from 'react';
 import {connect} from 'react-redux';
+import {Row, Col, Well} from 'react-bootstrap';
 import Loader from 'common/components/loader';
 import {FormattedTime} from 'react-intl';
 import Immutable from 'immutable';
@@ -30,10 +32,14 @@ const ChatOutput = React.createClass({
         }
 
         return (
-            <div>
-                <Loader isLoaded={!isLoading}/>
-                <ul style={{height: 128, overflowY: 'auto'}}>{messageViews}</ul>
-            </div>
+            <Row className={styles.wrapper}>
+                <Col xs={12}>
+                    <Well bsSize='small'>
+                        <Loader isLoaded={!isLoading}/>
+                        <ul className={styles.list}>{messageViews}</ul>
+                    </Well>
+                </Col>
+            </Row>
         );
     }
 });

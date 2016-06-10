@@ -1,3 +1,4 @@
+import styles from 'user/styles/user-leaderboard.scss';
 import React from 'react';
 import {connect} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
@@ -41,9 +42,9 @@ const UserLeaderboard = React.createClass({
                                 <td>
                                     <Image
                                         src={user.get('country').get('flagUrl')}
-                                        width={32}
-                                        height={32}/>
-                                    {user.get('nickname')}
+                                        width={16}
+                                        height={16}/>
+                                    &nbsp;{user.get('nickname')}
                                 </td>
                                 <td>{user.get('rating')}</td>
                             </tr>

@@ -1,0 +1,26 @@
+@import "~common/styles/colors";
+
+$background-color: $text-color;
+
+:local .wrapper {
+    width: 64px;
+    height: 64px;
+    cursor: pointer;
+    background-color: $background-color;
+
+    &:hover,
+    &:focus {
+        background-color: $primary-color0;
+    }
+}
+
+:local .disabled {
+    cursor: default;
+    transition: background-color 0.5s;
+    background-color: $background-color;
+
+    &:hover,
+    &:focus {
+        background-color: $background-color;
+    }
+}

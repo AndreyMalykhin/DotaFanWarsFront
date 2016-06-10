@@ -1,7 +1,8 @@
+import styles from 'match/styles/scoreboard.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
-import {Row, Col, Image, Badge} from 'react-bootstrap';
+import {Row, Col, Image, Badge, Well} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import Immutable from 'immutable';
 import {MATCH} from 'common/utils/tutorial-id';
@@ -31,22 +32,33 @@ const Scoreboard = React.createClass({
             );
         }
 
+        const team1 = teams.first();
+        const team2 = teams.last();
         return (
-            <Row ref='scoreboard'>
+            <Row className={styles.wrapper} ref='scoreboard'>
                 {tutorialStep}
-                {this._renderTeam(teams.first())}
-                {this._renderTeam(teams.last(), 'flipped')}
+                <Col xs={12}>
+                    <Well bsSize='small'>
+                        <Image
+                            src={team1.get('logoUrl')}
+                            width={32}
+                            height={32}
+                            rounded/>
+                        <Badge className={styles.teamScore}>
+                            {team1.get('score')}
+                        </Badge>
+                        :
+                        <Badge className={styles.teamScore}>
+                            {team2.get('score')}
+                        </Badge>
+                        <Image
+                            src={team2.get('logoUrl')}
+                            width={32}
+                            height={32}
+                            rounded/>
+                    </Well>
+                </Col>
             </Row>
-        );
-    },
-
-    _renderTeam(team, extraClass = null) {
-        return (
-            <Col xs={6} className={extraClass}>
-                <Image src={team.get('logoUrl')} width={32} height={32}/>
-                <span>{team.get('name')}</span>
-                <Badge>{team.get('score')}</Badge>
-            </Col>
         );
     },
 

@@ -36,7 +36,7 @@ export function sendMsg() {
 }
 
 export function setChatInputMsg(msg) {
-    return {type: 'SET_CHAT_INPUT_MSG', payload: msg.trim()};
+    return {type: 'SET_CHAT_INPUT_MSG', payload: msg};
 }
 
 export function processServerMessages(messages) {

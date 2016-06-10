@@ -3,6 +3,7 @@ export default {
     'common.select': 'Select',
     'common.save': 'Save',
     'common.cancel': 'Cancel',
+    'common.back': 'Back',
     'common.close': 'Close',
     'common.ok': 'OK',
     'locale.en': 'EN',

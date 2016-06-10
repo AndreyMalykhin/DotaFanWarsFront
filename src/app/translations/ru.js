@@ -3,6 +3,7 @@ export default {
     'common.select': 'Выбрать',
     'common.save': 'Сохранить',
     'common.cancel': 'Отмена',
+    'common.back': 'Назад',
     'common.ok': 'OK',
     'locale.en': 'EN',
     'locale.ru': 'РУ',

@@ -1,0 +1,13 @@
+:local .list {
+    position: fixed;
+    right: 0;
+    padding: 15px;
+    z-index: 1;
+    list-style-type: none;
+    text-align: right;
+}
+
+:local(.list) .alert {
+    display: inline-block;
+    text-align: left;
+}

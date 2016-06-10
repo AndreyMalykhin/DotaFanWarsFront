@@ -32,6 +32,18 @@ $modal-content-border-color: $border-color;
 $modal-header-border-color: $modal-content-border-color;
 $close-color: $text-color;
 $list-group-link-color: $text-color;
+$table-bg: $text-background-color;
+$table-border-color: $border-color;
+$state-danger-bg: $primary-color1;
+$state-danger-text: $primary-color0;
+$state-danger-border: $primary-color4;
+$alert-info-bg: $text-background-color;
+$alert-info-text: $text-color;
+$alert-info-border: $border-color;
+$alert-danger-bg: $primary-color0;
+$alert-danger-text: $text-color;
+$well-bg: $text-background-color;
+$well-border: $border-color;
 
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
 
@@ -46,4 +58,17 @@ body,
     &:focus {
         background-color: $primary-color3;
     }
+}
+
+.close {
+    opacity: 0.5;
+
+    &:hover,
+    &:focus {
+        opacity: 1;
+    }
+}
+
+.well {
+    box-shadow: none;
 }

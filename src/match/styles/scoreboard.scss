@@ -1,0 +1,18 @@
+@import "~common/styles/colors";
+
+:local .wrapper {
+    margin-top: 15px;
+    text-align: center;
+
+    :global .well {
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+}
+
+:local .team-score {
+    margin: 0 8px;
+    border: 1px solid $primary-color4;
+    color: $text-color;
+    background-color: $primary-color0;
+}

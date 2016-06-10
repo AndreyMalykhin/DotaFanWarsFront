@@ -37,8 +37,8 @@ const Match = React.createClass({
                 <Projectiles onGetTargetNode={this._onGetTargetNode}/>
                 {isMatchEnded && <MatchResultDlg/>}
                 <Scoreboard/>
-                <Row><Col xs={12}><ChatOutput/></Col></Row>
-                <Row><Col xs={12}><Seats ref='seats'/></Col></Row>
+                <ChatOutput/>
+                <Seats ref='seats'/>
                 <Row>
                     <Col xs={6}><CharacterStats/></Col>
                     <Col xs={6}><Items ref='items'/></Col>

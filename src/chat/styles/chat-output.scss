@@ -1,0 +1,10 @@
+:local(.wrapper) .well {
+    margin-bottom: 15px;
+}
+
+:local .list {
+    height: 128px;
+    padding: 0;
+    overflow-y: 'auto';
+    list-style-type: none;
+}

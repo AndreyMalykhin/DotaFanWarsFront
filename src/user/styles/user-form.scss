@@ -1,0 +1,21 @@
+:local .rating-wrapper {
+    text-align: center;
+}
+
+:local .photo-wrapper {
+    text-align: center;
+}
+
+:local .photo-img {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+:local .actions {
+    text-align: center;
+
+    :global .btn {
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+}
