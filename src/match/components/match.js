@@ -40,8 +40,8 @@ const Match = React.createClass({
                 <ChatOutput/>
                 <Seats ref='seats'/>
                 <Row>
-                    <Col xs={6}><CharacterStats/></Col>
-                    <Col xs={6}><Items ref='items'/></Col>
+                    <Col xs={4}><CharacterStats/></Col>
+                    <Col xs={8}><Items ref='items'/></Col>
                 </Row>
                 <Row><Col xs={12}><ChatInput/></Col></Row>
             </Grid>

@@ -1,4 +1,5 @@
 import {addLocaleData} from 'react-intl';
+import {LOCALE} from 'common/utils/setting-id';
 
 export function setLocale(id) {
     return (dispatch, getState, diContainer) => {
@@ -8,15 +9,14 @@ export function setLocale(id) {
                 require(`bundle?lazy!react-intl/locale-data/${id}.js`)((localeData) => {
                     require(`bundle?lazy!app/translations/${id}.js`)((translations) => {
                         addLocaleData(localeData);
-                        diContainer.fetcher.options.headers['Accept-Language'] = id;
+                        const {localStorage, fetcher} = diContainer;
+                        localStorage.set(LOCALE, id);
+                        fetcher.options.headers['Accept-Language'] = id;
                         dispatch({
                             type: 'SET_LOCALE_RESPONSE',
                             payload: {
-                                status: 200,
-                                data: {
-                                    id: id,
-                                    translations: translations.default
-                                }
+                                id: id,
+                                translations: translations.default
                             }
                         });
                         resolve();

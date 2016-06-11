@@ -1,43 +1,63 @@
+import styles from 'match/styles/character.scss';
 import React from 'react';
 import {ProgressBar, Image} from 'react-bootstrap';
 import Immutable from 'immutable';
 import classNames from 'classnames';
+import Icon from 'common/components/icon';
+import DeadIcon from 'match/images/character-dead.svg';
 
 const Character = React.createClass({
     propTypes: {
+        onClick: React.PropTypes.func.isRequired,
         isSelected: React.PropTypes.bool.isRequired,
         isDisabled: React.PropTypes.bool.isRequired,
         isEnemy: React.PropTypes.bool.isRequired,
+        isMe: React.PropTypes.bool.isRequired,
         health: React.PropTypes.number.isRequired,
         id: React.PropTypes.string.isRequired,
-        onClick: React.PropTypes.func,
         photoUrl: React.PropTypes.string
     },
 
     render() {
-        const {isSelected, isDisabled, isEnemy, health, photoUrl} = this.props;
+        const {isSelected, isDisabled, isEnemy, isMe, health, photoUrl} =
+            this.props;
         const isDead = health <= 0;
-        const imgClass = classNames(
-            {selected: isSelected, enemy: isEnemy, dead: isDead});
-        const style = {};
-        isEnemy && Object.assign(style, {border: '1px solid red'});
-        isSelected && Object.assign(style, {outline: '1px solid yellow'});
-        isDisabled && Object.assign(style, {opacity: 0.5});
-        return (
-            <div className={imgClass} style={style}>
-                <ProgressBar now={health} style={{height: 8, margin: 0}}/>
+        const wrapperClass = classNames(styles.wrapper, {
+            [styles.me]: isMe,
+            [styles.disabled]: isDisabled,
+            [styles.selected]: isSelected,
+            [styles.enemy]: isEnemy,
+            [styles.dead]: isDead
+        });
+        let photo;
+
+        if (isDead) {
+            photo = <Icon
+                glyph={DeadIcon}
+                className={styles.deadIcon}
+                width={32}
+                height={32}/>;
+        } else {
+            photo =
                 <Image
-                    src={isDead ? 'https://placekitten.com/32/32' : photoUrl}
+                    className={styles.photo}
+                    src={photoUrl}
                     onClick={isDisabled ? null : this._onClick}
                     width={32}
-                    height={32}/>
+                    height={32}
+                    rounded/>;
+        }
+
+        return (
+            <div className={wrapperClass}>
+                <ProgressBar now={health} className={styles.health}/>{photo}
             </div>
         );
     },
 
     _onClick() {
         const {id, onClick} = this.props;
-        onClick && onClick(id);
+        onClick(id);
     }
 });
 

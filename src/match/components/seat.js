@@ -11,11 +11,11 @@ const Seat = React.createClass({
 
     render() {
         const {isDisabled, children} = this.props;
-        const cssClass =
+        const wrapperClass =
             classNames(styles.wrapper, {[styles.disabled]: isDisabled});
         return (
             <td
-                className={cssClass}
+                className={wrapperClass}
                 onClick={isDisabled ? null : this._onClick}>
                 {children}
             </td>

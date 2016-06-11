@@ -9,7 +9,7 @@ export default function localeReducer(locale = null, action) {
             return locale.set('requestStatus', FAIL);
         }
 
-        const {id, translations} = action.payload.data;
+        const {id, translations} = action.payload;
         return locale.mergeDeep({
             id: id,
             translations: translations,

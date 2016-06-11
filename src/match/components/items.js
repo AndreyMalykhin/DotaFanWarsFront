@@ -1,3 +1,4 @@
+import styles from 'match/styles/items.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
@@ -67,12 +68,14 @@ const Items = React.createClass({
             const itemId = item.get('id');
             const myItem = myItems.get(itemId);
             const count = myItem ? myItem.get('count') : 0;
+            const isActive = itemId == myActiveItemId;
             const isUseDisabled =
                 iDead
                 || !iSit
-                || !count
+                || count <= 0
                 || iUseOffensiveItem
-                || iUseDefensiveItem;
+                || iUseDefensiveItem
+                || (myActiveItemId != null && !isActive);
             const isBuyDisabled =
                 iDead
                 || !iSit
@@ -85,7 +88,7 @@ const Items = React.createClass({
                     name={item.get('name')}
                     count={count}
                     photoUrl={item.get('photoUrl')}
-                    isActive={itemId == myActiveItemId}
+                    isActive={isActive}
                     isUseDisabled={isUseDisabled}
                     isBuyDisabled={isBuyDisabled}
                     onRunOut={onItemRunOut}
@@ -94,7 +97,12 @@ const Items = React.createClass({
             );
         }
 
-        return <div>{tutorialStep}<ul ref='items'>{itemViews}</ul></div>;
+        return (
+            <div>
+                {tutorialStep}
+                <ul className={styles.list} ref='items'>{itemViews}</ul>
+            </div>
+        );
     },
 
     _onGetTutorialTargetNode() {

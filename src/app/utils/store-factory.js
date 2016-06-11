@@ -7,6 +7,7 @@ import postLoginMiddleware from 'app/utils/post-login-middleware.js';
 import {PENDING, SUCCESS} from 'common/utils/request-status';
 import {FACEBOOK, GOOGLE} from 'user/utils/login-provider-id';
 import translations from 'app/translations/en';
+import {EN, RU} from 'common/utils/locale-id';
 
 export default function storeFactory(container) {
     const initialState = {
@@ -39,9 +40,9 @@ export default function storeFactory(container) {
             lastUpdateTime: null
         }),
         notifications: Immutable.List(),
-        supportedLocales: Immutable.List(['en', 'ru']),
+        supportedLocales: Immutable.List([EN, RU]),
         locale: Immutable.Map({
-            id: 'en',
+            id: EN,
             translations: Immutable.Map(translations),
             requestStatus: SUCCESS
         }),

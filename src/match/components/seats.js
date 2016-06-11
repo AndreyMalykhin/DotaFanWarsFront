@@ -82,6 +82,7 @@ const Seats = React.createClass({
                                 isSelected={characterId == myTargetId}
                                 isEnemy={isEnemy}
                                 isDisabled={isDisabled}
+                                isMe={isMe}
                                 onClick={onCharacterClick}/>
                         );
                     }

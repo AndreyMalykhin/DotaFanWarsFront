@@ -1,6 +1,8 @@
+import styles from 'match/styles/item.scss';
 import React from 'react';
 import {Badge, Button, Image} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
 
 const Item = React.createClass({
     propTypes: {
@@ -25,20 +27,20 @@ const Item = React.createClass({
             count,
             photoUrl
         } = this.props;
-        const style = {display: 'inline-block', width: '50%'};
-        isActive && Object.assign(style, {border: '1px solid yellow'});
+        const wrapperClass =
+            classNames(styles.wrapper, {[styles.active]: isActive});
         return (
-            <li
-                className={isActive ? 'active' : null}
-                style={style}>
-                <p>{name} <Badge>{count}</Badge></p>
-                <Image
-                    className={isUseDisabled ? 'disabled' : null}
-                    style={isUseDisabled ? {opacity: 0.5} : null}
-                    src={photoUrl}
-                    onClick={isUseDisabled ? null : this._onClick}
-                    width={32}
-                    height={32}/>
+            <li className={wrapperClass}>
+                <p className={styles.header}>{name}</p>
+                <p>
+                    <Button
+                        className={styles.photoBtn}
+                        disabled={isUseDisabled}
+                        onClick={this._onClick}>
+                        <Image src={photoUrl} width={64} height={64}/>
+                        <Badge className={styles.count}>{count}</Badge>
+                    </Button>
+                </p>
                 <Button disabled={isBuyDisabled} onClick={this._onBuy}>
                     <FormattedMessage id='item.buy'/>
                 </Button>

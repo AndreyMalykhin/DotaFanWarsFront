@@ -1,11 +1,13 @@
 @import "~common/styles/colors";
 
-$background-color: $text-color;
+$background-color: $secondary-color1-0;
 
 :local .wrapper {
     width: 64px;
     height: 64px;
     cursor: pointer;
+    text-align: center;
+    vertical-align: middle !important;
     background-color: $background-color;
 
     &:hover,

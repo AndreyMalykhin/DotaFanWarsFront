@@ -1,10 +1,10 @@
 @import "~common/styles/colors";
 
-:local .wrapper {
+:local(.wrapper) {
     margin-top: 15px;
     text-align: center;
 
-    :global .well {
+    .well {
         display: inline-block;
         margin-bottom: 15px;
     }

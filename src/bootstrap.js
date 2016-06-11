@@ -12,6 +12,9 @@ import hello from 'hellojs';
 import {setupDI} from 'app/configs/di-config';
 import Router from 'app/components/router';
 import {setLoggedIn} from 'user/actions/auth-actions';
+import {setLocale} from 'common/actions/locale-actions';
+import {LOCALE} from 'common/utils/setting-id';
+import {EN} from 'common/utils/locale-id';
 
 hello.init({
     facebook: process.env.DFWF_FACEBOOK_APP_ID,
@@ -26,6 +29,7 @@ diContainer.matchController.bind();
 diContainer.chatController.bind();
 const store = diContainer.store;
 store.dispatch(setLoggedIn(diContainer.authService.isLoggedIn()));
+store.dispatch(setLocale(diContainer.localStorage.get(LOCALE) || EN));
 const history = syncHistoryWithStore(diContainer.history, store);
 
 render(
