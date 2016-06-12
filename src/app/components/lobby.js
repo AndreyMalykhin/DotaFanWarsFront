@@ -11,7 +11,7 @@ const Lobby = React.createClass({
         return (
             <div className={styles.wrapper}>
                 <Toolbar/>
-                <Grid className={styles.body} fluid>
+                <Grid className={styles.body}>
                     <NotificationBar/>
                     <LoginDlg/>
                     {this.props.children}

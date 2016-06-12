@@ -1,12 +1,16 @@
+import styles from 'match/styles/character-stats.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
-import {ProgressBar, Glyphicon} from 'react-bootstrap';
+import {Col, Well} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {nextTutorialStep} from 'common/actions/tutorial-actions';
 import {MATCH} from 'common/utils/tutorial-id';
 import {CHARACTER_STATS} from 'match/utils/tutorial-step-index';
 import TutorialStep from 'common/components/tutorial-step';
+import Icon from 'common/components/icon';
+import MoneyIcon from 'match/images/money.svg';
+import HealthIcon from 'match/images/health.svg';
 
 const CharacterStats = React.createClass({
     propTypes: {
@@ -19,8 +23,34 @@ const CharacterStats = React.createClass({
     render() {
         const {health, money, showTutorial, onTutorialComplete} = this.props;
         const isDead = health <= 0;
-        const deathMsg = isDead ?
-            <p><FormattedMessage id='characterStats.dead'/></p> : null;
+        let content;
+        const iconSize = 32;
+
+        if (isDead) {
+            content = <p><FormattedMessage id='characterStats.dead'/></p>;
+        } else {
+            content = (
+                <ul className={styles.list}>
+                    <li className={styles.listItem}>
+                        <Icon
+                            className={styles.healthIcon}
+                            glyph={HealthIcon}
+                            width={iconSize}
+                            height={iconSize}/>
+                        {health}
+                    </li>
+                    <li className={styles.listItem}>
+                        <Icon
+                            className={styles.moneyIcon}
+                            glyph={MoneyIcon}
+                            width={iconSize}
+                            height={iconSize}/>
+                        {money}
+                    </li>
+                </ul>
+            );
+        }
+
         let tutorialStep;
 
         if (showTutorial) {
@@ -35,12 +65,9 @@ const CharacterStats = React.createClass({
         }
 
         return (
-            <div ref='stats'>
-                {tutorialStep}
-                {deathMsg}
-                {!isDead && <ProgressBar now={health}/>}
-                {!isDead && <p>{money} <Glyphicon glyph='usd'/></p>}
-            </div>
+            <Well ref='stats' className={styles.wrapper} bsSize='small'>
+                {tutorialStep}{content}
+            </Well>
         );
     },
 

@@ -1,6 +1,6 @@
 import styles from 'match/styles/character.scss';
 import React from 'react';
-import {ProgressBar, Image} from 'react-bootstrap';
+import {ProgressBar, Image, Button} from 'react-bootstrap';
 import Immutable from 'immutable';
 import classNames from 'classnames';
 import Icon from 'common/components/icon';
@@ -32,20 +32,26 @@ const Character = React.createClass({
         let photo;
 
         if (isDead) {
-            photo = <Icon
-                glyph={DeadIcon}
-                className={styles.deadIcon}
-                width={32}
-                height={32}/>;
-        } else {
-            photo =
-                <Image
-                    className={styles.photo}
-                    src={photoUrl}
-                    onClick={isDisabled ? null : this._onClick}
+            photo = (
+                <Icon
+                    glyph={DeadIcon}
+                    className={styles.deadIcon}
                     width={32}
-                    height={32}
-                    rounded/>;
+                    height={32}/>
+            );
+        } else {
+            photo = (
+                <Button
+                    className={styles.photoBtn}
+                    onClick={this._onClick}
+                    disabled={isDisabled}>
+                    <Image
+                        className={styles.photoImg}
+                        src={photoUrl}
+                        width={32}
+                        height={32}/>
+                </Button>
+            );
         }
 
         return (

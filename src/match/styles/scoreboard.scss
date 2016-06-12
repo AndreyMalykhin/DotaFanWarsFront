@@ -1,13 +1,12 @@
 @import "~common/styles/colors";
 
-:local(.wrapper) {
-    margin-top: 15px;
+:local .wrapper {
     text-align: center;
+}
 
-    .well {
-        display: inline-block;
-        margin-bottom: 15px;
-    }
+:local .well {
+    display: inline-block;
+    margin-bottom: 15px;
 }
 
 :local .team-score {

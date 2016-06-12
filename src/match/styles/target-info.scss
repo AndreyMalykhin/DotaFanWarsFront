@@ -1,0 +1,28 @@
+@import "~common/styles/colors";
+
+$ally-color: $complement-color0;
+$enemy-color: $primary-color0;
+
+:local(.wrapper) {
+    text-align: center;
+    background-color: $ally-color;
+
+    .arrow:after {
+        border-bottom-color: $ally-color !important;
+    }
+
+    &:local(.enemy) {
+        background-color: $enemy-color;
+
+        .arrow:after {
+            border-bottom-color: $enemy-color !important;
+        }
+    }
+}
+
+:local .photo-img {
+    box-sizing: content-box;
+    max-width: 128px;
+    max-height: 128px;
+    border: 1px solid $border-color;
+}

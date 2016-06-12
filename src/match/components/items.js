@@ -98,7 +98,7 @@ const Items = React.createClass({
         }
 
         return (
-            <div>
+            <div className={styles.wrapper}>
                 {tutorialStep}
                 <ul className={styles.list} ref='items'>{itemViews}</ul>
             </div>

@@ -1,4 +1,11 @@
+:local .wrapper {
+    display: inline-block;
+    margin-left: 15px;
+    vertical-align: top;
+}
+
 :local .list {
     padding: 0;
+    margin-bottom: 15px;
     text-align: center;
 }

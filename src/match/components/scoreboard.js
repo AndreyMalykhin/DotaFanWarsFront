@@ -35,30 +35,32 @@ const Scoreboard = React.createClass({
         const team1 = teams.first();
         const team2 = teams.last();
         return (
-            <Row className={styles.wrapper} ref='scoreboard'>
+            <Col
+                xs={12}
+                sm={6}
+                className={styles.wrapper}
+                ref='scoreboard'>
                 {tutorialStep}
-                <Col xs={12}>
-                    <Well bsSize='small'>
-                        <Image
-                            src={team1.get('logoUrl')}
-                            width={32}
-                            height={32}
-                            rounded/>
-                        <Badge className={styles.teamScore}>
-                            {team1.get('score')}
-                        </Badge>
-                        :
-                        <Badge className={styles.teamScore}>
-                            {team2.get('score')}
-                        </Badge>
-                        <Image
-                            src={team2.get('logoUrl')}
-                            width={32}
-                            height={32}
-                            rounded/>
-                    </Well>
-                </Col>
-            </Row>
+                <Well bsSize='small' className={styles.well}>
+                    <Image
+                        src={team1.get('logoUrl')}
+                        width={32}
+                        height={32}
+                        rounded/>
+                    <Badge className={styles.teamScore}>
+                        {team1.get('score')}
+                    </Badge>
+                    :
+                    <Badge className={styles.teamScore}>
+                        {team2.get('score')}
+                    </Badge>
+                    <Image
+                        src={team2.get('logoUrl')}
+                        width={32}
+                        height={32}
+                        rounded/>
+                </Well>
+            </Col>
         );
     },
 

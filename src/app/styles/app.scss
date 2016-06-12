@@ -44,6 +44,9 @@ $alert-danger-bg: $primary-color0;
 $alert-danger-text: $text-color;
 $well-bg: $text-background-color;
 $well-border: $border-color;
+$popover-bg: $text-background-color;
+$popover-border-color: $border-color;
+$popover-fallback-border-color: $popover-border-color;
 
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
 
@@ -55,7 +58,8 @@ body,
 
 .btn-default {
     &:hover,
-    &:focus {
+    &:focus,
+    &:active {
         background-color: $primary-color3;
     }
 }
@@ -64,7 +68,8 @@ body,
     opacity: 0.5;
 
     &:hover,
-    &:focus {
+    &:focus,
+    &:active {
         opacity: 1;
     }
 }

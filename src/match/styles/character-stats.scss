@@ -1,0 +1,34 @@
+@import "~common/styles/colors";
+
+:local .wrapper {
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+}
+
+:local .list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    white-space: nowrap;
+}
+
+:local .list-item:not(:last-child) {
+    margin-bottom: 8px;
+}
+
+@mixin icon {
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+:local .health-icon {
+    @include icon;
+    fill: #FFFFFF;
+}
+
+:local .money-icon {
+    @include icon;
+    fill: $secondary-color1-1;
+}

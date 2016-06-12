@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {FormattedMessage, injectIntl} from 'react-intl';
-import {Form, FormControl, Button} from 'react-bootstrap';
+import {Row, Col, Form, FormControl, Button, InputGroup} from 'react-bootstrap';
 import {sendMsg, setChatInputMsg} from 'chat/actions/chat-actions';
 import {PENDING, SUCCESS} from 'common/utils/request-status';
 
@@ -19,19 +19,27 @@ const ChatInput = React.createClass({
             this.props;
         const placeholder = intl.formatMessage({id: 'chatInput.placeholder'});
         return (
-            <Form onSubmit={onSubmit} inline>
-                <FormControl
-                    placeholder={placeholder}
-                    value={msg}
-                    onChange={onChange}
-                    disabled={isInputDisabled}
-                    type='text'/>
-                <Button
-                    disabled={isSendDisabled}
-                    type='submit'>
-                    <FormattedMessage id='chatInput.send'/>
-                </Button>
-            </Form>
+            <Row>
+                <Col xs={12}>
+                    <Form onSubmit={onSubmit}>
+                        <InputGroup>
+                            <FormControl
+                                placeholder={placeholder}
+                                value={msg}
+                                onChange={onChange}
+                                disabled={isInputDisabled}
+                                type='text'/>
+                            <InputGroup.Button>
+                                <Button
+                                    disabled={isSendDisabled}
+                                    type='submit'>
+                                    <FormattedMessage id='chatInput.send'/>
+                                </Button>
+                            </InputGroup.Button>
+                        </InputGroup>
+                    </Form>
+                </Col>
+            </Row>
         );
     }
 });

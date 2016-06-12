@@ -1,3 +1,4 @@
+import styles from 'match/styles/match.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
@@ -31,19 +32,24 @@ const Match = React.createClass({
         const targetInfo = iHaveTarget &&
             <TargetInfo onGetTargetNode={this._onGetTargetNode}/>;
         return (
-            <Grid fluid>
+            <Grid className={styles.wrapper}>
                 <NotificationBar/>
                 {targetInfo}
                 <Projectiles onGetTargetNode={this._onGetTargetNode}/>
                 {isMatchEnded && <MatchResultDlg/>}
-                <Scoreboard/>
-                <ChatOutput/>
-                <Seats ref='seats'/>
                 <Row>
-                    <Col xs={4}><CharacterStats/></Col>
-                    <Col xs={8}><Items ref='items'/></Col>
+                    <Col xs={12} sm={10} smOffset={1} md={8} mdOffset={2}>
+                        <Row>
+                            <Seats ref='seats'/>
+                            <Scoreboard/>
+                            <Col xs={12} sm={6} className={styles.characterBar}>
+                                <CharacterStats/><Items ref='items'/>
+                            </Col>
+                        </Row>
+                    </Col>
                 </Row>
-                <Row><Col xs={12}><ChatInput/></Col></Row>
+                <ChatOutput/>
+                <ChatInput/>
             </Grid>
         );
     },

@@ -1,53 +1,55 @@
 @import "~common/styles/colors";
 
-$selected-color: $secondary-color1-1;
-
 :local(.health) {
-    &.progress {
-        height: 8px;
-        margin-bottom: 4px;
-        border: 1px solid $complement-color4;
-        box-shadow: none;
-        background-color: $complement-color1;
-    }
+    height: 8px;
+    margin-bottom: 4px;
+    border: 1px solid $complement-color4;
+    box-shadow: none;
+    background-color: $complement-color1;
 
     .progress-bar {
         box-shadow: none;
         background-color: $complement-color0;
-    }
-}
 
-:local .photo {
-    box-sizing: content-box;
-    border: 1px solid $border-color;
-    cursor: pointer;
+        :local(.enemy) & {
+            background-color: $primary-color0;
+        }
 
-    &:hover {
-        border-color: $selected-color;
+        :local(.me) & {
+            background-color: $secondary-color2-0;
+        }
     }
 
-    :local .selected & {
-        box-shadow: 0 0 8px 2px $selected-color;
+    :local(.me) & {
+        border-color: $secondary-color2-4;
+        background-color: $secondary-color2-1;
     }
 
-    :local .disabled & {
-        cursor: not-allowed;
-    }
-}
-
-:local(.enemy) {
-    .progress {
+    :local(.enemy) & {
         border-color: $primary-color4;
         background-color: $primary-color1;
     }
 
-    .progress-bar {
-        background-color: $primary-color0;
+    :local(.disabled) & {
+        opacity: 0.5;
     }
 }
 
-:local .disabled:not(.dead) {
-    opacity: 0.5;
+:local .photo-btn {
+    padding: 1px;
+    outline: 0 !important;
+    border-color: $secondary-color1-4 !important;
+    background-color: $secondary-color1-2;
+
+    &:hover,
+    &:focus,
+    &:active {
+        background-color: $secondary-color1-3 !important;
+    }
+
+    :local .selected & {
+        box-shadow: 0 0 8px 4px $secondary-color1-1;
+    }
 }
 
 :local .dead {}

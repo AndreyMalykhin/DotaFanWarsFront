@@ -1,7 +1,9 @@
+import styles from 'match/styles/target-info.scss';
 import React from 'react';
 import {Overlay, Popover, Image} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
+import classNames from 'classnames';
 import {clearTarget} from 'match/actions/character-actions';
 
 const TargetInfo = React.createClass({
@@ -11,6 +13,7 @@ const TargetInfo = React.createClass({
         rating: React.PropTypes.number.isRequired,
         nickname: React.PropTypes.string.isRequired,
         id: React.PropTypes.string.isRequired,
+        isEnemy: React.PropTypes.bool.isRequired,
         photoUrl: React.PropTypes.string,
         countryName: React.PropTypes.string
     },
@@ -21,23 +24,31 @@ const TargetInfo = React.createClass({
             photoUrl,
             nickname,
             countryName,
+            isEnemy,
             onClose,
             onGetTargetNode
         } = this.props;
+        const wrapperClass =
+            classNames(styles.wrapper, {[styles.enemy]: isEnemy});
         return (
             <Overlay
                 onHide={onClose}
                 target={this._onGetTargetNode}
                 show
                 rootClose
-                placement='top'>
-                <Popover id=''>
+                placement='bottom'>
+                <Popover className={wrapperClass} id=''>
                     <p>
-                        <FormattedMessage id='targetInfo.rating'/>&nbsp;
+                        <Image
+                            className={styles.photoImg}
+                            src={photoUrl}
+                            rounded/>
+                    </p>
+                    <p>{nickname}</p>
+                    <p>
+                        <FormattedMessage id='targetInfo.rating'/>:&nbsp;
                         {rating}
                     </p>
-                    <Image src={photoUrl} rounded width={128} height={128}/>
-                    <p>{nickname}</p>
                     {countryName && <p>{countryName}</p>}
                 </Popover>
             </Overlay>
@@ -53,9 +64,12 @@ const TargetInfo = React.createClass({
 export default function mapStateToProps(state, ownProps) {
     const match = state.match;
     const characters = match.get('characters');
-    const id =
-        characters.get(match.get('myCharacterId')).get('targetId');
-    const user = characters.get(id).get('user');
+    const myCharacter = characters.get(match.get('myCharacterId'));
+    const id = myCharacter.get('targetId');
+    const character = characters.get(id);
+    const isEnemy =
+        character.get('teamId') != myCharacter.get('teamId');
+    const user = character.get('user');
     const countryId = user.get('countryId');
     const countryName =
         countryId && match.get('countries').get(countryId).get('name');
@@ -64,7 +78,8 @@ export default function mapStateToProps(state, ownProps) {
         nickname: user.get('nickname'),
         photoUrl: user.get('photoUrl'),
         countryName: countryName,
-        id: id
+        id: id,
+        isEnemy: isEnemy
     };
 }
 

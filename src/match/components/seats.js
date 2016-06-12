@@ -116,14 +116,12 @@ const Seats = React.createClass({
         }
 
         return (
-            <Row>
-                <Col xs={12}>
-                    {tutorialStep}
-                    <Table className={styles.grid} ref='seats' bordered>
-                        <tbody>{rows}</tbody>
-                    </Table>
-                </Col>
-            </Row>
+            <Col xs={12} sm={6}>
+                {tutorialStep}
+                <Table className={styles.grid} ref='seats' bordered condensed>
+                    <tbody>{rows}</tbody>
+                </Table>
+            </Col>
         );
     },
 
