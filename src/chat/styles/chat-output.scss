@@ -1,5 +1,7 @@
-:local(.wrapper) .well {
-    margin-bottom: 15px;
+@import "~match/styles/common";
+
+:local .well {
+    margin-bottom: $gutter;
 }
 
 :local .list {

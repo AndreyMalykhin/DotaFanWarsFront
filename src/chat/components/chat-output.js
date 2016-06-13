@@ -32,9 +32,9 @@ const ChatOutput = React.createClass({
         }
 
         return (
-            <Row className={styles.wrapper}>
+            <Row>
                 <Col xs={12}>
-                    <Well bsSize='small'>
+                    <Well bsSize='small' className={styles.well}>
                         <Loader isLoaded={!isLoading}/>
                         <ul className={styles.list}>{messageViews}</ul>
                     </Well>

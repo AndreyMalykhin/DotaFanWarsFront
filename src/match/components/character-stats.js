@@ -1,4 +1,6 @@
 import styles from 'match/styles/character-stats.scss';
+import MoneyIcon from 'match/images/money.svg';
+import HealthIcon from 'match/images/health.svg';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
@@ -9,8 +11,7 @@ import {MATCH} from 'common/utils/tutorial-id';
 import {CHARACTER_STATS} from 'match/utils/tutorial-step-index';
 import TutorialStep from 'common/components/tutorial-step';
 import Icon from 'common/components/icon';
-import MoneyIcon from 'match/images/money.svg';
-import HealthIcon from 'match/images/health.svg';
+
 
 const CharacterStats = React.createClass({
     propTypes: {
@@ -22,14 +23,24 @@ const CharacterStats = React.createClass({
 
     render() {
         const {health, money, showTutorial, onTutorialComplete} = this.props;
-        const isDead = health <= 0;
         let content;
         const iconSize = 32;
+        let tutorialStep;
 
-        if (isDead) {
-            content = <p><FormattedMessage id='characterStats.dead'/></p>;
-        } else {
-            content = (
+        if (showTutorial) {
+            tutorialStep = (
+                <TutorialStep
+                    onGetTargetNode={this._onGetTutorialTargetNode}
+                    onComplete={onTutorialComplete}
+                    placement='bottom'>
+                    <FormattedMessage id='characterStats.tutorial'/>
+                </TutorialStep>
+            );
+        }
+
+        return (
+            <Well ref='wrapper' className={styles.wrapper} bsSize='small'>
+                {tutorialStep}
                 <ul className={styles.list}>
                     <li className={styles.listItem}>
                         <Icon
@@ -48,31 +59,12 @@ const CharacterStats = React.createClass({
                         {money}
                     </li>
                 </ul>
-            );
-        }
-
-        let tutorialStep;
-
-        if (showTutorial) {
-            tutorialStep = (
-                <TutorialStep
-                    onGetTargetNode={this._onGetTutorialTargetNode}
-                    onComplete={onTutorialComplete}
-                    placement='top'>
-                    <FormattedMessage id='characterStats.tutorial'/>
-                </TutorialStep>
-            );
-        }
-
-        return (
-            <Well ref='stats' className={styles.wrapper} bsSize='small'>
-                {tutorialStep}{content}
             </Well>
         );
     },
 
     _onGetTutorialTargetNode() {
-        return ReactDOM.findDOMNode(this.refs.stats);
+        return ReactDOM.findDOMNode(this.refs.wrapper);
     }
 });
 

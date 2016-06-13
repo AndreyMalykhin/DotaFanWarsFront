@@ -1,0 +1,21 @@
+@import "~common/styles/colors";
+
+:local .body {
+    text-align: center;
+}
+
+:local .footer {
+    text-align: center;
+}
+
+:local .verdict {
+    text-transform: uppercase;
+}
+
+:local(.rating-delta) {
+    color: $complement-color0;
+
+    :local(.loose) & {
+        color: $primary-color0;
+    }
+}

@@ -73,7 +73,7 @@ export default function storeFactory(container) {
         tutorials: Immutable.Map({
             match: Immutable.Map({
                 step: null,
-                stepCount: 4
+                stepCount: 5
             })
         }),
         userLeaderboard: Immutable.Map({

@@ -12,11 +12,10 @@ const Projectiles = React.createClass({
     render() {
         const {projectiles, onGetTargetNode, onProjectileHit} = this.props;
         return (
-            <div style={{position: 'relative'}}>
+            <div>
                 {projectiles.map((projectile) => (
                     <Projectile
                         key={projectile.get('id')}
-                        container={this}
                         targetId={projectile.get('targetId')}
                         onGetTargetNode={onGetTargetNode}/>
                 )).toArray()}

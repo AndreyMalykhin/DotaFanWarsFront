@@ -1,0 +1,18 @@
+@import "~common/styles/colors";
+
+$background-color: $text-color;
+
+:local(.wrapper) {
+    color: $text-background-color;
+    background-color: $background-color;
+
+    .arrow:after {
+        border-top-color: $background-color !important;
+        border-bottom-color: $background-color !important;
+    }
+}
+
+:local .actions {
+    margin-top: 9px;
+    text-align: center;
+}

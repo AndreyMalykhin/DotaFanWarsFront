@@ -1,7 +1,5 @@
 @import "~common/styles/colors";
-
-$ally-color: $complement-color0;
-$enemy-color: $primary-color0;
+@import "~match/styles/common";
 
 :local(.wrapper) {
     text-align: center;

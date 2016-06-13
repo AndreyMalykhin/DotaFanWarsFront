@@ -1,8 +1,16 @@
+@import "~common/styles/colors";
+@import "~match/styles/common";
+
 :local .wrapper {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: $gutter;
+    padding-bottom: $gutter;
 }
 
 :local .character-bar {
     text-align: center;
+}
+
+:local .i-dead-msg {
+    margin-bottom: $gutter;
+    color: $primary-color0;
 }

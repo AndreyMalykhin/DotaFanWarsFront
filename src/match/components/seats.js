@@ -109,7 +109,7 @@ const Seats = React.createClass({
                 <TutorialStep
                     onGetTargetNode={this._onGetTutorialTargetNode}
                     onComplete={onTutorialComplete}
-                    placement='top'>
+                    placement='bottom'>
                     <FormattedMessage id='seats.tutorial'/>
                 </TutorialStep>
             );
@@ -118,7 +118,7 @@ const Seats = React.createClass({
         return (
             <Col xs={12} sm={6}>
                 {tutorialStep}
-                <Table className={styles.grid} ref='seats' bordered condensed>
+                <Table className={styles.grid} ref='grid' bordered condensed>
                     <tbody>{rows}</tbody>
                 </Table>
             </Col>
@@ -130,14 +130,14 @@ const Seats = React.createClass({
     },
 
     _onGetTutorialTargetNode() {
-        return ReactDOM.findDOMNode(this.refs.seats);
+        return ReactDOM.findDOMNode(this.refs.grid);
     }
 });
 
 function mapStateToProps(state, ownProps) {
     const {match, requestStatuses, tutorials} = state;
     const myCharacter =
-        match.get('characters').get(match.get('myCharacterId'));
+              match.get('characters').get(match.get('myCharacterId'));
     return {
         seats: match.get('seats'),
         characters: match.get('characters'),

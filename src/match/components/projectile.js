@@ -1,31 +1,35 @@
+import styles from 'match/styles/projectile.scss';
+import ProjectileIcon from 'match/images/projectile.svg';
 import React from 'react';
 import {Overlay} from 'react-bootstrap';
+import Icon from 'common/components/icon';
 
 const Projectile = React.createClass({
     propTypes: {
         onGetTargetNode: React.PropTypes.func.isRequired,
-        targetId: React.PropTypes.string.isRequired,
-        container: React.PropTypes.any
+        targetId: React.PropTypes.string.isRequired
     },
 
     render() {
         return (
             <Overlay
-                container={this.props.container}
                 target={this._onGetTargetNode}
                 show
                 placement='top'>
-                <img
-                    src='https://placekitten.com/32/32'
-                    style={{position: 'absolute', marginTop: 32}}
-                    width={64}
-                    height={64}/>
+                <span className={styles.wrapper}>
+                    <Icon
+                        className={styles.img}
+                        glyph={ProjectileIcon}
+                        width={128}
+                        height={128}/>
+                </span>
             </Overlay>
         );
     },
 
     _onGetTargetNode() {
-        return this.props.onGetTargetNode(this.props.targetId);
+        const {onGetTargetNode, targetId} = this.props;
+        return onGetTargetNode(targetId);
     }
 });
 

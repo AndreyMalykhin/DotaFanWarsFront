@@ -12,7 +12,8 @@
         background-color: $primary-color0;
 
         &:hover,
-        &:focus {
+        &:focus,
+        &:active {
             background-color: $primary-color3;
         }
     }

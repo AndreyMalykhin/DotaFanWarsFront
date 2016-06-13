@@ -1,3 +1,4 @@
+import styles from 'match/styles/match-result-dlg.scss';
 import React from 'react';
 import {connect} from 'react-redux';
 import {push} from 'react-router-redux';
@@ -9,11 +10,12 @@ const MatchResultDlg = React.createClass({
     propTypes: {
         onClose: React.PropTypes.func.isRequired,
         myRatingDelta: React.PropTypes.number.isRequired,
+        iWon: React.PropTypes.bool.isRequired,
         winnerName: React.PropTypes.string
     },
 
     render() {
-        const {myRatingDelta, winnerName, onClose} = this.props;
+        const {iWon, myRatingDelta, winnerName, onClose} = this.props;
         let verdict;
 
         if (winnerName) {
@@ -31,23 +33,25 @@ const MatchResultDlg = React.createClass({
         if (myRatingDelta != 0) {
             ratingDeltaView = (
                 <p>
-                    {myRatingDelta > 0 ? '+' : '-'}{myRatingDelta}&nbsp;
-                    <FormattedMessage id='matchResultDlg.rating'/>
+                    <FormattedMessage id='matchResultDlg.rating'/>:&nbsp;
+                    <span className={styles.ratingDelta}>
+                        {myRatingDelta > 0 ? '+' : ''}{myRatingDelta}
+                    </span>
                 </p>
             );
         }
 
         return (
-            <Modal show onHide={onClose}>
+            <Modal className={iWon ? null : styles.loose} onHide={onClose} show>
                 <Modal.Header closeButton>
                     <Modal.Title>
                         <FormattedMessage id='matchResultDlg.title'/>
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    <p>{verdict}</p>{ratingDeltaView}
+                <Modal.Body className={styles.body}>
+                    <p className={styles.verdict}>{verdict}</p>{ratingDeltaView}
                 </Modal.Body>
-                <Modal.Footer>
+                <Modal.Footer className={styles.footer}>
                     <Button onClick={onClose}>
                         <FormattedMessage id='common.close'/>
                     </Button>
@@ -61,8 +65,11 @@ function mapStateToProps(state, ownProps) {
     const match = state.match;
     const result = match.get('result');
     const winnerId = result.get('winnerId');
+    const iWon = match.get('characters').get(match.get('myCharacterId'))
+        .get('teamId') == winnerId;
     return {
         winnerName: winnerId && match.get('teams').get(winnerId).get('name'),
+        iWon: iWon,
         myRatingDelta: result.get('myRatingDelta')
     };
 }

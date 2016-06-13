@@ -1,11 +1,13 @@
+@import "~match/styles/common";
+
 :local .wrapper {
     display: inline-block;
-    margin-left: 15px;
+    margin-left: $gutter;
     vertical-align: top;
 }
 
 :local .list {
     padding: 0;
-    margin-bottom: 15px;
+    margin-bottom: $gutter;
     text-align: center;
 }

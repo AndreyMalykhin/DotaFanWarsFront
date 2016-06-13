@@ -16,6 +16,8 @@ export default {
     'matchScheduleItem.join': 'Войти',
     'match.noFreeSlotsError': 'Нет свободных мест',
     'match.leaverError': 'Запрещено',
+    'match.youDead': 'Вы мертвы',
+    'match.goalTutorial': 'Ваша задача - убить как можно больше игроков вражеской команды до конца реального матча Доты. Команда, которая совершит больше убийств, будет победителем и все ее игроки получат очки рейтинга, а игроки проигравшей команды эти очки потеряют.',
     'loginDlg.title': 'Вход',
     'loginDlg.google': 'Google',
     'loginDlg.facebook': 'Facebook',
@@ -27,7 +29,7 @@ export default {
     'targetInfo.rating': 'Рейтинг',
     'item.buy': 'Купить',
     'matchResultDlg.title': 'Результат матча',
-    'matchResultDlg.winner': 'Победитель: {name}',
+    'matchResultDlg.winner': 'Победа {name}!',
     'matchResultDlg.draw': 'Ничья',
     'matchResultDlg.rating': 'Рейтинг',
     'chatInput.placeholder': 'Сообщение',
@@ -37,7 +39,6 @@ export default {
     'userLeaderboard.rank': 'Ранг',
     'userLeaderboard.player': 'Игрок',
     'userLeaderboard.rating': 'Рейтинг',
-    'characterStats.dead': 'Вы мертвы',
     'characterStats.tutorial': 'Это ваши атрибуты (здоровье, золото). Вы получаете золото каждый раз при совершении убийства вашей командой в реальном матче Доты.',
-    'scoreboard.tutorial': 'Это табло. Здесь вы можете наблюдать.счет реального матча Доты.'
+    'scoreboard.tutorial': 'Это табло. Здесь вы можете увидеть счет реального матча Доты.'
 };

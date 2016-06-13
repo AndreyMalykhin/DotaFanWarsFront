@@ -1,3 +1,4 @@
+import styles from 'common/styles/tutorial-step.scss';
 import React from 'react';
 import {Overlay, Popover, Button} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
@@ -18,13 +19,13 @@ const TutorialStep = React.createClass({
         } = this.props;
         return (
             <Overlay target={onGetTargetNode} placement={placement} show>
-                <Popover id=''>
+                <Popover className={styles.wrapper} id=''>
                     {children}
-                    <p>
+                    <div className={styles.actions}>
                         <Button onClick={onComplete}>
                             <FormattedMessage id='common.ok'/>
                         </Button>
-                    </p>
+                    </div>
                 </Popover>
             </Overlay>
         );

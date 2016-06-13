@@ -56,7 +56,7 @@ const Items = React.createClass({
                 <TutorialStep
                     onGetTargetNode={this._onGetTutorialTargetNode}
                     onComplete={onTutorialComplete}
-                    placement='top'>
+                    placement='bottom'>
                     <FormattedMessage id='items.tutorial'/>
                 </TutorialStep>
             );
@@ -100,13 +100,13 @@ const Items = React.createClass({
         return (
             <div className={styles.wrapper}>
                 {tutorialStep}
-                <ul className={styles.list} ref='items'>{itemViews}</ul>
+                <ul className={styles.list} ref='list'>{itemViews}</ul>
             </div>
         );
     },
 
     _onGetTutorialTargetNode() {
-        return ReactDOM.findDOMNode(this.refs.items);
+        return ReactDOM.findDOMNode(this.refs.list);
     }
 });
 
@@ -125,7 +125,7 @@ export default function mapStateToProps(state, ownProps) {
             requestStatuses.get('match.useOffensiveItem') == PENDING,
         iUseDefensiveItem:
             requestStatuses.get('match.useDefensiveItem') == PENDING,
-        iBuyItem: requestStatuses.get('buyItem') == PENDING
+        iBuyItem: requestStatuses.get('match.buyItem') == PENDING
     };
 }
 

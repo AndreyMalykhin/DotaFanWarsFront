@@ -17,6 +17,8 @@ export default {
     'matchScheduleItem.join': 'Join',
     'match.noFreeSlotsError': 'No free slots',
     'match.leaverError': 'Forbidden',
+    'match.youDead': 'You are dead',
+    'match.goalTutorial': 'Your goal is to kill enemy team members, as many as possible, until the end of the real Dota match. Team that gets more kills will be victorious and its members will receive rating points, and members of looser team will loose the points.',
     'loginDlg.title': 'Login',
     'loginDlg.google': 'Google',
     'loginDlg.facebook': 'Facebook',
@@ -28,7 +30,7 @@ export default {
     'targetInfo.rating': 'Rating',
     'item.buy': 'Buy',
     'matchResultDlg.title': 'Match result',
-    'matchResultDlg.winner': 'Winner: {name}',
+    'matchResultDlg.winner': '{name} victory!',
     'matchResultDlg.draw': 'Draw',
     'matchResultDlg.rating': 'Rating',
     'chatInput.placeholder': 'Message',
@@ -38,7 +40,6 @@ export default {
     'userLeaderboard.rank': 'Rank',
     'userLeaderboard.player': 'Player',
     'userLeaderboard.rating': 'Rating',
-    'characterStats.dead': 'You are dead',
     'characterStats.tutorial': 'This is your stats (health, gold). You gain some gold each time there is a kill by your team inside real Dota match.',
     'scoreboard.tutorial': 'This is a scoreboard. Here you can see score inside real Dota match.'
 };

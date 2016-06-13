@@ -1,4 +1,5 @@
 @import "~common/styles/colors";
+@import "~match/styles/common";
 
 :local .wrapper {
     text-align: center;
@@ -6,12 +7,16 @@
 
 :local .well {
     display: inline-block;
-    margin-bottom: 15px;
+    margin-bottom: $gutter;
 }
 
-:local .team-score {
+:local(.team-score) {
     margin: 0 8px;
-    border: 1px solid $primary-color4;
+    border: 1px solid $border-color;
     color: $text-color;
-    background-color: $primary-color0;
+    background-color: $ally-color;
+
+    :local(.enemy) & {
+        background-color: $enemy-color;
+    }
 }

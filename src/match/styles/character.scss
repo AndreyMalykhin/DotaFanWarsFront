@@ -1,33 +1,34 @@
 @import "~common/styles/colors";
+@import "~match/styles/common";
 
 :local(.health) {
     height: 8px;
     margin-bottom: 4px;
-    border: 1px solid $complement-color4;
+    border: 1px solid $ally-color-dark;
     box-shadow: none;
-    background-color: $complement-color1;
+    background-color: $ally-color-light;
 
     .progress-bar {
         box-shadow: none;
-        background-color: $complement-color0;
+        background-color: $ally-color;
 
         :local(.enemy) & {
-            background-color: $primary-color0;
+            background-color: $enemy-color;
         }
 
         :local(.me) & {
-            background-color: $secondary-color2-0;
+            background-color: $my-color;
         }
     }
 
     :local(.me) & {
-        border-color: $secondary-color2-4;
-        background-color: $secondary-color2-1;
+        border-color: $my-color-dark;
+        background-color: $my-color-light;
     }
 
     :local(.enemy) & {
-        border-color: $primary-color4;
-        background-color: $primary-color1;
+        border-color: $enemy-color-dark;
+        background-color: $enemy-color-light;
     }
 
     :local(.disabled) & {

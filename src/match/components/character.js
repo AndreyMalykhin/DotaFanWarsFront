@@ -1,10 +1,10 @@
 import styles from 'match/styles/character.scss';
+import DeadIcon from 'match/images/character-dead.svg';
 import React from 'react';
 import {ProgressBar, Image, Button} from 'react-bootstrap';
 import Immutable from 'immutable';
 import classNames from 'classnames';
 import Icon from 'common/components/icon';
-import DeadIcon from 'match/images/character-dead.svg';
 
 const Character = React.createClass({
     propTypes: {
