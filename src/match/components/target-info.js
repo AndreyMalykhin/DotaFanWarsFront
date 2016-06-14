@@ -3,6 +3,7 @@ import React from 'react';
 import {Overlay, Popover, Image} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
+import Immutable from 'immutable';
 import classNames from 'classnames';
 import {clearTarget} from 'match/actions/character-actions';
 
@@ -15,7 +16,7 @@ const TargetInfo = React.createClass({
         id: React.PropTypes.string.isRequired,
         isEnemy: React.PropTypes.bool.isRequired,
         photoUrl: React.PropTypes.string,
-        countryName: React.PropTypes.string
+        country: React.PropTypes.instanceOf(Immutable.Map)
     },
 
     render() {
@@ -23,13 +24,28 @@ const TargetInfo = React.createClass({
             rating,
             photoUrl,
             nickname,
-            countryName,
             isEnemy,
+            country,
             onClose,
             onGetTargetNode
         } = this.props;
         const wrapperClass =
-            classNames(styles.wrapper, {[styles.enemy]: isEnemy});
+                  classNames(styles.wrapper, {[styles.enemy]: isEnemy});
+        let countryView;
+
+        if (country) {
+            countryView = (
+                <p>
+                    <Image
+                        className={styles.countryImg}
+                        src={country.get('flagUrl')}
+                        width={16}
+                        height={16}/>
+                    {country.get('name')}
+                </p>
+            );
+        }
+
         return (
             <Overlay
                 onHide={onClose}
@@ -49,7 +65,7 @@ const TargetInfo = React.createClass({
                         <FormattedMessage id='targetInfo.rating'/>:&nbsp;
                         {rating}
                     </p>
-                    {countryName && <p>{countryName}</p>}
+                    {countryView}
                 </Popover>
             </Overlay>
         );
@@ -61,7 +77,7 @@ const TargetInfo = React.createClass({
     }
 });
 
-export default function mapStateToProps(state, ownProps) {
+function mapStateToProps(state, ownProps) {
     const match = state.match;
     const characters = match.get('characters');
     const myCharacter = characters.get(match.get('myCharacterId'));
@@ -71,13 +87,12 @@ export default function mapStateToProps(state, ownProps) {
         character.get('teamId') != myCharacter.get('teamId');
     const user = character.get('user');
     const countryId = user.get('countryId');
-    const countryName =
-        countryId && match.get('countries').get(countryId).get('name');
+    const country = countryId && match.get('countries').get(countryId);
     return {
         rating: user.get('rating'),
         nickname: user.get('nickname'),
         photoUrl: user.get('photoUrl'),
-        countryName: countryName,
+        country: country,
         id: id,
         isEnemy: isEnemy
     };

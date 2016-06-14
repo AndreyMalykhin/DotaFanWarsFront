@@ -1,7 +1,9 @@
 import styles from 'chat/styles/chat-output.scss';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import {Row, Col, Well} from 'react-bootstrap';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
 import Loader from 'common/components/loader';
 import {FormattedTime} from 'react-intl';
 import Immutable from 'immutable';
@@ -36,11 +38,24 @@ const ChatOutput = React.createClass({
                 <Col xs={12}>
                     <Well bsSize='small' className={styles.well}>
                         <Loader isLoaded={!isLoading}/>
-                        <ul className={styles.list}>{messageViews}</ul>
+                        <CSSTransitionGroup
+                            ref='list'
+                            component='ul'
+                            className={styles.list}
+                            transitionName={{enter: styles.listItemEnterAnim}}
+                            transitionEnterTimeout={1000}
+                            transitionLeave={false}>
+                            {messageViews}
+                        </CSSTransitionGroup>
                     </Well>
                 </Col>
             </Row>
         );
+    },
+
+    componentDidUpdate() {
+        const list = ReactDOM.findDOMNode(this.refs.list);
+        list.scrollTop = list.scrollHeight;
     }
 });
 

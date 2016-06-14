@@ -28,13 +28,29 @@
     text-overflow: ellipsis;
 }
 
-:local .photo-btn {
+@keyframes :local(glow) {
+    from {
+        color: $primary-color1;
+    }
+    to {
+        color: $primary-color4;
+    }
+}
+
+:local .use-btn {
     position: relative;
     padding: 4px;
     outline: 0 !important;
 
     :local .active & {
-        box-shadow: 0 0 8px 4px $primary-color1;
+        animation-name: glow;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        animation-fill-mode: both;
+        animation-direction: alternate;
+        animation-timing-function: linear;
+        box-shadow: 0 0 8px 4px;
+        /* box-shadow: 0 0 8px 4px $primary-color1; */
     }
 }
 

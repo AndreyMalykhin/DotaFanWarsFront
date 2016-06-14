@@ -24,3 +24,10 @@
     max-height: 128px;
     border: 1px solid $border-color;
 }
+
+:local .country-img {
+    margin-right: 8px;
+    border: 1px solid $text-background-color;
+    border-radius: 50%;
+    background-color: $text-background-color;
+}

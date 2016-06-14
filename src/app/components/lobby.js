@@ -9,7 +9,7 @@ import NotificationBar from 'common/components/notification-bar';
 const Lobby = React.createClass({
     render() {
         return (
-            <div className={styles.wrapper}>
+            <div key='wrapper' className={styles.wrapper}>
                 <Toolbar/>
                 <Grid className={styles.body}>
                     <NotificationBar/>

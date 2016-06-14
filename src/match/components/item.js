@@ -34,7 +34,7 @@ const Item = React.createClass({
                 <p className={styles.header}>{name}</p>
                 <p>
                     <Button
-                        className={styles.photoBtn}
+                        className={styles.useBtn}
                         disabled={isUseDisabled}
                         onClick={this._onClick}>
                         <Image src={photoUrl} width={64} height={64}/>

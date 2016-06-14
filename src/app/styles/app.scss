@@ -1,3 +1,4 @@
+@import '~animate.css/animate';
 @import "~common/styles/colors";
 
 $bootstrap-sass-asset-helper: true;
@@ -52,7 +53,8 @@ $popover-fallback-border-color: $popover-border-color;
 
 html,
 body,
-#app {
+#app,
+:local(.wrapper) {
     height: 100%;
 }
 
@@ -76,4 +78,9 @@ body,
 
 .well {
     box-shadow: none;
+}
+
+:local(.content-enter-anim) {
+    animation-name: fadeIn;
+    animation-duration: 1s;
 }

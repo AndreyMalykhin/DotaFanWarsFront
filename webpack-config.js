@@ -71,7 +71,7 @@ module.exports = {
                 loader: jsLoader
             },
             {
-                test: /\.scss$/,
+                test: /(\.scss$|\.css$)/,
                 loader: cssLoader
             },
             {
