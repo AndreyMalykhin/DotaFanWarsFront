@@ -1,6 +1,7 @@
 import styles from 'common/styles/notification-bar.scss';
 import React from 'react';
 import {connect} from 'react-redux';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
 import Immutable from 'immutable';
 import {Alert} from 'react-bootstrap';
 import {removeNotification} from 'common/actions/notification-actions';
@@ -16,18 +17,28 @@ const NotificationBar = React.createClass({
 
     render() {
         const {notifications, onNotificationClose} = this.props;
+        const transitionName = {
+            enter: styles.listItemEnterAnim,
+            leave: styles.listItemLeaveAnim
+        };
         return (
-            <ul className={styles.list}>
+            <CSSTransitionGroup
+                className={styles.list}
+                component='ul'
+                transitionName={transitionName}
+                transitionEnterTimeout={1000}
+                transitionLeaveTimeout={1000}>
                 {notifications.map((notification) => (
                     <li key={notification.get('id')}>
                         <Alert
+                            className={styles.listItem}
                             bsStyle={notificationStyles[notification.get('type')]}
                             onDismiss={onNotificationClose.bind(this, notification.get('id'))}>
                             {notification.get('body')}
                         </Alert>
                     </li>
                 ))}
-            </ul>
+            </CSSTransitionGroup>
         );
     }
 });

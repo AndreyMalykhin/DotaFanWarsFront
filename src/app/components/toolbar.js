@@ -11,6 +11,11 @@ import {PENDING} from 'common/utils/request-status';
 import {setLocale} from 'common/actions/locale-actions';
 import {toggleToolbar} from 'app/actions/toolbar-actions';
 
+const Header = Navbar.Header;
+const Toggle = Navbar.Toggle;
+const Brand = Navbar.Brand;
+const Collapse = Navbar.Collapse;
+
 const Toolbar = React.createClass({
     render() {
         const {
@@ -28,16 +33,16 @@ const Toolbar = React.createClass({
             {id: `locale.${locale}`});
         return (
             <Navbar expanded={isExpanded} onToggle={onToggle}>
-                <Navbar.Header>
-                    <Navbar.Brand>
+                <Header>
+                    <Brand>
                         <Link to='/'>
                             <span className={styles.brandPrefix}>Dota</span>
                             &nbsp;Fan Wars
                         </Link>
-                    </Navbar.Brand>
-                    <Navbar.Toggle/>
-                </Navbar.Header>
-                <Navbar.Collapse>
+                    </Brand>
+                    <Toggle/>
+                </Header>
+                <Collapse>
                     <MainMenu
                         isLoggedIn={isLoggedIn}
                         onItemSelect={onMainMenuItemSelect}/>
@@ -47,17 +52,17 @@ const Toolbar = React.createClass({
                             onSelect={onLocaleSelect}
                             title={currentLocaleName}
                             id=''>
-                            {supportedLocales.map((supportedLocale) =>
+                            {supportedLocales.map((supportedLocale) => (
                                 <MenuItem
                                     key={supportedLocale}
                                     eventKey={supportedLocale}
                                     active={supportedLocale == locale}>
                                     <FormattedMessage id={`locale.${supportedLocale}`}/>
                                 </MenuItem>
-                            )}
+                            ))}
                         </NavDropdown>
                     </Nav>
-                </Navbar.Collapse>
+                </Collapse>
             </Navbar>
         );
     },

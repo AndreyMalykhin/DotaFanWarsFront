@@ -30,7 +30,7 @@ const TargetInfo = React.createClass({
             onGetTargetNode
         } = this.props;
         const wrapperClass =
-                  classNames(styles.wrapper, {[styles.enemy]: isEnemy});
+            classNames(styles.wrapper, {[styles.enemy]: isEnemy});
         let countryView;
 
         if (country) {

@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import {Col, Well} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import ValueChangeAnimator from 'common/components/value-change-animator';
 import {nextTutorialStep} from 'common/actions/tutorial-actions';
 import {MATCH} from 'common/utils/tutorial-id';
 import {CHARACTER_STATS} from 'match/utils/tutorial-step-index';
@@ -42,24 +43,27 @@ const CharacterStats = React.createClass({
             <Well ref='wrapper' className={styles.wrapper} bsSize='small'>
                 {tutorialStep}
                 <ul className={styles.list}>
-                    <li className={styles.listItem}>
-                        <Icon
-                            className={styles.healthIcon}
-                            glyph={HealthIcon}
-                            width={iconSize}
-                            height={iconSize}/>
-                        {health}
-                    </li>
-                    <li className={styles.listItem}>
-                        <Icon
-                            className={styles.moneyIcon}
-                            glyph={MoneyIcon}
-                            width={iconSize}
-                            height={iconSize}/>
-                        {money}
-                    </li>
+                    {this._renderStat(health, HealthIcon, styles.healthIcon)}
+                    {this._renderStat(money, MoneyIcon, styles.moneyIcon)}
                 </ul>
             </Well>
+        );
+    },
+
+    _renderStat(value, icon, iconClass) {
+        return (
+            <li className={styles.listItem}>
+                <Icon
+                    className={iconClass}
+                    glyph={icon}
+                    width={32}
+                    height={32}/>
+                <ValueChangeAnimator
+                    className={styles.valueChangeAnim}
+                    value={value}>
+                    <span className={styles.value}>{value}</span>
+                </ValueChangeAnimator>
+            </li>
         );
     },
 

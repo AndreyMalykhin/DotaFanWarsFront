@@ -5,6 +5,8 @@ import {Row, Col, Form, FormControl, Button, InputGroup} from 'react-bootstrap';
 import {sendMsg, setChatInputMsg} from 'chat/actions/chat-actions';
 import {PENDING, SUCCESS} from 'common/utils/request-status';
 
+const InputGroupButton = InputGroup.Button;
+
 const ChatInput = React.createClass({
     propTypes: {
         onSubmit: React.PropTypes.func.isRequired,
@@ -29,13 +31,13 @@ const ChatInput = React.createClass({
                                 onChange={onChange}
                                 disabled={isInputDisabled}
                                 type='text'/>
-                            <InputGroup.Button>
+                            <InputGroupButton>
                                 <Button
                                     disabled={isSendDisabled}
                                     type='submit'>
                                     <FormattedMessage id='chatInput.send'/>
                                 </Button>
-                            </InputGroup.Button>
+                            </InputGroupButton>
                         </InputGroup>
                     </Form>
                 </Col>

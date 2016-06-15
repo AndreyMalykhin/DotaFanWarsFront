@@ -50,7 +50,6 @@
         animation-direction: alternate;
         animation-timing-function: linear;
         box-shadow: 0 0 8px 4px;
-        /* box-shadow: 0 0 8px 4px $primary-color1; */
     }
 }
 
@@ -59,4 +58,10 @@
     top: 4px !important;
     left: 4px !important;
     color: $primary-color0 !important;
+}
+
+:local(.count-change-anim) {
+    animation-name: zoomIn;
+    animation-duration: 1s;
+    animation-fill-mode: both;
 }

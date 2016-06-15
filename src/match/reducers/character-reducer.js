@@ -26,13 +26,13 @@ function charactersReviver(key, value) {
     case '':
         return Immutable.Map().withMutations((characters) => {
             for (let character of value.values()) {
-                characters.set(character.get('id'), character);
+                characters.mergeDeepIn([character.get('id')], character);
             }
         });
     case 'items':
         return Immutable.Map().withMutations((items) => {
             for (let item of value.values()) {
-                items.set(item.get('id'), item);
+                items.mergeDeepIn([item.get('id')], item);
             }
         });
     }

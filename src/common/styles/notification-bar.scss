@@ -7,7 +7,22 @@
     text-align: right;
 }
 
-:local(.list) .alert {
+:local .list-item {
     display: inline-block;
     text-align: left;
+}
+
+@mixin list-item-anim {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+:local(.list-item-enter-anim) {
+    @include list-item-anim;
+    animation-name: bounceInLeft;
+}
+
+:local(.list-item-leave-anim) {
+    @include list-item-anim;
+    animation-name: bounceOutRight;
 }

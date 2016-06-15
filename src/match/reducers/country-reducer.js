@@ -5,7 +5,7 @@ export default function countryReducer(countries = null, action) {
     case 'UPDATE_COUNTRIES':
         return countries.withMutations((countries) => {
             for (let country of action.payload) {
-                countries.merge({[country.id]: Immutable.fromJS(country)});
+                countries.mergeDeepIn([country.id], country);
             }
         });
     }

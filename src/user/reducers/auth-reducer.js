@@ -5,13 +5,9 @@ export default function authReducer(auth = null, action) {
     switch (action.type) {
     case 'SET_LOGGED_IN':
         return auth.set('isLoggedIn', action.payload.isLoggedIn);
-    case 'LOGIN_REQUEST':
-        return auth.set('loginRequestStatus', PENDING);
     case 'LOGIN_RESPONSE':
-        const isSuccess = !action.error;
         return auth.merge({
-            isLoggedIn: isSuccess && action.payload.status == 200,
-            loginRequestStatus: isSuccess ? SUCCESS : FAIL,
+            isLoggedIn: !action.error && action.payload.status == 200,
             isLoginDlgOpened: false
         });
     case 'OPEN_LOGIN_DLG':

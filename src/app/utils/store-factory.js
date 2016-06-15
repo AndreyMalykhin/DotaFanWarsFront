@@ -1,3 +1,5 @@
+import FacebookIcon from 'user/images/facebook.svg';
+import GoogleIcon from 'user/images/google.svg';
 import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
 import {routerMiddleware} from 'react-router-redux';
@@ -26,10 +28,12 @@ export default function storeFactory(container) {
             errors: Immutable.Map()
         }),
         auth: Immutable.Map({
-            providers: Immutable.List([FACEBOOK, GOOGLE]),
+            providers: Immutable.fromJS([
+                {id: FACEBOOK, logo: FacebookIcon},
+                {id: GOOGLE, logo: GoogleIcon}
+            ]),
             isLoggedIn: false,
-            isLoginDlgOpened: false,
-            loginRequestStatus: null
+            isLoginDlgOpened: false
         }),
         match: null,
         matchSchedule: Immutable.Map({
@@ -68,7 +72,8 @@ export default function storeFactory(container) {
             'match.useDefensiveItem': null,
             'match.buyItem': null,
             'match.sendMsg': null,
-            'lobby.getUserLeaderboard': null
+            'lobby.getUserLeaderboard': null,
+            'lobby.login': null
         }),
         tutorials: Immutable.Map({
             match: Immutable.Map({

@@ -9,6 +9,10 @@ import {PENDING} from 'common/utils/request-status';
 import {getMatchRooms, closeRoomPicker, joinMatch} from
     'match/actions/match-actions';
 
+const Header = Modal.Header;
+const Body = Modal.Body;
+const Title = Modal.Title;
+
 const RoomPicker = React.createClass({
     propTypes: {
         onClose: React.PropTypes.func.isRequired,
@@ -31,16 +35,17 @@ const RoomPicker = React.createClass({
         } = this.props;
         return (
             <Modal show={isOpen} onHide={onClose} className={styles.wrapper}>
-                <Modal.Header closeButton>
-                    <Modal.Title>
+                <Header closeButton>
+                    <Title>
                         <FormattedMessage id='roomPicker.title'/>
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
+                    </Title>
+                </Header>
+                <Body>
                     <Loader isLoaded={!isLoading}/>
                     <ListGroup>
                         {rooms && rooms.map((room) => (
                             <ListGroupItem
+                                className={styles.listItem}
                                 key={room.get('id')}
                                 disabled={isLoading}
                                 onClick={onPick.bind(this, room, teamId)}>
@@ -48,7 +53,7 @@ const RoomPicker = React.createClass({
                             </ListGroupItem>
                         ))}
                     </ListGroup>
-                </Modal.Body>
+                </Body>
             </Modal>
         );
     },

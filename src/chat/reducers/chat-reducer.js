@@ -11,7 +11,7 @@ export default function chatReducer(chat = null, action) {
         return chat.update('users', (users) => {
             return users.withMutations((users) => {
                 for (let user of action.payload) {
-                    users.merge({[user.id]: Immutable.fromJS(user)});
+                    users.mergeDeepIn([user.id], user);
                 }
             });
         });

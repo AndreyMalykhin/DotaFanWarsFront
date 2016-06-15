@@ -20,3 +20,9 @@
         background-color: $enemy-color;
     }
 }
+
+:local(.team-score-change-anim) {
+    animation-name: rotateIn;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}

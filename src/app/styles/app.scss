@@ -80,7 +80,8 @@ body,
     box-shadow: none;
 }
 
-:local(.content-enter-anim) {
+:local(.content-change-anim) {
     animation-name: fadeIn;
     animation-duration: 1s;
+    animation-fill-mode: both;
 }

@@ -32,3 +32,13 @@
     @include icon;
     fill: $secondary-color1-1;
 }
+
+:local(.value-change-anim) {
+    animation-name: zoomIn;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+:local .value {
+    display: inline-block;
+}

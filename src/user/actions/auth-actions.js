@@ -1,5 +1,7 @@
 import {addGenericError} from 'common/actions/notification-actions';
 import {ERROR} from 'common/utils/notification-type';
+import {setRequestStatus} from 'common/actions/request-status-actions';
+import {PENDING, SUCCESS, FAIL} from 'common/utils/request-status';
 
 export function setLoggedIn(isLoggedIn) {
     return {type: 'SET_LOGGED_IN', payload: {isLoggedIn: isLoggedIn}};
@@ -7,13 +9,14 @@ export function setLoggedIn(isLoggedIn) {
 
 export function loginViaProvider(provider) {
     return (dispatch, getState, diContainer) => {
-        dispatch({type: 'LOGIN_REQUEST'});
+        dispatch(setRequestStatus('lobby.login', PENDING));
         return diContainer.authService.loginViaProvider(provider)
             .then((response) => {
                 dispatch({
                     type: 'LOGIN_RESPONSE',
                     payload: response
                 });
+                dispatch(setRequestStatus('lobby.login', SUCCESS));
             })
             .catch((error) => {
                 console.log(error);
@@ -22,6 +25,7 @@ export function loginViaProvider(provider) {
                     payload: error,
                     error: true
                 });
+                dispatch(setRequestStatus('lobby.login', FAIL));
                 dispatch(addGenericError());
             });
     };

@@ -3,6 +3,7 @@ import React from 'react';
 import {Badge, Button, Image} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
+import ValueChangeAnimator from 'common/components/value-change-animator';
 
 const Item = React.createClass({
     propTypes: {
@@ -38,7 +39,11 @@ const Item = React.createClass({
                         disabled={isUseDisabled}
                         onClick={this._onClick}>
                         <Image src={photoUrl} width={64} height={64}/>
-                        <Badge className={styles.count}>{count}</Badge>
+                        <ValueChangeAnimator
+                            className={styles.countChangeAnim}
+                            value={count}>
+                            <Badge className={styles.count}>{count}</Badge>
+                        </ValueChangeAnimator>
                     </Button>
                 </p>
                 <Button disabled={isBuyDisabled} onClick={this._onBuy}>

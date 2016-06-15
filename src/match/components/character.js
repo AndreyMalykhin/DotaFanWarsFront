@@ -5,6 +5,7 @@ import {ProgressBar, Image, Button} from 'react-bootstrap';
 import Immutable from 'immutable';
 import classNames from 'classnames';
 import Icon from 'common/components/icon';
+import ValueChangeAnimator from 'common/components/value-change-animator';
 
 const Character = React.createClass({
     propTypes: {
@@ -30,27 +31,32 @@ const Character = React.createClass({
             [styles.dead]: isDead
         });
         let photo;
+        const photoSize = 32;
 
         if (isDead) {
             photo = (
                 <Icon
                     glyph={DeadIcon}
                     className={styles.deadIcon}
-                    width={32}
-                    height={32}/>
+                    width={photoSize}
+                    height={photoSize}/>
             );
         } else {
             photo = (
-                <Button
-                    className={styles.photoBtn}
-                    onClick={this._onClick}
-                    disabled={isDisabled}>
-                    <Image
-                        className={styles.photoImg}
-                        src={photoUrl}
-                        width={32}
-                        height={32}/>
-                </Button>
+                <ValueChangeAnimator
+                    value={health}
+                    className={styles.healthChangeAnim}>
+                    <Button
+                        className={styles.photoBtn}
+                        onClick={this._onClick}
+                        disabled={isDisabled}>
+                        <Image
+                            className={styles.photoImg}
+                            src={photoUrl}
+                            width={photoSize}
+                            height={photoSize}/>
+                    </Button>
+                </ValueChangeAnimator>
             );
         }
 

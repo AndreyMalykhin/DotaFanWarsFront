@@ -2,8 +2,8 @@ import styles from 'app/styles/app.scss';
 import React from 'react';
 import {connect} from 'react-redux';
 import {IntlProvider} from 'react-intl';
-import CSSTransitionGroup from 'react-addons-css-transition-group';
 import Immutable from 'immutable';
+import ValueChangeAnimator from 'common/components/value-change-animator';
 
 const App = React.createClass({
     propTypes: {
@@ -23,14 +23,11 @@ const App = React.createClass({
                 key={locale}
                 locale={locale}
                 messages={translations.toObject()}>
-                <CSSTransitionGroup
-                    className={styles.wrapper}
-                    component='div'
-                    transitionName={{enter: styles.contentEnterAnim}}
-                    transitionEnterTimeout={1000}
-                    transitionLeave={false}>
-                    {React.cloneElement(children, {key: location.pathname})}
-                </CSSTransitionGroup>
+                <ValueChangeAnimator
+                    className={styles.contentChangeAnim}
+                    value={location.pathname}>
+                    {children}
+                </ValueChangeAnimator>
             </IntlProvider>
         );
     }

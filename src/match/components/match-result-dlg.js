@@ -6,6 +6,11 @@ import {FormattedMessage} from 'react-intl';
 import {Modal, Button} from 'react-bootstrap';
 import {leaveMatch} from 'match/actions/match-actions';
 
+const Header = Modal.Header;
+const Body = Modal.Body;
+const Title = Modal.Title;
+const Footer = Modal.Footer;
+
 const MatchResultDlg = React.createClass({
     propTypes: {
         onClose: React.PropTypes.func.isRequired,
@@ -43,19 +48,19 @@ const MatchResultDlg = React.createClass({
 
         return (
             <Modal className={iWon ? null : styles.loose} onHide={onClose} show>
-                <Modal.Header closeButton>
-                    <Modal.Title>
+                <Header closeButton>
+                    <Title>
                         <FormattedMessage id='matchResultDlg.title'/>
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body className={styles.body}>
+                    </Title>
+                </Header>
+                <Body className={styles.body}>
                     <p className={styles.verdict}>{verdict}</p>{ratingDeltaView}
-                </Modal.Body>
-                <Modal.Footer className={styles.footer}>
+                </Body>
+                <Footer className={styles.footer}>
                     <Button onClick={onClose}>
                         <FormattedMessage id='common.close'/>
                     </Button>
-                </Modal.Footer>
+                </Footer>
             </Modal>
         );
     }

@@ -4,7 +4,9 @@ import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import {Row, Col, Image, Badge, Well} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import ValueChangeAnimator from 'common/components/value-change-animator';
 import Immutable from 'immutable';
+import classNames from 'classnames';
 import {MATCH} from 'common/utils/tutorial-id';
 import {nextTutorialStep} from 'common/actions/tutorial-actions';
 import {SCOREBOARD} from 'match/utils/tutorial-step-index';
@@ -19,7 +21,12 @@ const Scoreboard = React.createClass({
     },
 
     render() {
-        const {myTeamId, teams, showTutorial, onTutorialComplete} = this.props;
+        const {
+            myTeamId,
+            teams,
+            showTutorial,
+            onTutorialComplete
+        } = this.props;
         let tutorialStep;
 
         if (showTutorial) {
@@ -57,15 +64,11 @@ const Scoreboard = React.createClass({
                             width={32}
                             height={32}
                             rounded/>
-                        <Badge className={styles.teamScore}>
-                            {team1.get('score')}
-                        </Badge>
+                        {this._renderTeamScore(team1.get('score'))}
                     </span>
                     :
                     <span className={team2Class}>
-                        <Badge className={styles.teamScore}>
-                            {team2.get('score')}
-                        </Badge>
+                        {this._renderTeamScore(team2.get('score'))}
                         <Image
                             src={team2.get('logoUrl')}
                             width={32}
@@ -74,6 +77,16 @@ const Scoreboard = React.createClass({
                     </span>
                 </Well>
             </Col>
+        );
+    },
+
+    _renderTeamScore(score) {
+        return (
+            <ValueChangeAnimator
+                value={score}
+                className={styles.teamScoreChangeAnim}>
+                <Badge className={styles.teamScore}>{score}</Badge>
+            </ValueChangeAnimator>
         );
     },
 

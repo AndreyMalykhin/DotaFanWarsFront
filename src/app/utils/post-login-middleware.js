@@ -18,7 +18,8 @@ const postLoginMiddleware = store => next => {
             result = next(realAction);
             break;
         case 'CLOSE_LOGIN_DLG':
-            if (store.getState().auth.get('loginRequestStatus') != PENDING) {
+            if (store.getState().requestStatuses.get('lobby.login') !=
+                    PENDING) {
                 callback = null;
             }
 

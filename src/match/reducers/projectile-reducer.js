@@ -5,8 +5,7 @@ export default function projectileReducer(projectiles = null, action) {
     case 'UPDATE_PROJECTILES':
         return projectiles.withMutations((projectiles) => {
             for (let projectile of action.payload) {
-                projectiles.merge(
-                    {[projectile.id]: Immutable.fromJS(projectile)});
+                projectiles.mergeDeepIn([projectile.id], projectile);
             }
         });
     case 'REMOVE_PROJECTILES':

@@ -58,3 +58,9 @@
 :local .dead-icon {
     fill: #FFFFFF;
 }
+
+:local(.health-change-anim) {
+    animation-name: jello;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
