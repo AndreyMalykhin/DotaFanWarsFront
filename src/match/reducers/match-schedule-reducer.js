@@ -16,7 +16,7 @@ export default function matchScheduleReducer(schedule = null, action) {
         }
 
         const {items, page, pageCount, lastUpdateTime} = action.payload.data;
-        return schedule.mergeDeep({
+        return schedule.merge({
             items: items,
             page: page,
             pageCount: pageCount,

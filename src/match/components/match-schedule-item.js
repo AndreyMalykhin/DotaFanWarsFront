@@ -15,9 +15,7 @@ const MatchScheduleItem = React.createClass({
         if (isLive) {
             title = <FormattedMessage id='matchScheduleItem.live'/>;
         } else {
-            title = <FormattedRelative
-                        value={startDate}
-                        updateInterval={0}/>;
+            title = <FormattedRelative value={startDate} updateInterval={0}/>;
         }
 
         const teamColumns = match.get('teams').map((team) => (
@@ -26,7 +24,6 @@ const MatchScheduleItem = React.createClass({
                 <p>
                     <Image
                         src={team.get('logoUrl')}
-                        rounded
                         width={64}
                         height={64}/>
                 </p>
