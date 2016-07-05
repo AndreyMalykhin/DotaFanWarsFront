@@ -1,4 +1,3 @@
-import Immutable from 'immutable';
 import {PENDING, SUCCESS, FAIL} from 'common/utils/request-status';
 
 export default function userReducer(user = null, action) {
@@ -48,4 +47,4 @@ export default function userReducer(user = null, action) {
     }
 
     return user;
-};
+}

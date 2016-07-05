@@ -23,12 +23,12 @@ export function getUser() {
 
 export function saveUser() {
     return (dispatch, getState, diContainer) => {
-        dispatch(setUserFormErrors([]));
+        dispatch(setUserFormErrors({}));
         dispatch({type: 'SAVE_USER_REQUEST'});
         const form = getState().userForm;
         const user = {
             nickname: form.get('nickname'),
-            countryId: form.get('countryId')
+            country: form.get('country') || null
         };
         return diContainer.userService.save(user)
             .then((response) => {
@@ -54,7 +54,7 @@ export function saveUser() {
 
 export function setUserPhoto(file) {
     return (dispatch, getState, diContainer) => {
-        dispatch(setUserFormErrors([]));
+        dispatch(setUserFormErrors({}));
         dispatch({type: 'SET_USER_PHOTO_REQUEST'});
         return diContainer.userService.setPhoto(file)
             .then((response) => {

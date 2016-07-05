@@ -1,4 +1,4 @@
-import styles from 'user/styles/user-leaderboard.scss';
+import 'user/styles/user-leaderboard.scss';
 import React from 'react';
 import {connect} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
@@ -17,10 +17,29 @@ const UserLeaderboard = React.createClass({
 
     render() {
         const {users, isLoading} = this.props;
-        let itemsView;
+        let table;
 
         if (users) {
-            itemsView = (
+            const rows = users.map((user, rank) => {
+                const country = user.get('country');
+                const countryImg = country && (
+                    <Image
+                        src={country.get('flagUrl')}
+                        width={16}
+                        height={16}/>
+                );
+                return (
+                    <tr key={user.get('id')}>
+                        <td>{rank + 1}</td>
+                        <td>
+                            {user.get('nickname')}&nbsp;{countryImg}
+                        </td>
+                        <td>{user.get('rating')}</td>
+                    </tr>
+                );
+            });
+
+            table = (
                 <Table bordered>
                     <thead>
                         <tr>
@@ -35,21 +54,7 @@ const UserLeaderboard = React.createClass({
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {users.map((user, rank) => (
-                            <tr key={user.get('id')}>
-                                <td>{rank + 1}</td>
-                                <td>
-                                    <Image
-                                        src={user.get('country').get('flagUrl')}
-                                        width={16}
-                                        height={16}/>
-                                    &nbsp;{user.get('nickname')}
-                                </td>
-                                <td>{user.get('rating')}</td>
-                            </tr>
-                        ))}
-                    </tbody>
+                    <tbody>{rows}</tbody>
                 </Table>
             );
         }
@@ -58,7 +63,7 @@ const UserLeaderboard = React.createClass({
             <Row>
                 <Col xs={12}>
                     <Loader isLoaded={!isLoading}/>
-                    {itemsView}
+                    {table}
                 </Col>
             </Row>
         );
@@ -69,7 +74,7 @@ const UserLeaderboard = React.createClass({
     }
 });
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const {userLeaderboard, requestStatuses} = state;
     return {
         users: userLeaderboard.get('items'),
@@ -77,7 +82,7 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
+function mapDispatchToProps(dispatch) {
     return {
         onLoad() {
             dispatch(getUserLeaderboard());

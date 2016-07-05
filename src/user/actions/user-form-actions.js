@@ -17,16 +17,17 @@ export function setUserNickname(nickname) {
 }
 
 export function fillUserForm() {
-    return (dispatch, getState, diContainer) => {
+    return (dispatch, getState) => {
         const user = getState().user;
+        const country = user.get('country');
         dispatch({
             type: 'FILL_USER_FORM',
             payload: {
-                countryId: user.get('countryId'),
+                country: country ? country.get('id') : null,
                 nickname: user.get('nickname')
             }
         });
-        dispatch(setUserFormErrors([]));
+        dispatch(setUserFormErrors({}));
         return Promise.resolve();
     };
 }

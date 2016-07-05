@@ -17,6 +17,10 @@ export function loginViaProvider(provider) {
                     payload: response
                 });
                 dispatch(setRequestStatus('lobby.login', SUCCESS));
+
+                if (response.status != 200) {
+                    dispatch(addGenericError());
+                }
             })
             .catch((error) => {
                 console.log(error);

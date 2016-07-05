@@ -1,9 +1,10 @@
+/* eslint-env node */
+
 require('dotenv').config();
 var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var CopyWebpackPlugin = require('copy-webpack-plugin');
 var autoprefixer = require('autoprefixer');
 
 var plugins = [
@@ -20,17 +21,7 @@ var plugins = [
     new HtmlWebpackPlugin({
         template: path.resolve(__dirname, 'src/app/templates/app.html'),
         inject: true
-    }),
-    new CopyWebpackPlugin([
-        {
-            from: path.resolve(__dirname, 'src/match/images/items'),
-            to: 'items'
-        },
-        {
-            from: path.resolve(__dirname, 'src/common/images/countries'),
-            to: 'countries'
-        }
-    ])
+    })
 ];
 var entry = [path.resolve(__dirname, 'src/bootstrap.js')];
 var jsLoader = 'babel-loader?cacheDirectory';
@@ -88,7 +79,7 @@ module.exports = {
         ]
     },
     plugins: plugins,
-    postcss: function(webpack) {return [autoprefixer];},
+    postcss: function() {return [autoprefixer];},
     devServer: {
         port: process.env.DFWF_PORT,
         host: '0.0.0.0',

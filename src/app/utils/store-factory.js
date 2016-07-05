@@ -6,7 +6,7 @@ import {routerMiddleware} from 'react-router-redux';
 import Immutable from 'immutable';
 import reducer from 'app/reducers/app-reducer';
 import postLoginMiddleware from 'app/utils/post-login-middleware.js';
-import {PENDING, SUCCESS} from 'common/utils/request-status';
+import {SUCCESS} from 'common/utils/request-status';
 import {FACEBOOK, GOOGLE} from 'user/utils/login-provider-id';
 import translations from 'app/translations/en';
 import {EN, RU} from 'common/utils/locale-id';
@@ -16,14 +16,14 @@ export default function storeFactory(container) {
         user: Immutable.Map({
             rating: null,
             nickname: null,
-            countryId: null,
+            country: null,
             photoUrl: null,
             saveRequestStatus: null,
             getRequestStatus: null,
             setPhotoRequestStatus: null
         }),
         userForm: Immutable.Map({
-            countryId: '',
+            country: '',
             nickname: '',
             errors: Immutable.Map()
         }),

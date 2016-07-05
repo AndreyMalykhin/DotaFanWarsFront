@@ -36,7 +36,8 @@ const UserForm = React.createClass({
         nickname: React.PropTypes.string,
         countries: React.PropTypes.instanceOf(Immutable.List),
         countryId: React.PropTypes.string,
-        photoUrl: React.PropTypes.string
+        photoUrl: React.PropTypes.string,
+        intl: React.PropTypes.any
     },
 
     render() {
@@ -57,7 +58,7 @@ const UserForm = React.createClass({
             onCountryChange
         } = this.props;
         const nicknameError = errors.get('nickname');
-        const countryError = errors.get('countryId');
+        const countryError = errors.get('country');
         const photoError = errors.get('photoFile');
         return (
             <Row>
@@ -162,7 +163,7 @@ const UserForm = React.createClass({
     }
 });
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const {userForm, user, countries} = state;
     const isLoading =
         user.get('saveRequestStatus') == PENDING
@@ -172,7 +173,7 @@ function mapStateToProps(state, ownProps) {
     return {
         errors: userForm.get('errors'),
         nickname: userForm.get('nickname'),
-        countryId: userForm.get('countryId'),
+        countryId: userForm.get('country'),
         photoUrl: user.get('photoUrl'),
         rating: user.get('rating'),
         countries: countries.get('items'),
@@ -181,7 +182,7 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
+function mapDispatchToProps(dispatch) {
     return {
         onLoad() {
             dispatch(getCountries());

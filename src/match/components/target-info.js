@@ -27,7 +27,6 @@ const TargetInfo = React.createClass({
             isEnemy,
             country,
             onClose,
-            onGetTargetNode
         } = this.props;
         const wrapperClass =
             classNames(styles.wrapper, {[styles.enemy]: isEnemy});
@@ -77,7 +76,7 @@ const TargetInfo = React.createClass({
     }
 });
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const match = state.match;
     const characters = match.get('characters');
     const myCharacter = characters.get(match.get('myCharacterId'));
@@ -86,7 +85,7 @@ function mapStateToProps(state, ownProps) {
     const isEnemy =
         character.get('teamId') != myCharacter.get('teamId');
     const user = character.get('user');
-    const countryId = user.get('countryId');
+    const countryId = user.get('country');
     const country = countryId && match.get('countries').get(countryId);
     return {
         rating: user.get('rating'),
@@ -98,7 +97,7 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
+function mapDispatchToProps(dispatch) {
     return {
         onClose() {
             dispatch(clearTarget());

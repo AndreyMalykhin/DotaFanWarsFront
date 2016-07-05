@@ -16,7 +16,8 @@ export default class AuthService {
     }
 
     getAccessToken() {
-        return this._localStorage.get(this._accessTokenKey);
+        const token = this._localStorage.get(this._accessTokenKey);
+        return (!token || this._isAccessExpired(token)) ? null : token;
     }
 
     isLoggedIn() {
@@ -24,14 +25,7 @@ export default class AuthService {
             return this._isLoggedIn;
         }
 
-        const accessToken = this.getAccessToken();
-
-        if (accessToken == null) {
-            this._isLoggedIn = false;
-        } else {
-            this._isLoggedIn = Date.now() < jwt_decode(accessToken).exp * 1000;
-        }
-
+        this._isLoggedIn = this.getAccessToken() != null;
         return this._isLoggedIn;
     }
 
@@ -44,7 +38,7 @@ export default class AuthService {
                     this._fetcher.fetch(`login/${provider}`, {
                         method: 'POST',
                         body: JSON.stringify({
-                            providerAccessToken: providerAccessToken
+                            access_token: providerAccessToken
                         }),
                         headers: Headers.withJson(this._fetcher.options.headers)
                     }).then((response) => {
@@ -70,5 +64,9 @@ export default class AuthService {
 
     _setFetcherAuthHeader(accessToken) {
         this._fetcher.options.headers['Authorization'] = `JWT ${accessToken}`;
+    }
+
+    _isAccessExpired(accessToken) {
+        return Date.now() > jwt_decode(accessToken).exp * 1000;
     }
 }

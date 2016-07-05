@@ -24,8 +24,7 @@ export default class UserService {
         formData.append('file', file);
         return this._fetcher.fetch(`users/${CURRENT_USER_ID}/photo`, {
             method: 'PUT',
-            body: formData,
-            headers: Headers.withMultipart(this._fetcher.options.headers)
+            body: formData
         });
     }
 

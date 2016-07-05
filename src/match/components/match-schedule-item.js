@@ -22,10 +22,7 @@ const MatchScheduleItem = React.createClass({
             <Col xs={6}>
                 <p className={styles.teamName}>{team.get('name')}</p>
                 <p>
-                    <Image
-                        src={team.get('logoUrl')}
-                        width={64}
-                        height={64}/>
+                    <Image src={team.get('logoUrl')} height={64}/>
                 </p>
                 <Button
                     disabled={!isLive || isDisabled}

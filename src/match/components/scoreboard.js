@@ -59,21 +59,13 @@ const Scoreboard = React.createClass({
                 {tutorialStep}
                 <Well bsSize='small' className={styles.well} ref='well'>
                     <span className={team1Class}>
-                        <Image
-                            src={team1.get('logoUrl')}
-                            width={32}
-                            height={32}
-                            rounded/>
+                        <Image src={team1.get('logoUrl')} height={32}/>
                         {this._renderTeamScore(team1.get('score'))}
                     </span>
                     :
                     <span className={team2Class}>
                         {this._renderTeamScore(team2.get('score'))}
-                        <Image
-                            src={team2.get('logoUrl')}
-                            width={32}
-                            height={32}
-                            rounded/>
+                        <Image src={team2.get('logoUrl')} height={32}/>
                     </span>
                 </Well>
             </Col>

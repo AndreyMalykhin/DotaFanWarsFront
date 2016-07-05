@@ -28,7 +28,10 @@ const postLoginMiddleware = store => next => {
         case 'LOGIN_RESPONSE':
             result = next(realAction);
 
-            if (callback && !realAction.error) {
+            if (callback
+                && !realAction.error
+                && realAction.payload.status == 200
+            ) {
                 callback();
                 callback = null;
             }

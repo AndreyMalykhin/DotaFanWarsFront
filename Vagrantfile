@@ -61,7 +61,7 @@ Vagrant.configure(2) do |config|
     override.ssh.private_key_path = '~/.ssh/id_rsa'
     override.vm.box = 'digital_ocean'
     override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
-    override.vm.synced_folder ".", projectDir, type: 'rsync', rsync__exclude: [".git/", ".vagrant/", "node_modules/", "src/bower_components/"]
+    override.vm.synced_folder ".", projectDir, type: 'rsync', rsync__exclude: [".git/", ".vagrant/", "node_modules/", "src/bower_components/", "build/"]
     override.vm.provision :shell, path: provisionFile, args: [projectDir]
 
     provider.token = ENV['DFWF_DIGITAL_OCEAN_TOKEN']

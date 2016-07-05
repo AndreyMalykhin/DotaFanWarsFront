@@ -3,7 +3,7 @@ import Immutable from 'immutable';
 export default function userFormReducer(userForm = null, action) {
     switch (action.type) {
     case 'SET_USER_COUNTRY':
-        return userForm.set('countryId', action.payload.id);
+        return userForm.set('country', action.payload.id);
     case 'SET_USER_NICKNAME':
         return userForm.set('nickname', action.payload.nickname);
     case 'SET_USER_FORM_ERRORS':
