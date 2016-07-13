@@ -6,7 +6,7 @@ import {Row, Col, Pagination, ListGroup} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import Immutable from 'immutable';
 import Loader from 'common/components/loader';
-import {SUCCESS, PENDING} from 'common/utils/request-status';
+import {PENDING} from 'common/utils/request-status';
 import MatchScheduleItem from 'match/components/match-schedule-item';
 import {getMatchSchedule} from 'match/actions/match-schedule-actions';
 import {openRoomPicker} from 'match/actions/match-actions';
@@ -48,7 +48,8 @@ const MatchSchedule = React.createClass({
                                 match={item}
                                 key={item.get('id')}
                                 isDisabled={isLoading}
-                                onJoin={onJoinMatch}/>
+                                onJoin={onJoinMatch}
+                            />
                         ))}
                     </ListGroup>
                 );
@@ -66,7 +67,8 @@ const MatchSchedule = React.createClass({
                         className={isLoading ? paginationStyles.disabled : null}
                         items={pageCount}
                         activePage={page}
-                        onSelect={isLoading ? null : onLoad}/>
+                        onSelect={isLoading ? null : onLoad}
+                    />
                 </div>
             );
         }
@@ -88,7 +90,7 @@ const MatchSchedule = React.createClass({
         onLoad(page);
         this._updateIntervalId = setInterval(() => {
             onLoad(this.props.page);
-        }, 60000);
+        }, 64000);
     },
 
     componentWillUnmount() {
@@ -96,7 +98,7 @@ const MatchSchedule = React.createClass({
     }
 });
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const {roomPicker, matchSchedule} = state;
     return {
         items: matchSchedule.get('items'),
@@ -108,7 +110,7 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
+function mapDispatchToProps(dispatch) {
     return {
         onLoad(page) {
             dispatch(getMatchSchedule(page));

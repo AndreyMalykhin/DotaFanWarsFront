@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import {push} from 'react-router-redux';
 import {FormattedMessage} from 'react-intl';
 import {Modal, Button} from 'react-bootstrap';
-import {leaveMatch} from 'match/actions/match-actions';
 
 const Header = Modal.Header;
 const Body = Modal.Body;
@@ -27,7 +26,8 @@ const MatchResultDlg = React.createClass({
             verdict = (
                 <FormattedMessage
                     id='matchResultDlg.winner'
-                    values={{name: winnerName}}/>
+                    values={{name: winnerName}}
+                />
             );
         } else {
             verdict = <FormattedMessage id='matchResultDlg.draw'/>;
@@ -66,7 +66,7 @@ const MatchResultDlg = React.createClass({
     }
 });
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const match = state.match;
     const result = match.get('result');
     const winnerId = result.get('winnerId');
@@ -79,7 +79,7 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
+function mapDispatchToProps(dispatch) {
     return {
         onClose() {
             dispatch(push('/'));

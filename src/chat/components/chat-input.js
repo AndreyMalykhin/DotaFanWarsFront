@@ -13,6 +13,7 @@ const ChatInput = React.createClass({
         onChange: React.PropTypes.func.isRequired,
         isInputDisabled: React.PropTypes.bool.isRequired,
         isSendDisabled: React.PropTypes.bool.isRequired,
+        intl: React.PropTypes.any.isRequired,
         msg: React.PropTypes.string
     },
 
@@ -30,11 +31,10 @@ const ChatInput = React.createClass({
                                 value={msg}
                                 onChange={onChange}
                                 disabled={isInputDisabled}
-                                type='text'/>
+                                type='text'
+                            />
                             <InputGroupButton>
-                                <Button
-                                    disabled={isSendDisabled}
-                                    type='submit'>
+                                <Button disabled={isSendDisabled} type='submit'>
                                     <FormattedMessage id='chatInput.send'/>
                                 </Button>
                             </InputGroupButton>
@@ -46,15 +46,11 @@ const ChatInput = React.createClass({
     }
 });
 
-export default function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const {match, requestStatuses} = state;
     const inputMsg = match.get('chat').get('inputMsg');
-    const iDead = match.get('characters').get(match.get('myCharacterId'))
-        .get('health') <= 0;
-    const isInputDisabled =
-        requestStatuses.get('match.sendMsg') == PENDING
-        || requestStatuses.get('match.joinChat') != SUCCESS
-        || iDead;
+    const isInputDisabled = requestStatuses.get('match.sendMsg') == PENDING
+        || requestStatuses.get('match.joinChat') != SUCCESS;
     return {
         msg: inputMsg,
         isInputDisabled: isInputDisabled,
@@ -62,7 +58,7 @@ export default function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
+function mapDispatchToProps(dispatch) {
     return {
         onSubmit(event) {
             event.preventDefault();

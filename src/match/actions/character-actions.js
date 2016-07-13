@@ -1,4 +1,4 @@
-import {OFFENSIVE} from 'match/models/item-type';
+import {OFFENSIVE} from 'match/models/item-behavior';
 import {setRequestStatus} from 'common/actions/request-status-actions';
 import {PENDING, SUCCESS, FAIL} from 'common/utils/request-status';
 import {processServerMessages} from 'match/actions/match-actions';
@@ -64,10 +64,9 @@ export function buyItem(id) {
 
 export function useItem(id) {
     return (dispatch, getState, diContainer) => {
-        const match = getState().match;
-        const isOffensive = match.get('items').get(id).get('type') == OFFENSIVE;
+        const {match} = getState();
 
-        if (isOffensive) {
+        if (match.get('items').get(id).get('behavior') == OFFENSIVE) {
             const myCharacterId = match.get('myCharacterId');
             const isItemActive = match.get('characters').get(myCharacterId)
                 .get('activeItemId') == id;
@@ -89,8 +88,8 @@ export function useItem(id) {
 }
 
 export function ensureItemInactive(id) {
-    return (dispatch, getState, diContainer) => {
-        const match = getState().match;
+    return (dispatch, getState) => {
+        const {match} = getState();
         const myCharacterId = match.get('myCharacterId');
         const myActiveItemId =
             match.get('characters').get(myCharacterId).get('activeItemId');
@@ -111,7 +110,7 @@ function setActiveItem(characterId, itemId = null) {
 }
 
 function setTarget(targetId) {
-    return (dispatch, getState, diContainer) => {
+    return (dispatch, getState) => {
         dispatch({
             type: 'SET_TARGET',
             payload: {

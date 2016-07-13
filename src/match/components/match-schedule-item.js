@@ -3,7 +3,6 @@ import React from 'react';
 import {Col, Button, Row, Image} from 'react-bootstrap';
 import {FormattedMessage, FormattedRelative} from 'react-intl';
 import Immutable from 'immutable';
-import {PENDING} from 'common/utils/request-status';
 
 const MatchScheduleItem = React.createClass({
     render() {
@@ -22,11 +21,15 @@ const MatchScheduleItem = React.createClass({
             <Col xs={6}>
                 <p className={styles.teamName}>{team.get('name')}</p>
                 <p>
-                    <Image src={team.get('logoUrl')} height={64}/>
+                    <Image
+                        className={styles.teamLogo}
+                        src={team.get('logoUrl')}
+                    />
                 </p>
                 <Button
                     disabled={!isLive || isDisabled}
-                    onClick={this._onJoin.bind(this, match.get('id'), team.get('id'))}>
+                    onClick={this._onJoin.bind(this, match.get('id'), team.get('id'))}
+                >
                     <FormattedMessage id='matchScheduleItem.join'/>
                 </Button>
             </Col>

@@ -37,11 +37,13 @@ const Item = React.createClass({
                     <Button
                         className={styles.useBtn}
                         disabled={isUseDisabled}
-                        onClick={this._onClick}>
+                        onClick={this._onClick}
+                    >
                         <Image src={photoUrl} width={64} height={64}/>
                         <ValueChangeAnimator
                             className={styles.countChangeAnim}
-                            value={count}>
+                            value={count}
+                        >
                             <Badge className={styles.count}>{count}</Badge>
                         </ValueChangeAnimator>
                     </Button>

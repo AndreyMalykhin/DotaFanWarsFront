@@ -17,6 +17,7 @@ const RoomPicker = React.createClass({
     propTypes: {
         onClose: React.PropTypes.func.isRequired,
         onPick: React.PropTypes.func.isRequired,
+        onLoad: React.PropTypes.func.isRequired,
         isOpen: React.PropTypes.bool.isRequired,
         isLoading: React.PropTypes.bool.isRequired,
         matchId: React.PropTypes.string.isRequired,
@@ -74,8 +75,8 @@ const RoomPicker = React.createClass({
     }
 });
 
-function mapStateToProps(state, ownProps) {
-    const {roomPicker, match, requestStatuses} = state;
+function mapStateToProps(state) {
+    const {roomPicker, requestStatuses} = state;
     const isLoading = roomPicker.get('getRoomsRequestStatus') == PENDING
         || requestStatuses.get('match.joinMatch') == PENDING;
     return {
@@ -87,7 +88,7 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
+function mapDispatchToProps(dispatch) {
     return {
         onLoad(matchId) {
             dispatch(getMatchRooms(matchId));

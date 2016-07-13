@@ -16,10 +16,10 @@ export default class MatchService {
         return this._fetcher.fetch(`match-schedule?page=${page}`);
     }
 
-    join(gameServerUrl, accessToken, roomId, teamId) {
+    join(matchServerUrl, accessToken, roomId, teamId) {
         return new Promise((resolve, reject) => {
             const query = `accessToken=${encodeURIComponent(accessToken)}&roomId=${encodeURIComponent(roomId)}&teamId=${encodeURIComponent(teamId)}`;
-            this._socket = this._socketIO.connect(gameServerUrl, {
+            this._socket = this._socketIO.connect(matchServerUrl, {
                 query: query,
                 transports: ['websocket', 'polling'],
                 reconnection: false
@@ -53,20 +53,20 @@ export default class MatchService {
     }
 
     takeSeat(id) {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             this._socket.emit('takeSeat', {seatId: id}, resolve);
         });
     }
 
     useItem(itemId, targetId = null) {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             this._socket.emit(
                 'useItem', {itemId: itemId, targetId: targetId}, resolve);
         });
     }
 
     buyItem(id) {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             this._socket.emit('buyItem', {itemId: id}, resolve);
         });
     }

@@ -39,7 +39,8 @@ const TargetInfo = React.createClass({
                         className={styles.countryImg}
                         src={country.get('flagUrl')}
                         width={16}
-                        height={16}/>
+                        height={16}
+                    />
                     {country.get('name')}
                 </p>
             );
@@ -51,13 +52,15 @@ const TargetInfo = React.createClass({
                 target={this._onGetTargetNode}
                 show
                 rootClose
-                placement='bottom'>
+                placement='bottom'
+            >
                 <Popover className={wrapperClass} id=''>
                     <p>
                         <Image
                             className={styles.photoImg}
                             src={photoUrl}
-                            rounded/>
+                            rounded
+                        />
                     </p>
                     <p>{nickname}</p>
                     <p>
@@ -77,7 +80,7 @@ const TargetInfo = React.createClass({
 });
 
 function mapStateToProps(state) {
-    const match = state.match;
+    const {match} = state;
     const characters = match.get('characters');
     const myCharacter = characters.get(match.get('myCharacterId'));
     const id = myCharacter.get('targetId');
@@ -85,7 +88,7 @@ function mapStateToProps(state) {
     const isEnemy =
         character.get('teamId') != myCharacter.get('teamId');
     const user = character.get('user');
-    const countryId = user.get('country');
+    const countryId = user.get('countryId');
     const country = countryId && match.get('countries').get(countryId);
     return {
         rating: user.get('rating'),

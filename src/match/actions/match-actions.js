@@ -52,7 +52,7 @@ export function joinMatch(room, teamId) {
         const roomId = room.get('id');
         const accessToken = diContainer.authService.getAccessToken();
         return diContainer.matchService.join(
-            room.get('gameServerUrl'), accessToken, roomId, teamId
+            room.get('matchServerUrl'), accessToken, roomId, teamId
         ).then(() => {
             dispatch(setRequestStatus('match.joinMatch', SUCCESS));
             dispatch(joinChat(room.get('chatServerUrl'), accessToken, roomId));
@@ -96,7 +96,7 @@ export function leaveMatch() {
 }
 
 export function processServerMessages(messages) {
-    return (dispatch, getState, diContainer) => {
+    return (dispatch) => {
         const promises = [];
 
         for (let msg of messages) {

@@ -2,11 +2,10 @@ import styles from 'match/styles/scoreboard.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
-import {Row, Col, Image, Badge, Well} from 'react-bootstrap';
+import {Col, Image, Badge, Well} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import ValueChangeAnimator from 'common/components/value-change-animator';
 import Immutable from 'immutable';
-import classNames from 'classnames';
 import {MATCH} from 'common/utils/tutorial-id';
 import {nextTutorialStep} from 'common/actions/tutorial-actions';
 import {SCOREBOARD} from 'match/utils/tutorial-step-index';
@@ -34,7 +33,8 @@ const Scoreboard = React.createClass({
                 <TutorialStep
                     onGetTargetNode={this._onGetTutorialTargetNode}
                     onComplete={onTutorialComplete}
-                    placement='bottom'>
+                    placement='bottom'
+                >
                     <FormattedMessage id='scoreboard.tutorial'/>
                 </TutorialStep>
             );
@@ -55,17 +55,24 @@ const Scoreboard = React.createClass({
             <Col
                 xs={12}
                 sm={6}
-                className={styles.wrapper}>
+                className={styles.wrapper}
+            >
                 {tutorialStep}
                 <Well bsSize='small' className={styles.well} ref='well'>
                     <span className={team1Class}>
-                        <Image src={team1.get('logoUrl')} height={32}/>
+                        <Image
+                            src={team1.get('logoUrl')}
+                            className={styles.teamLogo}
+                        />
                         {this._renderTeamScore(team1.get('score'))}
                     </span>
                     :
                     <span className={team2Class}>
                         {this._renderTeamScore(team2.get('score'))}
-                        <Image src={team2.get('logoUrl')} height={32}/>
+                        <Image
+                            src={team2.get('logoUrl')}
+                            className={styles.teamLogo}
+                        />
                     </span>
                 </Well>
             </Col>
@@ -76,7 +83,8 @@ const Scoreboard = React.createClass({
         return (
             <ValueChangeAnimator
                 value={score}
-                className={styles.teamScoreChangeAnim}>
+                className={styles.teamScoreChangeAnim}
+            >
                 <Badge className={styles.teamScore}>{score}</Badge>
             </ValueChangeAnimator>
         );
@@ -87,7 +95,7 @@ const Scoreboard = React.createClass({
     }
 });
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const {tutorials, match} = state;
     const myTeamId = match.get('characters').get(match.get('myCharacterId'))
         .get('teamId');
@@ -98,7 +106,7 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
+function mapDispatchToProps(dispatch) {
     return {
         onTutorialComplete() {
             dispatch(nextTutorialStep(MATCH));

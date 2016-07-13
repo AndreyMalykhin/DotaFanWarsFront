@@ -14,7 +14,10 @@
     },
     "rules": {
         "indent": ["error", 4],
-        "no-console": "off"
+        "no-console": "off",
+        "react/jsx-indent": "error",
+        "react/jsx-closing-bracket-location": "error",
+        "react/jsx-indent-props": "error"
     },
     "plugins": ["react"]
 }

@@ -1,3 +1,5 @@
+@import "~common/styles/colors";
+
 :local .wrapper {
     text-align: center;
 }
@@ -14,4 +16,14 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+:local .team-logo {
+    height: 64px;
+    min-width: 64px;
+    display: inline-block;
+
+    &:not([src]) {
+        border: 1px solid $border-color;
+    }
 }

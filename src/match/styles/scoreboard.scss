@@ -21,6 +21,16 @@
     }
 }
 
+:local(.team-logo) {
+    display: inline-block;
+    height: 32px;
+    min-width: 32px;
+
+    &:not([src]) {
+        border: 1px solid $border-color;
+    }
+}
+
 :local(.team-score-change-anim) {
     animation-name: rotateIn;
     animation-duration: 1s;

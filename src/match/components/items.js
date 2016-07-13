@@ -2,7 +2,6 @@ import styles from 'match/styles/items.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
-import {Row, Col} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import Immutable from 'immutable';
 import Item from 'match/components/item';
@@ -56,7 +55,8 @@ const Items = React.createClass({
                 <TutorialStep
                     onGetTargetNode={this._onGetTutorialTargetNode}
                     onComplete={onTutorialComplete}
-                    placement='bottom'>
+                    placement='bottom'
+                >
                     <FormattedMessage id='items.tutorial'/>
                 </TutorialStep>
             );
@@ -93,7 +93,8 @@ const Items = React.createClass({
                     isBuyDisabled={isBuyDisabled}
                     onRunOut={onItemRunOut}
                     onUse={onItemUse}
-                    onBuy={onItemBuy}/>
+                    onBuy={onItemBuy}
+                />
             );
         }
 
@@ -110,7 +111,7 @@ const Items = React.createClass({
     }
 });
 
-export default function mapStateToProps(state, ownProps) {
+export default function mapStateToProps(state) {
     const {match, requestStatuses, tutorials} = state;
     const myCharacter = match.get('characters').get(match.get('myCharacterId'));
     return {
@@ -129,7 +130,7 @@ export default function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
+function mapDispatchToProps(dispatch) {
     return {
         onItemUse(id) {
             dispatch(useItem(id));
