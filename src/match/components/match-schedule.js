@@ -54,7 +54,11 @@ const MatchSchedule = React.createClass({
                     </ListGroup>
                 );
             } else {
-                itemsView = <p><FormattedMessage id='matchSchedule.empty'/></p>;
+                itemsView = (
+                    <p className={styles.emptyMsg}>
+                        <FormattedMessage id='matchSchedule.empty'/>
+                    </p>
+                );
             }
         }
 

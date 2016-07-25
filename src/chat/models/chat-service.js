@@ -7,9 +7,9 @@ export default class ChatService {
         this._eventBus = new EventEmitter2();
     }
 
-    join(serverUrl, accessToken, roomId) {
+    join(serverUrl, accessToken, roomId, teamId) {
         return new Promise((resolve, reject) => {
-            const query = `accessToken=${encodeURIComponent(accessToken)}&roomId=${encodeURIComponent(roomId)}`;
+            const query = `accessToken=${encodeURIComponent(accessToken)}&roomId=${encodeURIComponent(roomId)}&teamId=${encodeURIComponent(teamId)}`;
             this._socket = this._socketIO.connect(serverUrl, {
                 query: query,
                 transports: ['websocket', 'polling'],
@@ -43,7 +43,7 @@ export default class ChatService {
     }
 
     sendMsg(msg) {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             this._socket.emit('sendMsg', {msg: msg}, resolve);
         });
     }

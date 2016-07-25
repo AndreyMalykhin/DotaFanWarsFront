@@ -3,14 +3,14 @@ import {PENDING, SUCCESS, FAIL} from 'common/utils/request-status';
 import {Msg} from 'chat/models/chat-service';
 import {addGenericError} from 'common/actions/notification-actions';
 
-export function joinChat(serverUrl, roomId) {
+export function joinChat(serverUrl, accessToken, roomId, teamId) {
     return (dispatch, getState, diContainer) => {
         dispatch(setRequestStatus('match.joinChat', PENDING));
         return diContainer.chatService.join(
-            serverUrl, diContainer.authService.getAccessToken(), roomId
+            serverUrl, accessToken, roomId, teamId
         ).then(() => {
             dispatch(setRequestStatus('match.joinChat', SUCCESS));
-        }).catch((error) => {
+        }, (error) => {
             console.log(error);
             dispatch(setRequestStatus('match.joinChat', FAIL));
             dispatch(addGenericError());
@@ -40,7 +40,7 @@ export function setChatInputMsg(msg) {
 }
 
 export function processServerMessages(messages) {
-    return (dispatch, getState, diContainer) => {
+    return (dispatch) => {
         const promises = [];
 
         for (let msg of messages) {

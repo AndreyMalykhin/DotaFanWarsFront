@@ -44,7 +44,8 @@ const ChatOutput = React.createClass({
                             className={styles.list}
                             transitionName={{enter: styles.listItemEnterAnim}}
                             transitionEnterTimeout={1000}
-                            transitionLeave={false}>
+                            transitionLeave={false}
+                        >
                             {messageViews}
                         </CSSTransitionGroup>
                     </Well>
@@ -59,7 +60,7 @@ const ChatOutput = React.createClass({
     }
 });
 
-export default function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const {match, requestStatuses} = state;
     const chat = match.get('chat');
     return {

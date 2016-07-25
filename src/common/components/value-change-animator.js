@@ -27,7 +27,7 @@ const ValueChangeAnimator = React.createClass({
         };
     },
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         const {value, timeout, onCompare} = this.props;
 
         if (this._timeoutId || onCompare(prevProps.value, value)) {

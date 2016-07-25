@@ -49,7 +49,8 @@ const RoomPicker = React.createClass({
                                 className={styles.listItem}
                                 key={room.get('id')}
                                 disabled={isLoading}
-                                onClick={onPick.bind(this, room, teamId)}>
+                                onClick={onPick.bind(this, room, teamId)}
+                            >
                                 {room.get('name')}
                             </ListGroupItem>
                         ))}

@@ -6,7 +6,6 @@ import teamReducer from 'match/reducers/team-reducer';
 import seatReducer from 'match/reducers/seat-reducer';
 import itemReducer from 'match/reducers/item-reducer';
 import countryReducer from 'match/reducers/country-reducer';
-import tutorialReducer from 'common/reducers/tutorial-reducer';
 
 export default function matchReducer(match = null, action) {
     switch (action.type) {
@@ -22,7 +21,6 @@ export default function matchReducer(match = null, action) {
             teams: Immutable.OrderedMap(),
             seats: Immutable.Map(),
             items: Immutable.OrderedMap(),
-            projectiles: Immutable.Map(),
             countries: Immutable.Map(),
             myCharacterId: null,
             result: null

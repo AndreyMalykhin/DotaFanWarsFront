@@ -55,7 +55,8 @@ export function joinMatch(room, teamId) {
             room.get('matchServerUrl'), accessToken, roomId, teamId
         ).then(() => {
             dispatch(setRequestStatus('match.joinMatch', SUCCESS));
-            dispatch(joinChat(room.get('chatServerUrl'), accessToken, roomId));
+            dispatch(joinChat(
+                room.get('chatServerUrl'), accessToken, roomId, teamId));
             dispatch(push('/match'));
         }).catch((error) => {
             console.log(error);
