@@ -1,3 +1,5 @@
+/* global process */
+
 import 'babel-polyfill';
 import 'classlist.js';
 import 'intl';
@@ -17,10 +19,15 @@ import {setLocale} from 'common/actions/locale-actions';
 import {LOCALE} from 'common/utils/setting-id';
 import {EN} from 'common/utils/locale-id';
 
-hello.init({
-    facebook: process.env.DFWF_FACEBOOK_APP_ID,
-    google: process.env.DFWF_GOOGLE_APP_ID
-});
+hello.init(
+    {
+        facebook: process.env.DFWF_FACEBOOK_APP_ID,
+        google: process.env.DFWF_GOOGLE_APP_ID
+    },
+    {
+        redirect_uri: window.location.origin
+    }
+);
 addLocaleData(localeData);
 const di = new Bottle();
 setupDI(di);
