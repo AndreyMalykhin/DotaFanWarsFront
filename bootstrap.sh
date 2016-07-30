@@ -32,11 +32,11 @@ sudo ln -sf /etc/nginx/sites-available/dotafanwars_front /etc/nginx/sites-enable
 && sudo service nginx ${nginxAction}
 
 if [ $DFWF_DEV = "1" ]; then
-    runCmd="true"
+    initCmd="true"
 else
-    runCmd="npm run build"
+    initCmd="npm run build"
 fi
 
 cd "${projectDir}" \
 && npm install --no-bin-links \
-&& ${runCmd}
+&& ${initCmd}

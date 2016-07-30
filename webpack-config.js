@@ -19,8 +19,11 @@ var plugins = [
         'DFWF_GOOGLE_APP_ID'
     ]),
     new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, 'src/app/templates/app.html'),
-        inject: true
+        vars: {
+            DFWF_GOOGLE_ANALYTICS_ID: process.env.DFWF_GOOGLE_ANALYTICS_ID
+        },
+        template: path.resolve(__dirname, 'src/app/templates/app.ejs'),
+        inject: false
     })
 ];
 var entry = [path.resolve(__dirname, 'src/bootstrap.js')];
