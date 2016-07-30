@@ -39,4 +39,4 @@ fi
 
 cd "${projectDir}" \
 && npm install --no-bin-links \
-&& ${initCmd}
+&& eval "${initCmd}"
