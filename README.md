@@ -1,3 +1,6 @@
+### Screenshots
+<img src="https://preview.ibb.co/j2AVWT/dotafanwars_com_2.png" />
+
 ### Credits
 - [React](https://facebook.github.io/react/)
 - [React Router](https://github.com/reactjs/react-router)
